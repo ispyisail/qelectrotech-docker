@@ -1,0 +1,72 @@
+services:
+
+  # ── Normal run (Release build, GUI via X11) ──────────────────────────────
+  qet:
+    build:
+      context: .
+      target: runtime
+      args:
+        BUILD_TYPE: Release
+    image: qelectrotech:release
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1        # avoids MIT-SHM errors on some X servers
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw   # X11 socket
+      - qet-home:/home/qet                  # persist user projects
+    network_mode: host                       # simplest for X11; see notes below
+    stdin_open: true
+    tty: true
+
+  # ── Test suite (ctest via Xvfb virtual display) ─────────────────────────
+  qet-test:
+    build:
+      context: .
+      target: test
+    image: qelectrotech:test
+
+  # ── Debug build (Release → Debug swap, launches gdb) ────────────────────
+  qet-debug:
+    build:
+      context: .
+      target: runtime
+      args:
+        BUILD_TYPE: Debug
+    image: qelectrotech:debug
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - qet-home:/home/qet
+      - ./src:/src:ro                        # mount source so gdb finds it
+    network_mode: host
+    # override CMD to drop into gdb
+    command: ["gdb", "-ex", "run", "--args", "qelectrotech"]
+
+  # ── Valgrind memory check (headless, logs to file) ──────────────────────
+  qet-valgrind:
+    build:
+      context: .
+      target: runtime          # Valgrind works on the runtime image
+      args:
+        BUILD_TYPE: Debug
+    image: qelectrotech:debug
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./valgrind-logs:/home/qet/logs
+    network_mode: host
+    command: >
+      valgrind
+        --tool=memcheck
+        --leak-check=full
+        --show-leak-kinds=all
+        --track-origins=yes
+        --log-file=/home/qet/logs/valgrind.log
+        qelectrotech
+
+volumes:
+  qet-home:
