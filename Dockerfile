@@ -77,7 +77,101 @@ CMD ["xvfb-run", "--auto-servernum", "--server-args=-screen 0 1920x1080x24", \
      "ctest", "--test-dir", "build", "--output-on-failure", "--parallel", "4"]
 
 # ─────────────────────────────────────────────
-# Stage 3: Runtime
+# Stage 3: Debug (Debug build + GDB + Valgrind)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS debug-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# Same deps as builder but we rebuild with -DCMAKE_BUILD_TYPE=Debug
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS debug
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Qt5 runtime
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    # KDE runtime libs
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    # SQLite runtime
+    libsqlite3-0 \
+    # X11/XCB
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    # ── Fault-finding tools ──
+    gdb \
+    valgrind \
+    strace \
+    ltrace \
+    linux-tools-generic \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=debug-builder /usr/local /usr/local
+# Also copy the full source tree so GDB can find source files
+COPY --from=debug-builder /src /src
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+
+# Default: run under GDB. Override CMD in docker-compose for valgrind etc.
+CMD ["gdb", "-ex", "run", "-ex", "bt", "--args", "qelectrotech"]
+
+# ─────────────────────────────────────────────
+# Stage 4: Runtime
 # ─────────────────────────────────────────────
 FROM ubuntu:22.04 AS runtime
 

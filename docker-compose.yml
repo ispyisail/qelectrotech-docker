@@ -25,13 +25,11 @@ services:
       target: test
     image: qelectrotech:test
 
-  # ── Debug build (Release → Debug swap, launches gdb) ────────────────────
+  # ── Debug build — GDB attached, source tree mounted ─────────────────────
   qet-debug:
     build:
       context: .
-      target: runtime
-      args:
-        BUILD_TYPE: Debug
+      target: debug
     image: qelectrotech:debug
     environment:
       - DISPLAY=${DISPLAY}
@@ -39,25 +37,23 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - qet-home:/home/qet
-      - ./src:/src:ro                        # mount source so gdb finds it
     network_mode: host
-    # override CMD to drop into gdb
-    command: ["gdb", "-ex", "run", "--args", "qelectrotech"]
+    stdin_open: true
+    tty: true
 
-  # ── Valgrind memory check (headless, logs to file) ──────────────────────
+  # ── Valgrind memory check — logs to ./valgrind-logs/ ────────────────────
   qet-valgrind:
     build:
       context: .
-      target: runtime          # Valgrind works on the runtime image
-      args:
-        BUILD_TYPE: Debug
+      target: debug
     image: qelectrotech:debug
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./valgrind-logs:/home/qet/logs
+      - qet-home:/home/qet
+      - ./valgrind-logs:/valgrind-logs
     network_mode: host
     command: >
       valgrind
@@ -65,7 +61,7 @@ services:
         --leak-check=full
         --show-leak-kinds=all
         --track-origins=yes
-        --log-file=/home/qet/logs/valgrind.log
+        --log-file=/valgrind-logs/valgrind.log
         qelectrotech
 
 volumes:
