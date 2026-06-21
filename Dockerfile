@@ -107,6 +107,26 @@ WORKDIR /src
 RUN git clone --recursive --depth=1 \
     https://github.com/qelectrotech/qelectrotech-source-mirror.git .
 
+# Apply fix for thread-unsafe QStandardPaths (PR #514)
+COPY qetapp.cpp.patch sources/qetapp.cpp
+# Apply PR #515 fixes: MachineInfo uninit members, main-thread pre-init, m_first_show order
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+# Apply PR #516 fixes: thread-safe setUpData(), inline const QString in qetinformation.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY elementslocation.cpp          sources/ElementsCollection/elementslocation.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY qetinformation.h sources/qetinformation.h
+# Fix issue #481: element editor first-click moves item (dock resize → spurious mouseMoveEvents)
+COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
+COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
+COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+
 RUN cmake -B build \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -224,6 +244,586 @@ USER qet
 WORKDIR /home/qet
 
 # QET looks for its element/titleblock libraries here
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+
+CMD ["qelectrotech"]
+
+# ─────────────────────────────────────────────
+# Stage 5: ThreadSanitizer (detects data races)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS tsan-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+COPY qetapp.cpp.patch sources/qetapp.cpp
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY qetinformation.h sources/qetinformation.h
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_FLAGS="-fsanitize=thread -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_CXX_FLAGS="-fsanitize=thread -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread" \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS tsan
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    xvfb \
+    libtsan0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=tsan-builder /usr/local /usr/local
+COPY --from=tsan-builder /src /src
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+# halt_on_error=0: collect all races, not just the first
+# second_deadlock_stack=1: show both threads' stacks on deadlock
+# history_size=7: maximum race history (uses more RAM but catches more)
+ENV TSAN_OPTIONS="halt_on_error=0:log_path=/tsan-logs/tsan:second_deadlock_stack=1:history_size=7"
+
+RUN mkdir -p /tsan-logs
+
+CMD ["qelectrotech"]
+
+# ─────────────────────────────────────────────
+# Stage 6: AddressSanitizer (detects memory errors)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS asan-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+COPY qetapp.cpp.patch sources/qetapp.cpp
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY styleeditor.cpp               sources/editor/styleeditor.cpp
+COPY exportdialog.cpp              sources/exportdialog.cpp
+COPY genericpanel.cpp              sources/genericpanel.cpp
+COPY elementscene.cpp              sources/editor/elementscene.cpp
+COPY qetinformation.h sources/qetinformation.h
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_FLAGS="-fsanitize=address -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_CXX_FLAGS="-fsanitize=address -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS asan
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    xvfb \
+    libasan6 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=asan-builder /usr/local /usr/local
+COPY --from=asan-builder /src /src
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+# halt_on_error=0: report all errors, keep running
+# detect_leaks=1: enable LeakSanitizer for heap leak detection
+ENV ASAN_OPTIONS="halt_on_error=0:log_path=/asan-logs/asan:detect_leaks=1"
+
+RUN mkdir -p /asan-logs
+
+CMD ["qelectrotech"]
+
+# ─────────────────────────────────────────────
+# Stage 7: Fuzzer — GUI stress tester (debug binary + Python fuzzer)
+# ─────────────────────────────────────────────
+# The fuzzer image is self-contained: it runs Xvfb internally, drives
+# QET via xdotool, and logs all crashes to /fuzzer/logs/.
+#
+# Environment variables (all optional):
+#   FUZZER_HOURS  — how long to run (default 1)
+#   FUZZER_SPEED  — slow | normal | fast (default normal)
+#   FUZZER_SEED   — random seed for reproducibility
+#   FUZZER_LOG_DIR — where to write logs (default /fuzzer/logs)
+#
+FROM ubuntu:22.04 AS fuzzer-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+COPY qetapp.cpp.patch sources/qetapp.cpp
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY elementslocation.cpp          sources/ElementsCollection/elementslocation.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY qetinformation.h sources/qetinformation.h
+COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
+COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
+COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS fuzzer
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Qt5 runtime
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    # KDE runtime libs
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    # SQLite runtime
+    libsqlite3-0 \
+    # X11/XCB
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    # Fuzzer tooling
+    xvfb \
+    xdotool \
+    openbox \
+    scrot \
+    python3 \
+    python3-pip \
+    imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=fuzzer-builder /usr/local /usr/local
+
+# Install fuzzer scripts
+COPY fuzzer/ /fuzzer/
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+ENV DISPLAY=:99
+ENV FUZZER_LOG_DIR=/fuzzer/logs
+ENV FUZZER_HOURS=1
+ENV FUZZER_SPEED=normal
+
+RUN mkdir -p /fuzzer/logs /fuzzer/logs/screenshots
+
+ENTRYPOINT ["/bin/bash", "/fuzzer/run.sh"]
+
+# ─────────────────────────────────────────────
+# Stage 8: Fuzzer-ASAN (AddressSanitizer binary + fuzzer)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS fuzzer-asan-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates build-essential cmake git pkg-config \
+    qtbase5-dev qtbase5-private-dev qttools5-dev qttools5-dev-tools \
+    libqt5svg5-dev extra-cmake-modules libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev libsqlite3-dev ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+COPY qetapp.cpp.patch sources/qetapp.cpp
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY elementslocation.cpp          sources/ElementsCollection/elementslocation.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY qetinformation.h sources/qetinformation.h
+COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
+COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
+COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_FLAGS="-fsanitize=address -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_CXX_FLAGS="-fsanitize=address -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS fuzzer-asan
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a libqt5gui5 libqt5widgets5 libqt5svg5 libqt5xml5 \
+    libqt5sql5 libqt5sql5-sqlite libqt5dbus5 libqt5printsupport5 \
+    libqt5concurrent5 qt5-gtk-platformtheme \
+    libkf5coreaddons5 libkf5widgetsaddons5 libsqlite3-0 \
+    libx11-6 libxcb1 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+    libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 \
+    libxkbcommon-x11-0 libxext6 libxrender1 fonts-dejavu-core \
+    xvfb xdotool openbox scrot python3 imagemagick libasan6 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=fuzzer-asan-builder /usr/local /usr/local
+COPY fuzzer/ /fuzzer/
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+ENV DISPLAY=:99
+ENV FUZZER_LOG_DIR=/fuzzer/logs
+ENV FUZZER_HOURS=1
+ENV FUZZER_SPEED=normal
+ENV ASAN_OPTIONS="halt_on_error=0:log_path=/fuzzer/logs/asan:detect_leaks=1"
+
+RUN mkdir -p /fuzzer/logs /fuzzer/logs/screenshots
+
+ENTRYPOINT ["/bin/bash", "/fuzzer/run.sh"]
+
+# ─────────────────────────────────────────────
+# Stage 9: Fuzzer-TSan (ThreadSanitizer binary + fuzzer)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS fuzzer-tsan-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates build-essential cmake git pkg-config \
+    qtbase5-dev qtbase5-private-dev qttools5-dev qttools5-dev-tools \
+    libqt5svg5-dev extra-cmake-modules libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev libsqlite3-dev ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 \
+    https://github.com/qelectrotech/qelectrotech-source-mirror.git .
+
+COPY qetapp.cpp.patch sources/qetapp.cpp
+COPY machine_info.h    sources/machine_info.h
+COPY main.cpp          sources/main.cpp
+COPY qetdiagrameditor.h sources/qetdiagrameditor.h
+COPY fileelementcollectionitem.h   sources/ElementsCollection/fileelementcollectionitem.h
+COPY fileelementcollectionitem.cpp sources/ElementsCollection/fileelementcollectionitem.cpp
+COPY xmlprojectelementcollectionitem.h   sources/ElementsCollection/xmlprojectelementcollectionitem.h
+COPY xmlprojectelementcollectionitem.cpp sources/ElementsCollection/xmlprojectelementcollectionitem.cpp
+COPY elementscollectionmodel.cpp   sources/ElementsCollection/elementscollectionmodel.cpp
+COPY elementslocation.cpp          sources/ElementsCollection/elementslocation.cpp
+COPY terminal.cpp                  sources/qetgraphicsitem/terminal.cpp
+COPY qetinformation.h sources/qetinformation.h
+COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
+COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
+COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_FLAGS="-fsanitize=thread -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_CXX_FLAGS="-fsanitize=thread -g -O1 -fno-omit-frame-pointer" \
+    -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread" \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS fuzzer-tsan
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a libqt5gui5 libqt5widgets5 libqt5svg5 libqt5xml5 \
+    libqt5sql5 libqt5sql5-sqlite libqt5dbus5 libqt5printsupport5 \
+    libqt5concurrent5 qt5-gtk-platformtheme \
+    libkf5coreaddons5 libkf5widgetsaddons5 libsqlite3-0 \
+    libx11-6 libxcb1 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+    libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1 \
+    libxkbcommon-x11-0 libxext6 libxrender1 fonts-dejavu-core \
+    xvfb xdotool openbox scrot python3 imagemagick libtsan0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=fuzzer-tsan-builder /usr/local /usr/local
+COPY fuzzer/ /fuzzer/
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+ENV QT_X11_NO_MITSHM=1
+ENV DISPLAY=:99
+ENV FUZZER_LOG_DIR=/fuzzer/logs
+ENV FUZZER_HOURS=1
+ENV FUZZER_SPEED=normal
+ENV TSAN_OPTIONS="halt_on_error=0:log_path=/fuzzer/logs/tsan:second_deadlock_stack=1:history_size=7"
+
+RUN mkdir -p /fuzzer/logs /fuzzer/logs/screenshots
+
+ENTRYPOINT ["/bin/bash", "/fuzzer/run.sh"]
+
+# ─────────────────────────────────────────────
+# Stage 10: EDZ feature branch (run to test importer)
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS edz-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+RUN git clone --recursive --depth=1 --branch feature/edz-import \
+    https://github.com/ispyisail/qelectrotech-source-mirror.git .
+
+# Apply terminalNr-based grouping fix (PR #513 response)
+COPY edzpart.h            sources/import/edz/edzpart.h
+COPY edzpart.cpp          sources/import/edz/edzpart.cpp
+COPY edzelementbuilder.cpp sources/import/edz/edzelementbuilder.cpp
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS edz
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    libxcb-cursor0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=edz-builder /usr/local /usr/local
+
+RUN useradd -m -u 1000 qet
+USER qet
+WORKDIR /home/qet
+
 ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
 
 CMD ["qelectrotech"]

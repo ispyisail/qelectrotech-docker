@@ -64,5 +64,120 @@ services:
         --log-file=/valgrind-logs/valgrind.log
         qelectrotech
 
+  # ── ThreadSanitizer — data race detection ───────────────────────────────
+  qet-tsan:
+    build:
+      context: .
+      target: tsan
+    image: qelectrotech:tsan
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./tsan-logs:/tsan-logs
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    stdin_open: true
+    tty: true
+
+  # ── AddressSanitizer — memory error detection ────────────────────────────
+  qet-asan:
+    build:
+      context: .
+      target: asan
+    image: qelectrotech:asan
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./asan-logs:/asan-logs
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    stdin_open: true
+    tty: true
+
+  # ── GUI Fuzzer — stress-tests all UI operations headlessly ─────────────
+  # Run: docker compose run --rm qet-fuzz
+  # Or for a long overnight run:
+  #   FUZZER_HOURS=8 FUZZER_SPEED=fast docker compose run --rm qet-fuzz
+  # Logs written to ./fuzzer-logs/ — analyse with:
+  #   docker compose run --rm qet-fuzz python3 /fuzzer/analyze.py
+  qet-fuzz:
+    build:
+      context: .
+      target: fuzzer
+    image: qelectrotech:fuzzer
+    environment:
+      - FUZZER_HOURS=${FUZZER_HOURS:-1}
+      - FUZZER_SPEED=${FUZZER_SPEED:-normal}
+      - FUZZER_SEED=${FUZZER_SEED:-}
+      - FUZZER_LOG_DIR=/fuzzer/logs
+    volumes:
+      - ./fuzzer-logs:/fuzzer/logs
+    cap_add:
+      - SYS_PTRACE
+
+  # ── Fuzzer with AddressSanitizer — memory error detection ───────────────
+  qet-fuzz-asan:
+    build:
+      context: .
+      target: fuzzer-asan
+    image: qelectrotech:fuzzer-asan
+    environment:
+      - FUZZER_HOURS=${FUZZER_HOURS:-1}
+      - FUZZER_SPEED=${FUZZER_SPEED:-slow}
+      - FUZZER_SEED=${FUZZER_SEED:-}
+      - FUZZER_LOG_DIR=/fuzzer/logs
+      - ASAN_OPTIONS=halt_on_error=0:log_path=/fuzzer/logs/asan:detect_leaks=1
+    volumes:
+      - ./fuzzer-asan-logs:/fuzzer/logs
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+  # ── Fuzzer with ThreadSanitizer — data race detection ───────────────────
+  qet-fuzz-tsan:
+    build:
+      context: .
+      target: fuzzer-tsan
+    image: qelectrotech:fuzzer-tsan
+    environment:
+      - FUZZER_HOURS=${FUZZER_HOURS:-1}
+      - FUZZER_SPEED=${FUZZER_SPEED:-slow}
+      - FUZZER_SEED=${FUZZER_SEED:-}
+      - FUZZER_LOG_DIR=/fuzzer/logs
+      - TSAN_OPTIONS=halt_on_error=0:log_path=/fuzzer/logs/tsan:second_deadlock_stack=1:history_size=7
+    volumes:
+      - ./fuzzer-tsan-logs:/fuzzer/logs
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+  # ── EDZ feature branch — EPLAN importer ────────────────────────────────
+  qet-edz:
+    build:
+      context: .
+      target: edz
+    image: qelectrotech:edz
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - qet-home:/home/qet
+    network_mode: host
+    stdin_open: true
+    tty: true
+
 volumes:
   qet-home:
