@@ -1,5 +1,15 @@
 # Docker build leftovers
 valgrind-logs/
+fuzzer-logs/
+fuzzer-asan-logs/
+fuzzer-tsan-logs/
+asan-logs/
+tsan-logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
 
 # Editor files
 .vscode/
