@@ -1,0 +1,22 @@
+# LeakSanitizer suppressions for third-party noise unrelated to PR #519.
+# These let the PATCHED runs report a clean "0 bytes leaked by our code".
+leak:libfontconfig
+leak:libdbus
+leak:libglib
+leak:libGLX
+leak:libGL
+leak:libEGL
+leak:fontconfig
+leak:FcConfig
+leak:FcPattern
+leak:QFontconfigDatabase
+leak:QGuiApplication
+leak:QApplicationPrivate
+leak:qt_call_pre_routines
+leak:QPlatformIntegration
+leak:QXcbIntegration
+leak:QOffscreenIntegration
+leak:libQt5
+leak:libqoffscreen
+leak:qoffscreen
+leak:QOffscreen

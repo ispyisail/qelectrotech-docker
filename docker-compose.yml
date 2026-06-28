@@ -179,5 +179,24 @@ services:
     stdin_open: true
     tty: true
 
+  # ── PR #519 targeted ASan regression tests ────────────────────────────────
+  # Compiles each leak fix LEGACY-vs-patched and runs both under ASan to prove
+  # the fixes remove their leaks with no use-after-free / double-free.
+  # Run: docker compose run --rm qet-asan-regression
+  # Reuses the qet-test image (g++, Qt5 dev, ASan); writes report.md + raw/.
+  qet-asan-regression:
+    image: qelectrotech:test
+    build:
+      context: .
+      target: test
+    working_dir: /work
+    entrypoint: ["bash", "run.sh"]
+    volumes:
+      - ./tests/asan-regression:/work
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
 volumes:
   qet-home:
