@@ -126,6 +126,8 @@ COPY qetinformation.h sources/qetinformation.h
 COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
 COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
 COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+# Fix issue #283: AlignHCenter saved but AlignCenter checked on load — center alignment lost
+COPY addtabledialog.cpp            sources/factory/ui/addtabledialog.cpp
 
 RUN cmake -B build \
     -DCMAKE_BUILD_TYPE=Debug \
@@ -513,6 +515,8 @@ COPY qetinformation.h sources/qetinformation.h
 COPY customelementgraphicpart.cpp  sources/editor/graphicspart/customelementgraphicpart.cpp
 COPY parttext.cpp                  sources/editor/graphicspart/parttext.cpp
 COPY partdynamictextfield.cpp      sources/editor/graphicspart/partdynamictextfield.cpp
+# Fix issue #283: AlignHCenter saved but AlignCenter checked on load — center alignment lost
+COPY addtabledialog.cpp            sources/factory/ui/addtabledialog.cpp
 
 RUN cmake -B build \
     -DCMAKE_BUILD_TYPE=Debug \
@@ -819,6 +823,150 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=edz-builder /usr/local /usr/local
+
+RUN useradd -m -u 1000 qet
+USER qet
+WORKDIR /home/qet
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+
+CMD ["qelectrotech"]
+
+# ── EDZ importer fuzzer ───────────────────────────────────────────────────────
+# Builds a standalone harness that drives EdzImporter::importToDirectory()
+# against a corpus of malformed .edz files, compiled with ASAN + UBSan.
+FROM edz-builder AS edz-fuzzer-builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    clang \
+    python3 \
+    p7zip-full \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY edz-fuzzer/ /edz-fuzzer/
+
+RUN cmake -B /edz-fuzzer/build \
+    -S /edz-fuzzer \
+    -DEDZ_SRC=/src/sources/import/edz \
+    -DASAN=ON \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -G Ninja \
+    && cmake --build /edz-fuzzer/build --parallel $(nproc)
+
+FROM ubuntu:22.04 AS edz-fuzzer
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5xml5 \
+    python3 \
+    p7zip-full \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=edz-fuzzer-builder /edz-fuzzer/build/fuzz_edz /edz-fuzzer/build/fuzz_edz
+COPY --from=edz-fuzzer-builder /usr/local/lib /usr/local/lib
+COPY edz-fuzzer/ /edz-fuzzer/
+
+RUN mkdir -p /edz-fuzzer/logs /edz-fuzzer/corpus
+
+CMD ["bash", "/edz-fuzzer/run.sh"]
+
+# ─────────────────────────────────────────────
+# Stage 11: Combined test build for manual review
+# master + PR #646/#647 (diagnostic logging rework) +
+# PR #625/#628/#629/#630 (discussion #503 wiring-database stack).
+# Throwaway branch, not a proposed change -- see
+# test-build-logging-wiring on the ispyisail fork.
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS testbuild-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+# Docker caches the git clone layer by command string alone, so re-running a
+# build after the branch has been force-pushed would silently reuse the OLD
+# commits -- i.e. hand someone a stale binary they believe is current. Bump
+# TESTBUILD_REV (any new value) to force a genuinely fresh clone:
+#   docker compose build --build-arg TESTBUILD_REV=$(date +%s) qet-testbuild
+ARG TESTBUILD_REV=1
+RUN echo "cache key: ${TESTBUILD_REV}" \
+    && git clone --recursive --depth=1 --branch test-build-logging-wiring \
+       https://github.com/ispyisail/qelectrotech-source-mirror.git . \
+    && git log -1 --format='built from %H %s' > /src/BUILT_FROM.txt \
+    && cat /src/BUILT_FROM.txt
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS testbuild
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    libxcb-cursor0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=testbuild-builder /usr/local /usr/local
+# Record which commit this image was actually built from, so a stale image can
+# be spotted: docker run --rm qelectrotech:testbuild cat /BUILT_FROM.txt
+COPY --from=testbuild-builder /src/BUILT_FROM.txt /BUILT_FROM.txt
 
 RUN useradd -m -u 1000 qet
 USER qet
