@@ -1,8 +1,8 @@
 file,category,name,name_source,matched_code,matched_class,matched_phrase,match_basis
 10_allpole/100_folio_referencing/01coming_arrow.elmt,10_allpole/100_folio_referencing,Coming arrow,en,,,,
 10_allpole/100_folio_referencing/02going_arrow.elmt,10_allpole/100_folio_referencing,Going arrow,en,,,,
-10_allpole/100_folio_referencing/m_cable_folio_from_h.elmt,10_allpole/100_folio_referencing,Multi wire cable previous folio horizontal,en,W,guiding object,cable,name
-10_allpole/100_folio_referencing/m_cable_folio_next_h.elmt,10_allpole/100_folio_referencing,Multi wire cable next folio horizontal,en,W,guiding object,cable,name
+10_allpole/100_folio_referencing/m_cable_folio_from_h.elmt,10_allpole/100_folio_referencing,Multi wire cable previous folio horizontal,en,W,guiding object,wire,name
+10_allpole/100_folio_referencing/m_cable_folio_next_h.elmt,10_allpole/100_folio_referencing,Multi wire cable next folio horizontal,en,W,guiding object,wire,name
 10_allpole/110_network_supplies/3_pen_pravy.elmt,10_allpole/110_network_supplies,Three-pole source + PEN,en,,,,
 10_allpole/110_network_supplies/3f_n_pe_pravy.elmt,10_allpole/110_network_supplies,Three-pole source + N + PE,en,,,,
 10_allpole/110_network_supplies/ground1.elmt,10_allpole/110_network_supplies,Ground,en,,,,
@@ -36,49 +36,49 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/120_cables_wiring/cable6.elmt,10_allpole/120_cables_wiring,Cable 3G,fr,W,guiding object,cable,name
 10_allpole/120_cables_wiring/cable_3wires.elmt,10_allpole/120_cables_wiring,Cable 3 wires,en,W,guiding object,cable,name
 10_allpole/120_cables_wiring/ecran_3p.elmt,10_allpole/120_cables_wiring,Screen,en,W,guiding object,cable,folder
-10_allpole/120_cables_wiring/fil_de_cable.elmt,10_allpole/120_cables_wiring,Wire of cable,en,W,guiding object,cable,name
+10_allpole/120_cables_wiring/fil_de_cable.elmt,10_allpole/120_cables_wiring,Wire of cable,en,W,guiding object,wire,name
 10_allpole/120_cables_wiring/filerie.elmt,10_allpole/120_cables_wiring,Wiring,en,W,guiding object,cable,folder
 10_allpole/120_cables_wiring/kabel3g.elmt,10_allpole/120_cables_wiring,Cable 3G,en,W,guiding object,cable,name
 10_allpole/120_cables_wiring/kabel4g.elmt,10_allpole/120_cables_wiring,Cable 4G,en,W,guiding object,cable,name
 10_allpole/120_cables_wiring/kabel7g.elmt,10_allpole/120_cables_wiring,Cable 7G,en,W,guiding object,cable,name
 10_allpole/120_cables_wiring/kabel8g.elmt,10_allpole/120_cables_wiring,Cable 8G,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_02p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_02p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_02p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_02p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_03p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_03p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_03p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_03p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_04p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_04p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_04p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_04p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_05p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_05p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_05p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_05p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_06p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_06p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_06p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_06p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_07_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_07p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_07p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_07p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_08p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_08p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_08p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_08p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_09p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_09p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_09p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_09p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_10p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Demux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_10p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Demux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_10p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Mux,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_10p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Mux 40px,en,W,guiding object,cable,name
-10_allpole/120_cables_wiring/m_cable_designation.elmt,10_allpole/120_cables_wiring,Multi wire cable designation,en,W,guiding object,cable,name
+10_allpole/120_cables_wiring/m_cable_02p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_02p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_02p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_02p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 2-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_03p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_03p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_03p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_03p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 3-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_04p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_04p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_04p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_04p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 4-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_05p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_05p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_05p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_05p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 5-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_06p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_06p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_06p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_06p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 6-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_07_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_07p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_07p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_07p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 7-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_08p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_08p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_08p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_08p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 8-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_09p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_09p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_09p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_09p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 9-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_10p_demux.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Demux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_10p_demux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Demux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_10p_mux.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Mux,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_10p_mux_40px.elmt,10_allpole/120_cables_wiring,Multi wire cable 10-pole Mux 40px,en,W,guiding object,wire,name
+10_allpole/120_cables_wiring/m_cable_designation.elmt,10_allpole/120_cables_wiring,Multi wire cable designation,en,W,guiding object,wire,name
 10_allpole/120_cables_wiring/nomenclature_section.elmt,10_allpole/120_cables_wiring,Wiring section,en,W,guiding object,cable,folder
 10_allpole/120_cables_wiring/section1conducteur.elmt,10_allpole/120_cables_wiring,Section 1 conducteur,fr,W,guiding object,cable,folder
 10_allpole/120_cables_wiring/section2-1conducteurs.elmt,10_allpole/120_cables_wiring,Section 2 conducteurs,fr,W,guiding object,cable,folder
@@ -113,13 +113,13 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram/terminal_4g1.elmt,10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram,Terminal_4G1,en,X,interfacing object,terminal,name
 10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram/terminal_5g1.elmt,10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram,Terminal_5G1,en,X,interfacing object,terminal,name
 10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram/terminal_7g1.elmt,10_allpole/130_terminals_terminal_strips/90_terminal_strips_diagram,Terminal_7G1,en,X,interfacing object,terminal,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-2-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 2-Port,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-3-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 3-Port,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-4-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 4-Port,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-5-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 5-Port,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-8-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 8-Port,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-splitter-2-input-4-output.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector Splitter 2 Input-4 Output,en,X,interfacing object,connector,name
-10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-splitter-2-input-6-output.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector Splitter 2 Input-6 Output,en,X,interfacing object,connector,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-2-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 2-Port,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-3-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 3-Port,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-4-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 4-Port,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-5-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 5-Port,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-8-port.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector 8-Port,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-splitter-2-input-4-output.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector Splitter 2 Input-4 Output,en,W,guiding object,wire,name
+10_allpole/130_terminals_terminal_strips/95_terminals_spring_box/wire-connector-splitter-2-input-6-output.elmt,10_allpole/130_terminals_terminal_strips/95_terminals_spring_box,Wire Connector Splitter 2 Input-6 Output,en,W,guiding object,wire,name
 10_allpole/130_terminals_terminal_strips/barette_de_terre.elmt,10_allpole/130_terminals_terminal_strips,Ground bar,en,X,interfacing object,terminal,folder
 10_allpole/130_terminals_terminal_strips/barre_interconnexion_tn.elmt,10_allpole/130_terminals_terminal_strips,Bar interconnection TN,en,X,interfacing object,terminal,folder
 10_allpole/130_terminals_terminal_strips/barrette_connexion_f.elmt,10_allpole/130_terminals_terminal_strips,"Terminal strip, closed",en,X,interfacing object,terminal,name
@@ -152,7 +152,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/140_connectors_plugs/01_connectors_pins/kon10pin_pravy.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,kon10pin pravy,filename,X,interfacing object,connector,folder
 10_allpole/140_connectors_plugs/01_connectors_pins/konektor10pin.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,konektor10pin,filename,X,interfacing object,connector,folder
 10_allpole/140_connectors_plugs/01_connectors_pins/pin_m_fm.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,pin m fm,filename,X,interfacing object,connector,folder
-10_allpole/140_connectors_plugs/01_connectors_pins/prise_fiche.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,Plug and socket,en,X,interfacing object,socket,name
+10_allpole/140_connectors_plugs/01_connectors_pins/prise_fiche.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,Plug and socket,en,X,interfacing object,plug,name
 10_allpole/140_connectors_plugs/01_connectors_pins/prise_multipolaire.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,Plug multipolar,en,X,interfacing object,plug,name
 10_allpole/140_connectors_plugs/01_connectors_pins/vidlice_5p.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,vidlice 5p,filename,X,interfacing object,connector,folder
 10_allpole/140_connectors_plugs/01_connectors_pins/zas_schurter.elmt,10_allpole/140_connectors_plugs/01_connectors_pins,zas schurter,filename,X,interfacing object,connector,folder
@@ -164,7 +164,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_5_broches.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,5-pin DIN socket,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_5_broches_180_degres.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,5-pin DIN socket 180 degrees,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_5_broches_270_degres.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,5-pin DIN socket 270 degrees,en,X,interfacing object,socket,name
-10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_5_broches_360_degres_avec_borne_centrale.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,5-pin DIN socket 360 degrees with central terminal,en,X,interfacing object,terminal,name
+10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_5_broches_360_degres_avec_borne_centrale.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,5-pin DIN socket 360 degrees with central terminal,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/10_connectors_circular/embase_din_8_broches.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,8-pin DIN socket,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/10_connectors_circular/embase_minidin_8_broches.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,Base 8 pin mini-DIN,en,X,interfacing object,connector,folder
 10_allpole/140_connectors_plugs/10_connectors_circular/encoder_17.elmt,10_allpole/140_connectors_plugs/10_connectors_circular,Encoder plug 17 Pin,en,B,sensing object,encoder,name
@@ -185,7 +185,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/140_connectors_plugs/20_socket_outlets/pc_5p.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Outlet 5 poles,en,X,interfacing object,outlet,name
 10_allpole/140_connectors_plugs/20_socket_outlets/pc_mono.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Outlet 3 poles,en,X,interfacing object,outlet,name
 10_allpole/140_connectors_plugs/20_socket_outlets/pc_mono2.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Outlet 3 poles,en,X,interfacing object,outlet,name
-10_allpole/140_connectors_plugs/20_socket_outlets/pc_mono_armoire.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Socket cabinet,en,N,covering object,cabinet,name
+10_allpole/140_connectors_plugs/20_socket_outlets/pc_mono_armoire.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Socket cabinet,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/20_socket_outlets/pc_tetra.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Socket 3P+N+PE,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/20_socket_outlets/pc_tri.elmt,10_allpole/140_connectors_plugs/20_socket_outlets,Socket 3P+N,en,X,interfacing object,socket,name
 10_allpole/140_connectors_plugs/60_connectors_electronics/pin_connector_1.elmt,10_allpole/140_connectors_plugs/60_connectors_electronics,"Connector, 1 pin",en,X,interfacing object,connector,name
@@ -204,7 +204,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/200_fuses_protective_gears/10_fuses/sec_fus5.elmt,10_allpole/200_fuses_protective_gears/10_fuses,switchfuses,en,F,protecting object,fuse,folder
 10_allpole/200_fuses_protective_gears/10_fuses/sectionneur_3_fusibles+neutre.elmt,10_allpole/200_fuses_protective_gears/10_fuses,switchfuses,en,F,protecting object,fuse,folder
 10_allpole/200_fuses_protective_gears/10_fuses/sectionneur_3_fusibles.elmt,10_allpole/200_fuses_protective_gears/10_fuses,switchfuses,en,F,protecting object,fuse,folder
-10_allpole/200_fuses_protective_gears/10_fuses/sectionneur_fusible_bi.elmt,10_allpole/200_fuses_protective_gears/10_fuses,Fuse-disconnector,en,Q,controlling object,disconnector,name
+10_allpole/200_fuses_protective_gears/10_fuses/sectionneur_fusible_bi.elmt,10_allpole/200_fuses_protective_gears/10_fuses,Fuse-disconnector,en,F,protecting object,fuse,name
 10_allpole/200_fuses_protective_gears/11_circuit_breakers/disjonct-m_1f.elmt,10_allpole/200_fuses_protective_gears/11_circuit_breakers,Circuit-breaker,en,Q,controlling object,circuit breaker,name
 10_allpole/200_fuses_protective_gears/11_circuit_breakers/disjonct-m_1fn.elmt,10_allpole/200_fuses_protective_gears/11_circuit_breakers,Circuit-breaker,en,Q,controlling object,circuit breaker,name
 10_allpole/200_fuses_protective_gears/11_circuit_breakers/disjonct-m_2f.elmt,10_allpole/200_fuses_protective_gears/11_circuit_breakers,Circuit-breaker,en,Q,controlling object,circuit breaker,name
@@ -225,11 +225,11 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/dis_mag_term_4f-1.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Magneto-thermal circuit breaker,en,Q,controlling object,circuit breaker,name
 10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/dis_mag_term_4f-2.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Magneto-thermal circuit breaker GV,en,Q,controlling object,circuit breaker,name
 10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/disjoncteur_magneto-thermique.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Magneto-thermal circuit breaker GV,en,Q,controlling object,circuit breaker,name
-10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/fa4202_disjoncteur_moteur_3p.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Motor circuit breaker,en,Q,controlling object,circuit breaker,name
-10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/fa4213_disjoncteur_moteur_3p_n.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Motor circuit breaker with neutral,en,Q,controlling object,circuit breaker,name
+10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/fa4202_disjoncteur_moteur_3p.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Motor circuit breaker,en,M,driving object,motor,name
+10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/fa4213_disjoncteur_moteur_3p_n.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Motor circuit breaker with neutral,en,M,driving object,motor,name
 10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers/gv2p.elmt,10_allpole/200_fuses_protective_gears/12_magneto_thermal_circuit_breakers,Magneto-thermal circuit breaker GV,en,Q,controlling object,circuit breaker,name
 10_allpole/200_fuses_protective_gears/20_disconnecting_switches/01_intersectiotetra.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,Interrupteur sectionneur TETRA,fr,S,human interaction object,interrupteur,name
-10_allpole/200_fuses_protective_gears/20_disconnecting_switches/inter-sectionneur_tetra.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,Four pole switch disconnector,en,Q,controlling object,disconnector,name
+10_allpole/200_fuses_protective_gears/20_disconnecting_switches/inter-sectionneur_tetra.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,Four pole switch disconnector,en,S,human interaction object,switch,name
 10_allpole/200_fuses_protective_gears/20_disconnecting_switches/inter_sectionneur_tri.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,Interrupteur sectionneur triphasé,fr,S,human interaction object,interrupteur,name
 10_allpole/200_fuses_protective_gears/20_disconnecting_switches/interrupteur_sectionneur_biphase.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,Interrupteur sectionneur biphasé,fr,S,human interaction object,interrupteur,name
 10_allpole/200_fuses_protective_gears/20_disconnecting_switches/itcv.elmt,10_allpole/200_fuses_protective_gears/20_disconnecting_switches,itcv,en,F,protecting object,fuse,folder
@@ -434,8 +434,8 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/380_signaling_operating/11_optical_signaling/lampe2.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Light,en,E,emitting object,light,name
 10_allpole/380_signaling_operating/11_optical_signaling/lampe_clignotante.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Flashing light,en,E,emitting object,light,name
 10_allpole/380_signaling_operating/11_optical_signaling/moteur_horloge.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Clock motor,en,M,driving object,motor,name
-10_allpole/380_signaling_operating/11_optical_signaling/voyant_avec_transfo.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Light with transformer,en,T,transforming object,transformer,name
-10_allpole/380_signaling_operating/11_optical_signaling/voyant_bouton_poussoir_lumineux.elmt,10_allpole/380_signaling_operating/11_optical_signaling,LED of an illuminated push-button,en,S,human interaction object,push button,name
+10_allpole/380_signaling_operating/11_optical_signaling/voyant_avec_transfo.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Light with transformer,en,E,emitting object,light,name
+10_allpole/380_signaling_operating/11_optical_signaling/voyant_bouton_poussoir_lumineux.elmt,10_allpole/380_signaling_operating/11_optical_signaling,LED of an illuminated push-button,en,E,emitting object,led,name
 10_allpole/380_signaling_operating/11_optical_signaling/voyant_flash.elmt,10_allpole/380_signaling_operating/11_optical_signaling,Flashing light,en,E,emitting object,light,name
 10_allpole/380_signaling_operating/12_acoustic_signaling/avertisseur.elmt,10_allpole/380_signaling_operating/12_acoustic_signaling,Horn,en,E,emitting object,horn,name
 10_allpole/380_signaling_operating/12_acoustic_signaling/buzzer.elmt,10_allpole/380_signaling_operating/12_acoustic_signaling,Buzzer,en,E,emitting object,buzzer,name
@@ -494,37 +494,37 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/380_signaling_operating/25_lever_switches/manipulateur_002.elmt,10_allpole/380_signaling_operating/25_lever_switches,Lever switch 2 poles 2 directions tentative,en,S,human interaction object,switch,name
 10_allpole/380_signaling_operating/25_lever_switches/manipulateur_003.elmt,10_allpole/380_signaling_operating/25_lever_switches,Lever switch 4 poles 4 directions latched,en,S,human interaction object,switch,name
 10_allpole/380_signaling_operating/25_lever_switches/manipulateur_004.elmt,10_allpole/380_signaling_operating/25_lever_switches,Lever switch 4 poles 4 directions tentative,en,S,human interaction object,switch,name
-10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_3.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_4.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 4 terminals,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_3.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_4.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 4 terminals,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_nc.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor NC,en,B,sensing object,sensor,name
-10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_nc_3p.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals NC,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_nc_3p.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals NC,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_no.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor NO,en,B,sensing object,sensor,name
-10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_no_3p.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals NO,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_capacitif_no_3p.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Capacitive sensor 3 terminals NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/01_sensors_capacitive/capteur_de_proximite.elmt,10_allpole/390_sensors_instruments/01_sensors_capacitive,Limit switch NO,en,S,human interaction object,switch,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_nc_2p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 2 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_nc_3p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 3 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_no_2p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 2 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_no_3p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 3 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif2_3.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_2.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 2 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_3.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_4.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_nc_2p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 2 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_nc_3p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 3 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_no_2p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 2 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_ind_no_3p.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor 3 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif2_3.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_2.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 2 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_3.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_4.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_nc.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor  NC,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/02_sensors_inductive/capteur_inductif_no.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor  NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/02_sensors_inductive/induc.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductif sensor,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/02_sensors_inductive/inductice_sensor_4p_ossd_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Fail-safe inductive sensor,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_4p_ossd_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Fail-safe inductive sensor,en,B,sensing object,sensor,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_3p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_3p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_4p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_4p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NC,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_3p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_3p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_4p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_4p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_1.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_2.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_3.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals NO,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_3p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_3p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_4p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_nc_4p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NC,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_3p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_3p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 3 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_4p_cable.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/02_sensors_inductive/inductive_sensor_no_4p_connector.elmt,10_allpole/390_sensors_instruments/02_sensors_inductive,Inductive sensor 4 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_1.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_2.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_3.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor 3 terminals NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_nc.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor NC,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/03_sensors_magnetic/capteur_magnetique_no.elmt,10_allpole/390_sensors_instruments/03_sensors_magnetic,Magnetic sensor NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/04_sensors_optical/capteur_opt_nc_3p.elmt,10_allpole/390_sensors_instruments/04_sensors_optical,Optic sensor (NC),en,B,sensing object,sensor,name
@@ -560,9 +560,9 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/390_sensors_instruments/15_sensors_temperature/thermocouple.elmt,10_allpole/390_sensors_instruments/15_sensors_temperature,Thermocouple,en,B,sensing object,sensor,folder
 10_allpole/390_sensors_instruments/15_sensors_temperature/thermostat_01.elmt,10_allpole/390_sensors_instruments/15_sensors_temperature,Temperature switch NO,en,S,human interaction object,switch,name
 10_allpole/390_sensors_instruments/15_sensors_temperature/thermostat_nc.elmt,10_allpole/390_sensors_instruments/15_sensors_temperature,Temperature switch NC,en,S,human interaction object,switch,name
-10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic  sensor 3 terminals,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_2.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor 3 terminals NO,en,X,interfacing object,terminal,name
-10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_3.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor 3 terminals NO,en,X,interfacing object,terminal,name
+10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic  sensor 3 terminals,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_2.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor 3 terminals NO,en,B,sensing object,sensor,name
+10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_3.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor 3 terminals NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_nc.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor  NC,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/16_sensors_ultrasonic/capteurs_ultrasons_no.elmt,10_allpole/390_sensors_instruments/16_sensors_ultrasonic,Ultrasonic sensor  NO,en,B,sensing object,sensor,name
 10_allpole/390_sensors_instruments/41_limit_switches/fin_course_nc.elmt,10_allpole/390_sensors_instruments/41_limit_switches,Limitswitch (NC),en,B,sensing object,sensor,folder
@@ -608,9 +608,9 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/390_sensors_instruments/70_meters_measuring_indicators/wattmetre-v.elmt,10_allpole/390_sensors_instruments/70_meters_measuring_indicators,Vertical wattmeter,en,P,presenting object,indicator,folder
 10_allpole/390_sensors_instruments/80_encoder/codeur.elmt,10_allpole/390_sensors_instruments/80_encoder,Incremental encoder,en,B,sensing object,encoder,name
 10_allpole/391_consumers_actuators/10_engines/dahlander_motor_12_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase Dahlander 12 terminlas",en,M,driving object,motor,name
-10_allpole/391_consumers_actuators/10_engines/dahlander_motor_6_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase Dahlander 6 terminals",en,X,interfacing object,terminal,name
-10_allpole/391_consumers_actuators/10_engines/dahlander_motor_9_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase Dahlander 9 terminals",en,X,interfacing object,terminal,name
-10_allpole/391_consumers_actuators/10_engines/induction_motor_6_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase 6 terminals",en,X,interfacing object,terminal,name
+10_allpole/391_consumers_actuators/10_engines/dahlander_motor_6_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase Dahlander 6 terminals",en,M,driving object,motor,name
+10_allpole/391_consumers_actuators/10_engines/dahlander_motor_9_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase Dahlander 9 terminals",en,M,driving object,motor,name
+10_allpole/391_consumers_actuators/10_engines/induction_motor_6_terminals.elmt,10_allpole/391_consumers_actuators/10_engines,"Induction motor, three-phase 6 terminals",en,M,driving object,motor,name
 10_allpole/391_consumers_actuators/10_engines/jednofaz.motor.elmt,10_allpole/391_consumers_actuators/10_engines,One-phase engine,en,M,driving object,actuator,folder
 10_allpole/391_consumers_actuators/10_engines/moteur.elmt,10_allpole/391_consumers_actuators/10_engines,Engine,en,M,driving object,actuator,folder
 10_allpole/391_consumers_actuators/10_engines/moteur_dc.elmt,10_allpole/391_consumers_actuators/10_engines,DC motor,en,M,driving object,motor,name
@@ -642,7 +642,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/391_consumers_actuators/10_engines/servo_moteur.elmt,10_allpole/391_consumers_actuators/10_engines,Servo Moteur,fr,M,driving object,moteur,name
 10_allpole/391_consumers_actuators/10_engines/stepper.elmt,10_allpole/391_consumers_actuators/10_engines,Stepper motor,en,M,driving object,motor,name
 10_allpole/391_consumers_actuators/20_valves/electrovanne.elmt,10_allpole/391_consumers_actuators/20_valves,Solenoid valve,en,M,driving object,solenoid,name
-10_allpole/391_consumers_actuators/20_valves/magnet_valve_with_connector.elmt,10_allpole/391_consumers_actuators/20_valves,Magnet valve with connector,en,X,interfacing object,connector,name
+10_allpole/391_consumers_actuators/20_valves/magnet_valve_with_connector.elmt,10_allpole/391_consumers_actuators/20_valves,Magnet valve with connector,en,H,matter processing object,valve,name
 10_allpole/391_consumers_actuators/30_brakes/brzda_motoru.elmt,10_allpole/391_consumers_actuators/30_brakes,Magnetic brake,en,M,driving object,actuator,folder
 10_allpole/391_consumers_actuators/30_brakes/frein.elmt,10_allpole/391_consumers_actuators/30_brakes,Magnetic brake,en,M,driving object,actuator,folder
 10_allpole/391_consumers_actuators/30_brakes/frein_electro.elmt,10_allpole/391_consumers_actuators/30_brakes,Electromechanical brake,en,M,driving object,actuator,folder
@@ -677,7 +677,7 @@ file,category,name,name_source,matched_code,matched_class,matched_phrase,match_b
 10_allpole/392_generators_sources/70_voltage_current_sources/tention_n.elmt,10_allpole/392_generators_sources/70_voltage_current_sources,Voltage source (new),en,G,generating object,generator,folder
 10_allpole/392_generators_sources/70_voltage_current_sources/tention_o.elmt,10_allpole/392_generators_sources/70_voltage_current_sources,Voltage source (old),en,G,generating object,generator,folder
 10_allpole/395_electronics_semiconductors/01_resistors/ntc.elmt,10_allpole/395_electronics_semiconductors/01_resistors,NTC,en,K,information processing object,semiconductor,folder
-10_allpole/395_electronics_semiconductors/01_resistors/photo-resistance.elmt,10_allpole/395_electronics_semiconductors/01_resistors,Light dependent resistor LDR,en,R,restricting object,resistor,name
+10_allpole/395_electronics_semiconductors/01_resistors/photo-resistance.elmt,10_allpole/395_electronics_semiconductors/01_resistors,Light dependent resistor LDR,en,E,emitting object,light,name
 10_allpole/395_electronics_semiconductors/01_resistors/potentio_trimmer.elmt,10_allpole/395_electronics_semiconductors/01_resistors,Potentiometer trimmer,en,K,information processing object,semiconductor,folder
 10_allpole/395_electronics_semiconductors/01_resistors/potentiometre.elmt,10_allpole/395_electronics_semiconductors/01_resistors,Potentiometer,en,K,information processing object,semiconductor,folder
 10_allpole/395_electronics_semiconductors/01_resistors/ptc.elmt,10_allpole/395_electronics_semiconductors/01_resistors,PTC,en,K,information processing object,semiconductor,folder
@@ -811,7 +811,7 @@ Varactor",en,K,information processing object,diode,name
 10_allpole/450_high_voltage/interrupteur_qm.elmt,10_allpole/450_high_voltage,Switch fuses Qm,en,S,human interaction object,switch,name
 10_allpole/450_high_voltage/interrupteur_qmb.elmt,10_allpole/450_high_voltage,Switch with fuse QMB,en,S,human interaction object,switch,name
 10_allpole/450_high_voltage/interrupteur_qmc.elmt,10_allpole/450_high_voltage,Switch QMC,en,S,human interaction object,switch,name
-10_allpole/450_high_voltage/interrupteur_sectionneur_de_terre.elmt,10_allpole/450_high_voltage,Ground switch disconnector,en,Q,controlling object,disconnector,name
+10_allpole/450_high_voltage/interrupteur_sectionneur_de_terre.elmt,10_allpole/450_high_voltage,Ground switch disconnector,en,S,human interaction object,switch,name
 10_allpole/450_high_voltage/ligne_aerienne.elmt,10_allpole/450_high_voltage,Air line,en,,,,
 10_allpole/450_high_voltage/ligne_immergee.elmt,10_allpole/450_high_voltage,Line immersed,en,,,,
 10_allpole/450_high_voltage/ligne_souterraine.elmt,10_allpole/450_high_voltage,Underground line,en,,,,
@@ -1235,9 +1235,9 @@ outlets.",en,X,interfacing object,socket,name
 11_singlepole/500_home_installation/30_architectural/pc4.elmt,11_singlepole/500_home_installation/30_architectural,"Socket outlet (telecommunica-
 tions), general symbol
 Designations in accordance with",en,X,interfacing object,socket,name
-11_singlepole/500_home_installation/30_architectural/pc5.elmt,11_singlepole/500_home_installation/30_architectural,Socket outlet (power) single-pole switch with,en,S,human interaction object,switch,name
+11_singlepole/500_home_installation/30_architectural/pc5.elmt,11_singlepole/500_home_installation/30_architectural,Socket outlet (power) single-pole switch with,en,X,interfacing object,socket,name
 11_singlepole/500_home_installation/30_architectural/pc6.elmt,11_singlepole/500_home_installation/30_architectural,Socket outlet (power) with shutter,en,X,interfacing object,socket,name
-11_singlepole/500_home_installation/30_architectural/pc7.elmt,11_singlepole/500_home_installation/30_architectural,Socket outlet (power) with isolating transformer,en,T,transforming object,transformer,name
+11_singlepole/500_home_installation/30_architectural/pc7.elmt,11_singlepole/500_home_installation/30_architectural,Socket outlet (power) with isolating transformer,en,X,interfacing object,socket,name
 11_singlepole/500_home_installation/30_architectural/pc8.elmt,11_singlepole/500_home_installation/30_architectural,covered isolated ground receptacle with  (EN 60617 11-13-0x),en,,,,
 11_singlepole/500_home_installation/30_architectural/pc9.elmt,11_singlepole/500_home_installation/30_architectural,covered isolated ground receptacle with  (EN 60617 11-13-0x),en,,,,
 11_singlepole/500_home_installation/30_architectural/point_eclairage_1.elmt,11_singlepole/500_home_installation/30_architectural,Emmergency Lighting luminaire on special circuit,en,E,emitting object,luminaire,name
@@ -1530,8 +1530,8 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/chauvin_arnoux/thyritop30_triphase.elmt,20_manufacturers_articles/chauvin_arnoux,Thyritop 30 Triphasé,fr,,,,
 20_manufacturers_articles/chisage/Chisage-Mars-G2-LE-hybrid-inverter.elmt,20_manufacturers_articles/chisage,Inverter Chisage Mars G2-LE,en,T,transforming object,inverter,name
 20_manufacturers_articles/circuit-microsens/cslc-led-adapter.elmt,20_manufacturers_articles/circuit-microsens,CSLC LED Adapter,en,E,emitting object,led,name
-20_manufacturers_articles/circuit-microsens/cslc_v2.elmt,20_manufacturers_articles/circuit-microsens,Central Smart Light Controller,en,K,information processing object,controller,name
-20_manufacturers_articles/circuit-microsens/cslc_v2_gesamt.elmt,20_manufacturers_articles/circuit-microsens,Central Smart Light Controller,en,K,information processing object,controller,name
+20_manufacturers_articles/circuit-microsens/cslc_v2.elmt,20_manufacturers_articles/circuit-microsens,Central Smart Light Controller,en,E,emitting object,light,name
+20_manufacturers_articles/circuit-microsens/cslc_v2_gesamt.elmt,20_manufacturers_articles/circuit-microsens,Central Smart Light Controller,en,E,emitting object,light,name
 20_manufacturers_articles/circuit-microsens/ftw04vv.elmt,20_manufacturers_articles/circuit-microsens,Room sensor for relative humidity and temperature,en,B,sensing object,sensor,name
 20_manufacturers_articles/circuit-microsens/g6_microswitch_vertikal.elmt,20_manufacturers_articles/circuit-microsens,g6 microswitch vertikal,filename,,,,
 20_manufacturers_articles/circuit-microsens/plm_v01.elmt,20_manufacturers_articles/circuit-microsens,Smart Light ControllerV2,en,E,emitting object,light,name
@@ -2509,7 +2509,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/schneider_electric/08_control_relays/re17rcmu.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,RE17RCMU,en,K,information processing object,control relay,folder
 20_manufacturers_articles/schneider_electric/08_control_relays/re7.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,RE7,en,K,information processing object,control relay,folder
 20_manufacturers_articles/schneider_electric/08_control_relays/re8.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,RE8,en,K,information processing object,control relay,folder
-20_manufacturers_articles/schneider_electric/08_control_relays/relais-phase-schneider-rm35tm.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,Motor control relay RM35TM,en,K,information processing object,control relay,name
+20_manufacturers_articles/schneider_electric/08_control_relays/relais-phase-schneider-rm35tm.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,Motor control relay RM35TM,en,M,driving object,motor,name
 20_manufacturers_articles/schneider_electric/08_control_relays/rm3ua1.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,RM3UA1,en,K,information processing object,control relay,folder
 20_manufacturers_articles/schneider_electric/08_control_relays/rm3ua2.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,RM3UA2,en,K,information processing object,control relay,folder
 20_manufacturers_articles/schneider_electric/08_control_relays/rm4tr32.elmt,20_manufacturers_articles/schneider_electric/08_control_relays,rm4tr32,en,K,information processing object,control relay,folder
@@ -3574,8 +3574,8 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0885-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-885,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0886-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-886,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0914-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-914,en,G,generating object,alimentation,qet_directory
-20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0974-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-974 - Transformer power supply,en,G,generating object,power supply,name
-20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0976-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-976 - Transformer power supply,en,G,generating object,power supply,name
+20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0974-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-974 - Transformer power supply,en,T,transforming object,transformer,name
+20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-0976-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-976 - Transformer power supply,en,T,transforming object,transformer,name
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-1014-0000-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-1014,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-1014-0072-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-1014/072-000,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/01_schematic/0787_power-supplies/wago_0787-1015-0072-0000.elmt,20_manufacturers_articles/wago/01_schematic/0787_power-supplies,787-1015/072-000,en,G,generating object,alimentation,qet_directory
@@ -4538,10 +4538,10 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0555-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-555,en,,,,
 20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0575-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-575,en,,,,
 20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0585-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-585,en,,,,
-20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0664-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-664 - Sensor/actuator module; 8-channel; 3-wire,en,M,driving object,actuator,name
-20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0665-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-665 - Sensor/actuator module; 8-channel; 3-wire; LED,en,M,driving object,actuator,name
-20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0667-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-667 - Sensor/actuator module; 8-channel; 2-wire,en,M,driving object,actuator,name
-20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0671-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-671 - Sensor/actuator module; 8-channel; 2-wire; with FE,en,M,driving object,actuator,name
+20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0664-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-664 - Sensor/actuator module; 8-channel; 3-wire,en,B,sensing object,sensor,name
+20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0665-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-665 - Sensor/actuator module; 8-channel; 3-wire; LED,en,B,sensing object,sensor,name
+20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0667-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-667 - Sensor/actuator module; 8-channel; 2-wire,en,B,sensing object,sensor,name
+20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0671-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-671 - Sensor/actuator module; 8-channel; 2-wire; with FE,en,B,sensing object,sensor,name
 20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0720-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-720,en,,,,
 20_manufacturers_articles/wago/02_front/0289_interfacemodules/wago_0289-0725-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0289_interfacemodules,289-725,en,,,,
 20_manufacturers_articles/wago/02_front/0750_io_750/010_pfc/wago_0750-8110-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0750_io_750/010_pfc,750-8110,en,K,information processing object,controller,qet_directory
@@ -4873,8 +4873,8 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/wago/02_front/0753_io_753/zzz_templates/0002_8-pole_lightconductor/0002_8-pole_lightconductor_(yellow).elmt,20_manufacturers_articles/wago/02_front/0753_io_753/zzz_templates/0002_8-pole_lightconductor,double - 8-fold / Light-Conductor,en,W,guiding object,light conductor,name
 20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0783-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-783,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0785-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-785,en,G,generating object,alimentation,qet_directory
-20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0974-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-974 - Transformer power supply,en,G,generating object,power supply,name
-20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0976-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-976 - Transformer power supply,en,G,generating object,power supply,name
+20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0974-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-974 - Transformer power supply,en,T,transforming object,transformer,name
+20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-0976-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-976 - Transformer power supply,en,T,transforming object,transformer,name
 20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-1200-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-1200,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-1201-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-1201,en,G,generating object,alimentation,qet_directory
 20_manufacturers_articles/wago/02_front/0787_power-supplies/wago_0787-1202-0000-0000.elmt,20_manufacturers_articles/wago/02_front/0787_power-supplies,787-1202,en,G,generating object,alimentation,qet_directory
@@ -5281,7 +5281,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 20_manufacturers_articles/yucel/yucel-4ah.elmt,20_manufacturers_articles/yucel,Yucel_4Ah,fr,,,,
 20_manufacturers_articles/yucel/yucel_7ah.elmt,20_manufacturers_articles/yucel,Yucel_7Ah,fr,,,,
 90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins/bornes_e.elmt,90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins,Male contact,en,X,interfacing object,connector,folder
-90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins/bornes_es.elmt,90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins,Plug and socket,en,X,interfacing object,socket,name
+90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins/bornes_es.elmt,90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins,Plug and socket,en,X,interfacing object,plug,name
 90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins/bornes_s.elmt,90_american_standards/15_allpole/140_connectors_plugs/01_connectors_pins,Female contact,en,X,interfacing object,connector,folder
 90_american_standards/15_allpole/200_fuses_protective_gears/11_circuit_breakers/acb.elmt,90_american_standards/15_allpole/200_fuses_protective_gears/11_circuit_breakers,Air_Circuit_Breaker,en,Q,controlling object,circuit breaker,name
 91_en_60617/en_60617_02/en_60617_02_01/en_60617_02_01_01.elmt,91_en_60617/en_60617_02/en_60617_02_01,Object,en,,,,
@@ -5405,7 +5405,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_02/en_60617_02_13/en_60617_02_13_25.elmt,91_en_60617/en_60617_02/en_60617_02_13,Actuator (actuated by thermal device),en,M,driving object,actuator,name
 91_en_60617/en_60617_02/en_60617_02_13/en_60617_02_13_26.elmt,91_en_60617/en_60617_02/en_60617_02_13,Actuator (operated by electric motor),en,M,driving object,actuator,name
 91_en_60617/en_60617_02/en_60617_02_13/en_60617_02_13_27.elmt,91_en_60617/en_60617_02/en_60617_02_13,Actuator (operated by electric clock),en,M,driving object,actuator,name
-91_en_60617/en_60617_02/en_60617_02_13/en_60617_02_13_28.elmt,91_en_60617/en_60617_02/en_60617_02_13,Actuator; Semiconductor actuator,en,K,information processing object,semiconductor,name
+91_en_60617/en_60617_02/en_60617_02_13/en_60617_02_13_28.elmt,91_en_60617/en_60617_02/en_60617_02_13,Actuator; Semiconductor actuator,en,M,driving object,actuator,name
 91_en_60617/en_60617_02/en_60617_02_14/en_60617_02_14_01.elmt,91_en_60617/en_60617_02/en_60617_02_14,Actuator (actuated by liquid level),en,M,driving object,actuator,name
 91_en_60617/en_60617_02/en_60617_02_14/en_60617_02_14_02.elmt,91_en_60617/en_60617_02/en_60617_02_14,Actuator (actuated by a counter),en,M,driving object,actuator,name
 91_en_60617/en_60617_02/en_60617_02_14/en_60617_02_14_03.elmt,91_en_60617/en_60617_02/en_60617_02_14,Actuator (actuated by fluid flow),en,M,driving object,actuator,name
@@ -5459,23 +5459,23 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_03/en_60617_03_02/en_60617_03_02_174.elmt,91_en_60617/en_60617_03/en_60617_03_02,Junction requiring a special tool,en,X,interfacing object,borne,qet_directory
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_01.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Contact, female (of a socket or plug)",en,X,interfacing object,socket,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_03.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Contact, male (of a socket or plug)",en,X,interfacing object,socket,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_05.elmt,91_en_60617/en_60617_03/en_60617_03_03,Plug and socket,en,X,interfacing object,socket,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_07.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, multipole (multi-line representation)",en,X,interfacing object,socket,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_08.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, multipole (single-line representation)",en,X,interfacing object,socket,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_05.elmt,91_en_60617/en_60617_03/en_60617_03_03,Plug and socket,en,X,interfacing object,plug,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_07.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, multipole (multi-line representation)",en,X,interfacing object,plug,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_08.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, multipole (single-line representation)",en,X,interfacing object,plug,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_09.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Connector, fixed portion of an assembly",en,X,interfacing object,connector,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_10.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Connector, movable portion of an assembly",en,X,interfacing object,connector,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_11.elmt,91_en_60617/en_60617_03/en_60617_03_03,Connector assembly,en,X,interfacing object,connector,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_12.elmt,91_en_60617/en_60617_03/en_60617_03_03,Telephone type plug and jack,en,X,interfacing object,plug,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_13.elmt,91_en_60617/en_60617_03/en_60617_03_03,Telephone type plug and jack with break contacts,en,X,interfacing object,plug,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_14.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Telephone type break jack, telephone type isolating jack",en,X,interfacing object,jack,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_15.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, coaxial",en,X,interfacing object,socket,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_15.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket, coaxial",en,X,interfacing object,plug,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_16.elmt,91_en_60617/en_60617_03/en_60617_03_03,Butt-connector,en,X,interfacing object,connector,name
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_17.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Connecting link, closed",en,X,interfacing object,(16/16 siblings in this folder),folder_majority
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_18.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Connecting link, closed",en,X,interfacing object,(16/16 siblings in this folder),folder_majority
 91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_19.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Connecting link, open",en,X,interfacing object,(16/16 siblings in this folder),folder_majority
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_20.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-male",en,X,interfacing object,connector,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_21.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-female",en,X,interfacing object,connector,name
-91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_22.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-male with socket access",en,X,interfacing object,connector,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_20.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-male",en,X,interfacing object,plug,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_21.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-female",en,X,interfacing object,plug,name
+91_en_60617/en_60617_03/en_60617_03_03/en_60617_03_03_22.elmt,91_en_60617/en_60617_03/en_60617_03_03,"Plug and socket-type connector, male-male with socket access",en,X,interfacing object,plug,name
 91_en_60617/en_60617_03/en_60617_03_04/en_60617_03_04_01.elmt,91_en_60617/en_60617_03/en_60617_03_04,Cable sealing end (multi-core cable),en,W,guiding object,cable,name
 91_en_60617/en_60617_03/en_60617_03_04/en_60617_03_04_02.elmt,91_en_60617/en_60617_03/en_60617_03_04,Cable sealing end (one-core cables),en,W,guiding object,cable,name
 91_en_60617/en_60617_03/en_60617_03_04/en_60617_03_04_03.elmt,91_en_60617/en_60617_03/en_60617_03_04,Straight-through joint box (multi-line representation),en,W,guiding object,cable,qet_directory
@@ -5492,7 +5492,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_08.elmt,91_en_60617/en_60617_04/en_60617_04_01,Potentiometer with movable contact and pre-set adjustment,en,R,restricting object,resistance,qet_directory
 91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_09.elmt,91_en_60617/en_60617_04/en_60617_04_01,Resistor with fixed tappings,en,R,restricting object,resistor,name
 91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_10.elmt,91_en_60617/en_60617_04/en_60617_04_01,Resistor with separate current and voltage terminals,en,R,restricting object,resistor,name
-91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_11.elmt,91_en_60617/en_60617_04/en_60617_04_01,Carbon-pile resistor,en,R,restricting object,resistor,name
+91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_11.elmt,91_en_60617/en_60617_04/en_60617_04_01,Carbon-pile resistor,en,G,generating object,pile,name
 91_en_60617/en_60617_04/en_60617_04_01/en_60617_04_01_12.elmt,91_en_60617/en_60617_04/en_60617_04_01,Heating element,en,E,emitting object,heating element,name
 91_en_60617/en_60617_04/en_60617_04_02/en_60617_04_02_01.elmt,91_en_60617/en_60617_04/en_60617_04_02,"Capacitor, general symbol",en,C,storing object,capacitor,name
 91_en_60617/en_60617_04/en_60617_04_02/en_60617_04_02_03.elmt,91_en_60617/en_60617_04/en_60617_04_02,"Capacitor, lead-through; Capacitor, feed-through",en,C,storing object,capacitor,name
@@ -5561,7 +5561,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_05/en_60617_05_02/en_60617_05_02_04.elmt,91_en_60617/en_60617_05/en_60617_05_02,Bidirectional breakdown effect,en,K,information processing object,semiconductor,qet_directory
 91_en_60617/en_60617_05/en_60617_05_02/en_60617_05_02_05.elmt,91_en_60617/en_60617_05/en_60617_05_02,Backward effect; unitunnel effect,en,K,information processing object,semiconductor,qet_directory
 91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_01.elmt,91_en_60617/en_60617_05/en_60617_05_03,"Semiconductor diode, general symbol",en,K,information processing object,semiconductor,name
-91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_02.elmt,91_en_60617/en_60617_05/en_60617_05_03,"Light emitting diode (LED), general symbol",en,K,information processing object,diode,name
+91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_02.elmt,91_en_60617/en_60617_05/en_60617_05_03,"Light emitting diode (LED), general symbol",en,E,emitting object,light,name
 91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_03.elmt,91_en_60617/en_60617_05/en_60617_05_03,Temperature sensing diode,en,K,information processing object,diode,name
 91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_04.elmt,91_en_60617/en_60617_05/en_60617_05_03,Variable capacitance diode; Varactor,en,K,information processing object,diode,name
 91_en_60617/en_60617_05/en_60617_05_03/en_60617_05_03_05.elmt,91_en_60617/en_60617_05/en_60617_05_03,Tunnel diode; Esaki diode,en,K,information processing object,diode,name
@@ -5604,7 +5604,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_05/en_60617_05_05/en_60617_05_05_19.elmt,91_en_60617/en_60617_05/en_60617_05_05,"Insulated-gate bipolar transistor (IGBT) enhancement type, N channel",en,K,information processing object,transistor,name
 91_en_60617/en_60617_05/en_60617_05_05/en_60617_05_05_20.elmt,91_en_60617/en_60617_05/en_60617_05_05,"Insulated-gate bipolar transistor (IGBT) depletion type, P channel",en,K,information processing object,transistor,name
 91_en_60617/en_60617_05/en_60617_05_05/en_60617_05_05_21.elmt,91_en_60617/en_60617_05/en_60617_05_05,"Insulated-gate bipolar transistor (IGBT) depletion type, N channel",en,K,information processing object,transistor,name
-91_en_60617/en_60617_05/en_60617_05_06/en_60617_05_06_01.elmt,91_en_60617/en_60617_05/en_60617_05_06,Light dependent resistor (LDR); Photo resistor,en,R,restricting object,resistor,name
+91_en_60617/en_60617_05/en_60617_05_06/en_60617_05_06_01.elmt,91_en_60617/en_60617_05/en_60617_05_06,Light dependent resistor (LDR); Photo resistor,en,E,emitting object,light,name
 91_en_60617/en_60617_05/en_60617_05_06/en_60617_05_06_02.elmt,91_en_60617/en_60617_05/en_60617_05_06,Photodiode,en,K,information processing object,semiconductor,qet_directory
 91_en_60617/en_60617_05/en_60617_05_06/en_60617_05_06_03.elmt,91_en_60617/en_60617_05/en_60617_05_06,Photovoltaic cell,en,K,information processing object,semiconductor,qet_directory
 91_en_60617/en_60617_05/en_60617_05_06/en_60617_05_06_04.elmt,91_en_60617/en_60617_05/en_60617_05_06,Phototransistor,en,K,information processing object,semiconductor,qet_directory
@@ -5795,14 +5795,14 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_01.elmt,91_en_60617/en_60617_06/en_60617_06_18,"Thermoelectric generator, with combustion heat source",en,G,generating object,generator,name
 91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_02.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermoelectric generator with non-ionizing radiation heat source,en,G,generating object,generator,name
 91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_03.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermoelectric generator with radio-isotope heat source,en,G,generating object,generator,name
-91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_04.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermionic diode generator with non-ionizing radiation heat source,en,G,generating object,generator,name
-91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_05.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermionic diode generator with radio-isotope heat source,en,G,generating object,generator,name
+91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_04.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermionic diode generator with non-ionizing radiation heat source,en,K,information processing object,diode,name
+91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_05.elmt,91_en_60617/en_60617_06/en_60617_06_18,Thermionic diode generator with radio-isotope heat source,en,K,information processing object,diode,name
 91_en_60617/en_60617_06/en_60617_06_18/en_60617_06_18_06.elmt,91_en_60617/en_60617_06/en_60617_06_18,Photovoltaic generator,en,G,generating object,generator,name
 91_en_60617/en_60617_06/en_60617_06_19/en_60617_06_19_01.elmt,91_en_60617/en_60617_06/en_60617_06_19,Closed-loop controller,en,K,information processing object,controller,name
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_01.elmt,91_en_60617/en_60617_07/en_60617_07_01,Contactor function,en,Q,controlling object,contactor,name
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_02.elmt,91_en_60617/en_60617_07/en_60617_07_01,Circuit breaker function,en,Q,controlling object,circuit breaker,name
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_03.elmt,91_en_60617/en_60617_07/en_60617_07_01,Disconnector (isolator) function,en,Q,controlling object,disconnector,name
-91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_04.elmt,91_en_60617/en_60617_07/en_60617_07_01,Switch-disconnector function; Isolating-switch function,en,Q,controlling object,disconnector,name
+91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_04.elmt,91_en_60617/en_60617_07/en_60617_07_01,Switch-disconnector function; Isolating-switch function,en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_05.elmt,91_en_60617/en_60617_07/en_60617_07_01,Automatic tripping function,en,,,,
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_06.elmt,91_en_60617/en_60617_07/en_60617_07_01,Position switch function,en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_01/en_60617_07_01_07.elmt,91_en_60617/en_60617_07/en_60617_07_01,Automatic return function,en,,,,
@@ -5834,11 +5834,11 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_07/en_60617_07_06/en_60617_07_06_03.elmt,91_en_60617/en_60617_07/en_60617_07_06,"Break contact, automatic return",en,,,,
 91_en_60617/en_60617_07/en_60617_07_06/en_60617_07_06_04.elmt,91_en_60617/en_60617_07/en_60617_07_06,"Change-over contact with off-position, automatic return and stay put",en,,,,
 91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_01.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated, general symbol",en,S,human interaction object,switch,name
-91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_02.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated, push-button, automatic return",en,S,human interaction object,push button,name
+91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_02.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated, push-button, automatic return",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_03.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated, pulling, automatic return",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_04.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated, turning, stay-put",en,S,human interaction object,switch,name
-91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_05.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated with positive operation, push-button, automatic return",en,S,human interaction object,push button,name
-91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_06.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, emergency stop",en,S,human interaction object,emergency stop,name
+91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_05.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, manually operated with positive operation, push-button, automatic return",en,S,human interaction object,switch,name
+91_en_60617/en_60617_07/en_60617_07_07/en_60617_07_07_06.elmt,91_en_60617/en_60617_07/en_60617_07_07,"Switch, emergency stop",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_08/en_60617_07_08_01.elmt,91_en_60617/en_60617_07/en_60617_07_08,"Position switch, make contact",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_08/en_60617_07_08_02.elmt,91_en_60617/en_60617_07/en_60617_07_08,"Position switch, break contact",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_08/en_60617_07_08_03.elmt,91_en_60617/en_60617_07/en_60617_07_08,Position switch assembly,en,S,human interaction object,switch,name
@@ -5876,12 +5876,12 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_05.elmt,91_en_60617/en_60617_07/en_60617_07_13,Circuit breaker,en,Q,controlling object,circuit breaker,name
 91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_06.elmt,91_en_60617/en_60617_07/en_60617_07_13,Disconnector; Isolator,en,Q,controlling object,disconnector,name
 91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_07.elmt,91_en_60617/en_60617_07/en_60617_07_13,Two-way disconnector; Two-way isolator,en,Q,controlling object,disconnector,name
-91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_08.elmt,91_en_60617/en_60617_07/en_60617_07_13,Switch-disconnector; On-load isolating switch,en,Q,controlling object,disconnector,name
-91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_09.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Switch-disconnector, automatic release; On-load isolating switch, automatic",en,Q,controlling object,disconnector,name
+91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_08.elmt,91_en_60617/en_60617_07/en_60617_07_13,Switch-disconnector; On-load isolating switch,en,S,human interaction object,switch,name
+91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_09.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Switch-disconnector, automatic release; On-load isolating switch, automatic",en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_10.elmt,91_en_60617/en_60617_07/en_60617_07_13,Disconnector; Isolator,en,Q,controlling object,disconnector,name
-91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_11.elmt,91_en_60617/en_60617_07/en_60617_07_13,Trip-free mechanism,en,Q,controlling object,(9/11 siblings in this folder),folder_majority
-91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_12.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Trip-free mechanism, application",en,Q,controlling object,(9/11 siblings in this folder),folder_majority
-91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_13.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Mechanical switching device, three-pole",en,Q,controlling object,(9/11 siblings in this folder),folder_majority
+91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_11.elmt,91_en_60617/en_60617_07/en_60617_07_13,Trip-free mechanism,en,,,,
+91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_12.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Trip-free mechanism, application",en,,,,
+91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_13.elmt,91_en_60617/en_60617_07/en_60617_07_13,"Mechanical switching device, three-pole",en,,,,
 91_en_60617/en_60617_07/en_60617_07_13/en_60617_07_13_14.elmt,91_en_60617/en_60617_07/en_60617_07_13,Switch with positive opening,en,S,human interaction object,switch,name
 91_en_60617/en_60617_07/en_60617_07_14/en_60617_07_14_01.elmt,91_en_60617/en_60617_07/en_60617_07_14,"Motor starter, general symbol",en,Q,controlling object,motor starter,name
 91_en_60617/en_60617_07/en_60617_07_14/en_60617_07_14_02.elmt,91_en_60617/en_60617_07/en_60617_07_14,Starter operating in steps,en,Q,controlling object,motor starter,qet_directory
@@ -5943,9 +5943,9 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_04.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse with alarm contact,en,F,protecting object,fuse,name
 91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_05.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse with separate alarm,en,F,protecting object,fuse,name
 91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_06.elmt,91_en_60617/en_60617_07/en_60617_07_21,Three-pole switch with striker fuses,en,S,human interaction object,switch,name
-91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_07.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse-switch,en,S,human interaction object,switch,name
-91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_08.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse-disconnector; Fuse isolator,en,Q,controlling object,disconnector,name
-91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_09.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse switch-disconnector; On-load isolating fuse switch,en,Q,controlling object,disconnector,name
+91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_07.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse-switch,en,F,protecting object,fuse,name
+91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_08.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse-disconnector; Fuse isolator,en,F,protecting object,fuse,name
+91_en_60617/en_60617_07/en_60617_07_21/en_60617_07_21_09.elmt,91_en_60617/en_60617_07/en_60617_07_21,Fuse switch-disconnector; On-load isolating fuse switch,en,F,protecting object,fuse,name
 91_en_60617/en_60617_07/en_60617_07_22/en_60617_07_22_01.elmt,91_en_60617/en_60617_07/en_60617_07_22,Spark gap,en,F,protecting object,parafoudre,qet_directory
 91_en_60617/en_60617_07/en_60617_07_22/en_60617_07_22_02.elmt,91_en_60617/en_60617_07/en_60617_07_22,"Spark gap, double",en,F,protecting object,parafoudre,qet_directory
 91_en_60617/en_60617_07/en_60617_07_22/en_60617_07_22_03.elmt,91_en_60617/en_60617_07/en_60617_07_22,Surge diverter; Lightning arrester,en,F,protecting object,parafoudre,qet_directory
@@ -5985,15 +5985,15 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_02.elmt,91_en_60617/en_60617_08/en_60617_08_04,Ampere-hour meter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_03.elmt,91_en_60617/en_60617_08/en_60617_08_04,Watt-hour meter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_04.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, measuring energy transmitted in one direction only",en,P,presenting object,meter,name
-91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_05.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, counting the energy flow from the busbars",en,W,guiding object,busbar,name
-91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_06.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, counting the energy flow towards the busbars",en,W,guiding object,busbar,name
+91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_05.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, counting the energy flow from the busbars",en,P,presenting object,meter,name
+91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_06.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, counting the energy flow towards the busbars",en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_07.elmt,91_en_60617/en_60617_08/en_60617_08_04,"Watt-hour meter, counting in both energy flow directions",en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_08.elmt,91_en_60617/en_60617_08/en_60617_08_04,Multi-rate watt-hour meter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_09.elmt,91_en_60617/en_60617_08/en_60617_08_04,Excess watt-hour meter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_10.elmt,91_en_60617/en_60617_08/en_60617_08_04,Watt-hour meter with transmitter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_11.elmt,91_en_60617/en_60617_08/en_60617_08_04,Slave watt-hour meter (repeater),en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_12.elmt,91_en_60617/en_60617_08/en_60617_08_04,Slave watt-hour meter (repeater) with printing device,en,P,presenting object,meter,name
-91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_13.elmt,91_en_60617/en_60617_08/en_60617_08_04,Watt-hour meter with maximum demand indicator,en,P,presenting object,indicator,name
+91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_13.elmt,91_en_60617/en_60617_08/en_60617_08_04,Watt-hour meter with maximum demand indicator,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_14.elmt,91_en_60617/en_60617_08/en_60617_08_04,Watt-hour meter with maximum demand recorder,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_04/en_60617_08_04_15.elmt,91_en_60617/en_60617_08/en_60617_08_04,Var-hour meter,en,P,presenting object,meter,name
 91_en_60617/en_60617_08/en_60617_08_05/en_60617_08_05_01.elmt,91_en_60617/en_60617_08/en_60617_08_05,Counting function of a number of events,en,E,emitting object,lampe,qet_directory
@@ -6017,7 +6017,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_08/en_60617_08_09/en_60617_08_09_04.elmt,91_en_60617/en_60617_08/en_60617_08_09,Gyro,en,E,emitting object,lampe,qet_directory
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_01.elmt,91_en_60617/en_60617_08/en_60617_08_10,"Lamp, general symbol",en,E,emitting object,lamp,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_02.elmt,91_en_60617/en_60617_08/en_60617_08_10,"Signal lamp, flashing type",en,E,emitting object,signal lamp,name
-91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_03.elmt,91_en_60617/en_60617_08/en_60617_08_10,"Indicator, electromechanical; annunciator element",en,P,presenting object,annunciator,name
+91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_03.elmt,91_en_60617/en_60617_08/en_60617_08_10,"Indicator, electromechanical; annunciator element",en,P,presenting object,indicator,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_04.elmt,91_en_60617/en_60617_08/en_60617_08_10,Electromechanical position indicator,en,P,presenting object,indicator,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_05.elmt,91_en_60617/en_60617_08/en_60617_08_10,Horn,en,E,emitting object,horn,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_06.elmt,91_en_60617/en_60617_08/en_60617_08_10,Bell,en,E,emitting object,lampe,qet_directory
@@ -6025,7 +6025,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_09.elmt,91_en_60617/en_60617_08/en_60617_08_10,Siren,en,E,emitting object,siren,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_10.elmt,91_en_60617/en_60617_08/en_60617_08_10,Buzzer,en,E,emitting object,buzzer,name
 91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_12.elmt,91_en_60617/en_60617_08/en_60617_08_10,"Whistle, electrically operated",en,E,emitting object,lampe,qet_directory
-91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_13.elmt,91_en_60617/en_60617_08/en_60617_08_10,Indicator lamp energized by a built-in transformer,en,T,transforming object,transformer,name
+91_en_60617/en_60617_08/en_60617_08_10/en_60617_08_10_13.elmt,91_en_60617/en_60617_08/en_60617_08_10,Indicator lamp energized by a built-in transformer,en,P,presenting object,indicator,name
 91_en_60617/en_60617_11/en_60617_11_01/en_60617_11_01_01.elmt,91_en_60617/en_60617_11/en_60617_11_01,"Generating station, planned",en,,,,
 91_en_60617/en_60617_11/en_60617_11_01/en_60617_11_01_02.elmt,91_en_60617/en_60617_11/en_60617_11_01,"Generating station, in service or unspecified",en,,,,
 91_en_60617/en_60617_11/en_60617_11_01/en_60617_11_01_03.elmt,91_en_60617/en_60617_11/en_60617_11_01,"Combined electric and heat generating station, planned",en,,,,
@@ -6102,9 +6102,9 @@ Designations in accordance with",en,X,interfacing object,socket,name
 91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_03.elmt,91_en_60617/en_60617_11/en_60617_11_13,Multiple socket outlet (power),en,X,interfacing object,socket,name
 91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_04.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with protective contact,en,X,interfacing object,socket,name
 91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_05.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with shutter,en,X,interfacing object,socket,name
-91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_06.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with single-pole switch,en,S,human interaction object,switch,name
-91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_07.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with interlocked switch,en,S,human interaction object,switch,name
-91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_08.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with isolating transformer,en,T,transforming object,transformer,name
+91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_06.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with single-pole switch,en,X,interfacing object,socket,name
+91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_07.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with interlocked switch,en,X,interfacing object,socket,name
+91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_08.elmt,91_en_60617/en_60617_11/en_60617_11_13,Socket outlet (power) with isolating transformer,en,X,interfacing object,socket,name
 91_en_60617/en_60617_11/en_60617_11_13/en_60617_11_13_09.elmt,91_en_60617/en_60617_11/en_60617_11_13,"Socket outlet (telecommunications), general symbol",en,X,interfacing object,socket,name
 91_en_60617/en_60617_11/en_60617_11_14/en_60617_11_14_01.elmt,91_en_60617/en_60617_11/en_60617_11_14,"Switch, general symbol",en,S,human interaction object,switch,name
 91_en_60617/en_60617_11/en_60617_11_14/en_60617_11_14_02.elmt,91_en_60617/en_60617_11/en_60617_11_14,Switch with pilot light,en,S,human interaction object,switch,name
@@ -6324,7 +6324,7 @@ Designations in accordance with",en,X,interfacing object,socket,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/gps1b.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,GPS1B-,fr,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/inter_dif.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,30mA 40A Legrand,fr,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/micro_relay.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,Micro relay,en,K,information processing object,relay,name
-98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/miniature_relay.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,Miniature plug-in Relay,en,K,information processing object,relay,name
+98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/miniature_relay.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,Miniature plug-in Relay,en,X,interfacing object,plug,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/mounting_rail_ts35.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,Mounting rail TS35,en,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/prise_modulaire.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,prise modulaire Legrand,fr,X,interfacing object,prise,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers/rail.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/99_divers,Wiring duct 30mm,en,W,guiding object,duct,name
@@ -6350,8 +6350,8 @@ Designations in accordance with",en,X,interfacing object,socket,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/abb/ABB_SA_S_4.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/abb,ABB Sorties 4 voies,fr,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4111n-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/1N,en,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4111nc-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/1NC,en,,,,
-98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4112-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/2 - 2 relay actuator bus,en,M,driving object,actuator,name
-98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4114-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/4 - 4 relay actuator bus,en,M,driving object,actuator,name
+98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4112-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/2 - 2 relay actuator bus,en,K,information processing object,relay,name
+98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f4114-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411/4 - 4 relay actuator bus,en,K,information processing object,relay,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur/f411u1-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/actionneur,F411U1,en,,,,
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/alimentation/e46adcn-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/alimentation,"E46ADCN - Alimentation modulaire BUS 230V~ 27V= 1,2A - 8 modules",fr,G,generating object,alimentation,name
 98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/alimentation/e47adcn-bticino-myhome.elmt,98_graphics/99_assembly_plan/01_thumbnails_mounting_plate/bticino/myhome/alimentation,E47ADCN,fr,,,,

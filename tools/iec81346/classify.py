@@ -83,12 +83,44 @@ def extract_name(elmt_path: Path):
     return elmt_path.stem.replace("_", " "), "filename"
 
 
-def match(text: str, rules):
+def match(text: str, rules, prefer_earliest=False):
+    """Find which rule matches `text`. With prefer_earliest=True, among
+    every rule that matches anywhere, prefer whichever match starts
+    earliest in the string rather than whichever rule happens to come
+    first in the (word-count, length) priority order -- "Capacitive
+    sensor 3 terminals" matches both "sensor" and "terminal", and without
+    this, priority order alone picks "terminal" (X) purely because it's a
+    longer single word, over "sensor" (B), the earlier and more essential
+    noun ("terminals" here just describes a connection count, not what
+    the device is).
+
+    Only correct for a single coherent name, though -- NOT for the
+    qet_directory tiers, whose search text is ~15 languages concatenated
+    together. There, position is arbitrary: one folder's English name was
+    "Soft start motor controllers" (an early match on bare "motor"), while
+    its Dutch translation happened to be "Motor starters" (the correct,
+    specific phrase) -- sitting later in the string for no reason but
+    Dutch sorting after Korean alphabetically. Enabling prefer_earliest
+    there let an accident of translation-list ordering silently overrule
+    the intentionally higher-priority multi-word phrase. So: True for the
+    name tier, False (plain priority order, ignore position) for
+    everything folder-derived.
+    """
     norm = normalize(text)
-    for regex, code, phrase in rules:
-        if regex.search(norm):
-            return code, phrase
-    return None, None
+    if not prefer_earliest:
+        for regex, code, phrase in rules:
+            if regex.search(norm):
+                return code, phrase
+        return None, None
+
+    best = None  # (start_pos, priority_index, code, phrase)
+    for i, (regex, code, phrase) in enumerate(rules):
+        m = regex.search(norm)
+        if m and (best is None or (m.start(), i) < (best[0], best[1])):
+            best = (m.start(), i, code, phrase)
+    if best is None:
+        return None, None
+    return best[2], best[3]
 
 
 _qet_directory_cache = {}
@@ -229,7 +261,7 @@ def main():
         name_source_counts[source] += 1
         category = str(f.parent.relative_to(args.elements_dir))
 
-        code, phrase = match(name, rules)
+        code, phrase = match(name, rules, prefer_earliest=True)
         match_basis = "name" if code else ""
         trust_folder = not category.startswith(HETEROGENEOUS_FOLDER_PREFIXES)
 
