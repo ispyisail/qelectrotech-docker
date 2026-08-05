@@ -74,6 +74,56 @@ def match(text: str, rules):
     return None, None
 
 
+# Folder trees where a leaf folder groups elements by USE CASE (generic
+# panel-layout/assembly-drawing icons for whatever device happens to be
+# on a schematic) rather than by DEVICE TYPE. Confirmed by inspection: a
+# 4/4 "unanimous" vote in one such folder (four name-matched fuses/
+# arresters) got applied to a PLC, a transformer, and a drive sitting in
+# that same folder for no reason but coincidence of composition. The
+# majority-vote method's core assumption -- one folder, one device kind
+# -- is false here, so no vote count from these should be trusted.
+MAJORITY_VOTE_EXCLUDED_PREFIXES = (
+    "98_graphics/99_assembly_plan",
+)
+
+
+def apply_folder_majority_vote(rows, class_names, min_siblings=3, threshold=0.8):
+    """Third, weakest fallback: for elements still unmatched after both name
+    and folder-keyword matching, look at what their leaf-folder siblings
+    already got classified as (by the stronger name/folder-keyword methods
+    only -- a majority vote can't feed on its own guesses). If one class
+    code accounts for at least `threshold` of those already-classified
+    siblings, and there are at least `min_siblings` of them to vote from,
+    the remaining unmatched siblings inherit it. A folder that genuinely
+    mixes device types won't clear the threshold and is correctly left
+    alone -- this is a statistical inference, not a text-pattern match, so
+    it's recorded as its own basis rather than folded into "folder".
+    """
+    by_category = {}
+    for r in rows:
+        by_category.setdefault(r["category"], []).append(r)
+
+    promoted = 0
+    for category, group in by_category.items():
+        if category.startswith(MAJORITY_VOTE_EXCLUDED_PREFIXES):
+            continue
+        voters = [r for r in group if r["matched_code"] and r["match_basis"] in ("name", "folder")]
+        if len(voters) < min_siblings:
+            continue
+        vote_counts = Counter(r["matched_code"] for r in voters)
+        winner, count = vote_counts.most_common(1)[0]
+        if count / len(voters) < threshold:
+            continue
+        for r in group:
+            if not r["matched_code"]:
+                r["matched_code"] = winner
+                r["matched_class"] = class_names.get(winner, "")
+                r["matched_phrase"] = f"({count}/{len(voters)} siblings in this folder)"
+                r["match_basis"] = "folder_majority"
+                promoted += 1
+    return promoted
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("elements_dir", type=Path, help="Root dir to scan (e.g. 10_electric/)")
@@ -83,6 +133,11 @@ def main():
         type=Path,
         default=Path(__file__).parent,
         help="Directory containing letters.json/keywords.json",
+    )
+    ap.add_argument(
+        "--no-majority-vote",
+        action="store_true",
+        help="Disable the folder-sibling majority-vote fallback",
     )
     args = ap.parse_args()
 
@@ -134,6 +189,13 @@ def main():
         if code is None:
             unmatched_names.append(name)
 
+    promoted = 0
+    if not args.no_majority_vote:
+        promoted = apply_folder_majority_vote(rows, class_names)
+        # counts/unmatched_names were built during the first pass; recompute
+        # from the (possibly updated) rows so the summary reflects reality.
+        counts = Counter(r["matched_code"] or None for r in rows)
+
     with args.out.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(
             fh,
@@ -156,8 +218,9 @@ def main():
     basis_counts = Counter(r["match_basis"] for r in rows if r["match_basis"])
     print(f"Total elements scanned: {total}")
     print(f"Matched: {matched} ({matched / total * 100:.1f}%)")
-    print(f"  from element name:   {basis_counts.get('name', 0)}")
-    print(f"  from category folder: {basis_counts.get('folder', 0)} (weaker evidence)")
+    print(f"  from element name:        {basis_counts.get('name', 0)}")
+    print(f"  from category folder:     {basis_counts.get('folder', 0)} (weaker evidence)")
+    print(f"  from folder majority vote: {basis_counts.get('folder_majority', 0)} (weakest evidence)")
     print(f"Unmatched: {counts.get(None, 0)} ({counts.get(None, 0) / total * 100:.1f}%)")
     print()
     print("Name source coverage:")
