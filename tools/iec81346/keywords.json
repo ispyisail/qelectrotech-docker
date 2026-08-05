@@ -10,6 +10,7 @@
     { "phrase": "demarreur", "code": "Q" },
     { "phrase": "contacteur", "code": "Q" },
     { "phrase": "power contactor", "code": "Q" },
+    { "phrase": "contactor", "code": "Q" },
 
     { "phrase": "push button", "code": "S" },
     { "phrase": "pushbutton", "code": "S" },
@@ -52,6 +53,8 @@
     { "phrase": "diode", "code": "K" },
     { "phrase": "amplifier", "code": "K" },
     { "phrase": "amplificateur", "code": "K" },
+    { "phrase": "semiconductor", "code": "K" },
+    { "phrase": "telerupteur", "code": "K" },
 
     { "phrase": "fusible", "code": "F" },
     { "phrase": "fuse", "code": "F" },
@@ -98,6 +101,7 @@
     { "phrase": "converter", "code": "T" },
     { "phrase": "frequency converter", "code": "T" },
     { "phrase": "variateur", "code": "T" },
+    { "phrase": "dimmer", "code": "T" },
 
     { "phrase": "temperature sensor", "code": "B" },
     { "phrase": "capteur de temperature", "code": "B" },
@@ -118,6 +122,8 @@
     { "phrase": "encoder", "code": "B" },
     { "phrase": "codeur", "code": "B" },
     { "phrase": "electrode", "code": "B" },
+    { "phrase": "antenna", "code": "B" },
+    { "phrase": "antenne", "code": "B" },
 
     { "phrase": "indicator light", "code": "E" },
     { "phrase": "voyant", "code": "E" },
@@ -132,11 +138,16 @@
     { "phrase": "heater", "code": "E" },
     { "phrase": "buzzer", "code": "E" },
     { "phrase": "avertisseur", "code": "E" },
+    { "phrase": "sonnerie", "code": "E" },
     { "phrase": "horn", "code": "E" },
     { "phrase": "siren", "code": "E" },
     { "phrase": "sirene", "code": "E" },
     { "phrase": "speaker", "code": "E" },
     { "phrase": "haut-parleur", "code": "E" },
+    { "phrase": "luminaire", "code": "E" },
+    { "phrase": "led", "code": "E" },
+    { "phrase": "light conductor", "code": "W" },
+    { "phrase": "light", "code": "E" },
 
     { "phrase": "display", "code": "P" },
     { "phrase": "afficheur", "code": "P" },
@@ -147,6 +158,7 @@
     { "phrase": "jauge", "code": "P" },
     { "phrase": "indicator panel", "code": "P" },
     { "phrase": "annunciator", "code": "P" },
+    { "phrase": "indicator", "code": "P" },
 
     { "phrase": "resistor", "code": "R" },
     { "phrase": "resistance", "code": "R" },
@@ -165,6 +177,7 @@
     { "phrase": "rail din", "code": "U" },
     { "phrase": "support", "code": "U" },
     { "phrase": "bracket", "code": "U" },
+    { "phrase": "holder", "code": "U" },
 
     { "phrase": "cable", "code": "W" },
     { "phrase": "cable", "code": "W" },
@@ -175,6 +188,7 @@
     { "phrase": "conduit", "code": "W" },
     { "phrase": "goulotte", "code": "W" },
     { "phrase": "gaine", "code": "W" },
+    { "phrase": "duct", "code": "W" },
 
     { "phrase": "connector", "code": "X" },
     { "phrase": "connecteur", "code": "X" },
@@ -186,6 +200,7 @@
     { "phrase": "terminal", "code": "X" },
     { "phrase": "borne", "code": "X" },
     { "phrase": "jack", "code": "X" },
+    { "phrase": "jonction", "code": "X" },
 
     { "phrase": "enclosure", "code": "N" },
     { "phrase": "armoire", "code": "N" },
