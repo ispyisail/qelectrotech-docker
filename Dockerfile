@@ -975,3 +975,24 @@ WORKDIR /home/qet
 ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
 
 CMD ["qelectrotech"]
+
+# ─────────────────────────────────────────────
+# Stage 12: elements repo fetch (10_electric only)
+# Standalone clone of qelectrotech/qelectrotech-elements -- the same repo
+# the elements/ submodule in qelectrotech-source-mirror points at -- kept
+# only for pulling out 10_electric on its own, e.g. for IEC 81346
+# classification work (discussion #666). Not part of the QET build.
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS elements-10-electric
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth=1 https://github.com/qelectrotech/qelectrotech-elements.git /tmp/elements \
+    && mkdir -p /out \
+    && cp -r /tmp/elements/10_electric /out/ \
+    && git -C /tmp/elements log -1 --format='10_electric copied from %H %s' > /out/FETCHED_FROM.txt \
+    && cat /out/FETCHED_FROM.txt \
+    && rm -rf /tmp/elements

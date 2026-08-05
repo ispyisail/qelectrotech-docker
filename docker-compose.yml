@@ -181,9 +181,10 @@ services:
 
   # ── Combined test build for manual review ──────────────────────────────
   # master + #646/#647 (diagnostic logging), #625/#628/#629/#630 (discussion
-  # #503 wiring-database stack) and #661 (CLI modal-dialog hang fix).
-  # Throwaway branch, not a proposed change -- see test-build-logging-wiring
-  # on the ispyisail fork. Rebuild with a new TESTBUILD_REV to pick up moves.
+  # #503 wiring-database stack), #661 (CLI modal-dialog hang fix) and the
+  # element_info orphan-row fix (fix-element-info-orphan-row). Throwaway
+  # branch, not a proposed change -- see test-build-logging-wiring on the
+  # ispyisail fork. Rebuild with a new TESTBUILD_REV to pick up moves.
   qet-testbuild:
     build:
       context: .
@@ -198,6 +199,21 @@ services:
     network_mode: host
     stdin_open: true
     tty: true
+
+  # ── Elements repo fetch (10_electric only) ─────────────────────────────
+  # Clones qelectrotech/qelectrotech-elements (the repo the elements/
+  # submodule in qelectrotech-source-mirror points at) and copies out just
+  # 10_electric -- for IEC 81346 classification work (discussion #666).
+  # Run: docker compose run --rm qet-elements-10-electric
+  # Output lands in ./elements-10-electric/ on the host.
+  qet-elements-10-electric:
+    build:
+      context: .
+      target: elements-10-electric
+    image: qelectrotech:elements-10-electric
+    volumes:
+      - ./elements-10-electric:/host-out
+    entrypoint: ["sh", "-c", "cp -r /out/10_electric /out/FETCHED_FROM.txt /host-out/ && chown -R 1000:1000 /host-out && echo 'Copied 10_electric to ./elements-10-electric/'"]
 
   # ── EDZ importer fuzzer — malformed file corpus + ASAN ────────────────────
   # Run: docker compose run --rm qet-edz-fuzz

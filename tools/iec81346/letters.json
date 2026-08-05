@@ -1,0 +1,112 @@
+{
+  "_source": "IEC 81346-2:2019, Table 1 (Entry classes), obtained from IEC's own free preview sample distributed via standards.iteh.ai (pages 1-15 of the publication, which include the front matter, scope, and Table 1 in full). This is the CURRENT edition (Edition 2.0, 2019-06) -- it replaced the 2009 edition and uses a materially different, more abstract classification scheme built on 'inherent function' rather than concrete device names.",
+  "_important_note": "The 2019 standard explicitly warns: 'Any class is defined by its definition only. Users should select the appropriate class for their object to be classified based on the definition, and not rely upon the class name or the examples.' The popular informal folklore (K=relay, Q=breaker, S=switch, M=motor, T=transformer) that circulates in the electrical trade largely reflects older/pre-standard convention and the EARLIER 2009 edition, not this literal, function-based 2019 text. Both this file's 'official_definition' (verbatim-sourced) and its 'common_examples' (my own interpretation, applying the official definition to real device types -- NOT from the standard's own examples, which live in Table 3 at a page range beyond this 15-page preview) are provided so the gap between the two is visible rather than hidden.",
+  "_unused_letters": {
+    "never_used": ["A", "I", "O"],
+    "reserved_for_future_standardization": ["D", "J", "L", "V", "Y", "Z"]
+  },
+  "classes": [
+    {
+      "code": "B",
+      "official_definition": "object for picking up information and providing a representation",
+      "official_class_name": "sensing object",
+      "common_examples": ["sensor", "detector", "transducer", "transmitter (measuring)", "probe", "photocell", "encoder"]
+    },
+    {
+      "code": "C",
+      "official_definition": "object for storing for subsequent retrieval",
+      "official_class_name": "storing object",
+      "common_examples": ["capacitor", "battery (as storage)", "accumulator", "memory module"]
+    },
+    {
+      "code": "E",
+      "official_definition": "object for emitting",
+      "official_class_name": "emitting object",
+      "common_examples": ["lamp", "indicator light", "heater", "heating element", "buzzer", "horn", "siren", "speaker"]
+    },
+    {
+      "code": "F",
+      "official_definition": "object for protecting against the effects of dangerous or undesirable conditions",
+      "official_class_name": "protecting object",
+      "common_examples": ["fuse", "circuit breaker (protective function)", "protective relay", "surge arrester", "overload relay", "earth leakage device", "lightning arrester"]
+    },
+    {
+      "code": "G",
+      "official_definition": "object for providing a controllable flow",
+      "official_class_name": "generating object",
+      "common_examples": ["generator", "power supply", "battery (as source)", "alternator", "UPS", "solar panel/inverter source"]
+    },
+    {
+      "code": "H",
+      "official_definition": "object for treating matter",
+      "official_class_name": "matter processing object",
+      "common_examples": ["filter (physical/fluid)", "pump", "compressor", "valve (process, not switching)", "mixer"]
+    },
+    {
+      "code": "K",
+      "official_definition": "object for treating input signals and providing an appropriate output",
+      "official_class_name": "information processing object",
+      "common_examples": ["relay (control/signal)", "timer", "logic module", "PLC", "controller", "contactor relay (auxiliary/control contacts)", "electronic control unit"]
+    },
+    {
+      "code": "M",
+      "official_definition": "object for providing mechanical movement or force",
+      "official_class_name": "driving object",
+      "common_examples": ["motor", "actuator", "solenoid (mechanical actuation)", "cylinder (pneumatic/hydraulic)"]
+    },
+    {
+      "code": "N",
+      "official_definition": "object for enclosing partly or fully another object",
+      "official_class_name": "covering object",
+      "common_examples": ["enclosure", "cabinet", "case", "cover", "housing", "panel (as enclosure)"]
+    },
+    {
+      "code": "P",
+      "official_definition": "object for providing perceptible information",
+      "official_class_name": "presenting object",
+      "common_examples": ["display", "meter", "gauge", "indicator panel", "annunciator", "dial", "screen"]
+    },
+    {
+      "code": "Q",
+      "official_definition": "object for controlling access or flow",
+      "official_class_name": "controlling object",
+      "common_examples": ["circuit breaker (power switching)", "contactor (power switching)", "disconnector", "isolator", "power switch", "motor starter"]
+    },
+    {
+      "code": "R",
+      "official_definition": "object for restricting or stabilising",
+      "official_class_name": "restricting object",
+      "common_examples": ["resistor", "voltage regulator", "current limiter", "choke/inductor (limiting role)", "stabiliser"]
+    },
+    {
+      "code": "S",
+      "official_definition": "object for detecting a human action and providing an appropriate response",
+      "official_class_name": "human interaction object",
+      "common_examples": ["push button", "selector switch", "manual switch", "keypad", "toggle switch", "emergency stop button"]
+    },
+    {
+      "code": "T",
+      "official_definition": "object for transforming",
+      "official_class_name": "transforming object",
+      "common_examples": ["transformer", "rectifier", "inverter", "converter", "frequency converter"]
+    },
+    {
+      "code": "U",
+      "official_definition": "object for localising of other objects",
+      "official_class_name": "holding object",
+      "common_examples": ["terminal block (as a holder)", "mounting rail", "rack", "bracket", "support"]
+    },
+    {
+      "code": "W",
+      "official_definition": "object for leading from one place to another",
+      "official_class_name": "guiding object",
+      "common_examples": ["cable", "wire", "busbar", "conduit", "waveguide", "conductor (as a physical path)"]
+    },
+    {
+      "code": "X",
+      "official_definition": "object for interfacing an object",
+      "official_class_name": "interfacing object",
+      "common_examples": ["plug", "socket", "terminal", "connector", "jack"]
+    }
+  ]
+}
