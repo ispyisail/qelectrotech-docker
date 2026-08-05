@@ -13,6 +13,7 @@ Usage:
 import argparse
 import csv
 import json
+from collections import Counter
 import sys
 import unicodedata
 import xml.etree.ElementTree as ET
@@ -65,8 +66,8 @@ def extract_name(elmt_path: Path):
     return elmt_path.stem.replace("_", " "), "filename"
 
 
-def match(name: str, rules):
-    norm = normalize(name)
+def match(text: str, rules):
+    norm = normalize(text)
     for phrase, code in rules:
         if phrase in norm:
             return code, phrase
@@ -101,8 +102,22 @@ def main():
     for f in elmt_files:
         name, source = extract_name(f)
         name_source_counts[source] += 1
-        code, phrase = match(name, rules)
         category = str(f.parent.relative_to(args.elements_dir))
+
+        code, phrase = match(name, rules)
+        match_basis = "name" if code else ""
+
+        if code is None:
+            # Fallback: many manufacturer catalog parts (Siemens "6ES7...")
+            # have no descriptive word in their own name at all, but sit in
+            # a folder whose name says exactly what they are ("01_PLC_
+            # controllers"). Same rules, applied to the category path
+            # instead -- weaker evidence than a direct name match, so it's
+            # recorded separately in the report rather than silently merged.
+            code, phrase = match(category, rules)
+            if code:
+                match_basis = "folder"
+
         rows.append(
             {
                 "file": str(f.relative_to(args.elements_dir)),
@@ -112,6 +127,7 @@ def main():
                 "matched_code": code or "",
                 "matched_class": class_names.get(code, "") if code else "",
                 "matched_phrase": phrase or "",
+                "match_basis": match_basis,
             }
         )
         counts[code] = counts.get(code, 0) + 1
@@ -129,6 +145,7 @@ def main():
                 "matched_code",
                 "matched_class",
                 "matched_phrase",
+                "match_basis",
             ],
         )
         writer.writeheader()
@@ -136,8 +153,11 @@ def main():
 
     total = len(elmt_files)
     matched = total - counts.get(None, 0)
+    basis_counts = Counter(r["match_basis"] for r in rows if r["match_basis"])
     print(f"Total elements scanned: {total}")
     print(f"Matched: {matched} ({matched / total * 100:.1f}%)")
+    print(f"  from element name:   {basis_counts.get('name', 0)}")
+    print(f"  from category folder: {basis_counts.get('folder', 0)} (weaker evidence)")
     print(f"Unmatched: {counts.get(None, 0)} ({counts.get(None, 0) / total * 100:.1f}%)")
     print()
     print("Name source coverage:")

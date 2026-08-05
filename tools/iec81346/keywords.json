@@ -28,6 +28,7 @@
     { "phrase": "keypad", "code": "S" },
     { "phrase": "clavier", "code": "S" },
     { "phrase": "joystick", "code": "S" },
+    { "phrase": "button", "code": "S" },
 
     { "phrase": "control relay", "code": "K" },
     { "phrase": "auxiliary relay", "code": "K" },
@@ -49,6 +50,8 @@
     { "phrase": "transistor", "code": "K" },
     { "phrase": "triode", "code": "K" },
     { "phrase": "diode", "code": "K" },
+    { "phrase": "amplifier", "code": "K" },
+    { "phrase": "amplificateur", "code": "K" },
 
     { "phrase": "fusible", "code": "F" },
     { "phrase": "fuse", "code": "F" },
@@ -114,6 +117,7 @@
     { "phrase": "probe", "code": "B" },
     { "phrase": "encoder", "code": "B" },
     { "phrase": "codeur", "code": "B" },
+    { "phrase": "electrode", "code": "B" },
 
     { "phrase": "indicator light", "code": "E" },
     { "phrase": "voyant", "code": "E" },
@@ -175,6 +179,7 @@
     { "phrase": "connector", "code": "X" },
     { "phrase": "connecteur", "code": "X" },
     { "phrase": "socket", "code": "X" },
+    { "phrase": "outlet", "code": "X" },
     { "phrase": "prise", "code": "X" },
     { "phrase": "plug", "code": "X" },
     { "phrase": "fiche", "code": "X" },
