@@ -141,7 +141,11 @@ def main():
     args = ap.parse_args()
 
     if args.min_agreement <= 0.5:
-        ap.error("--min-agreement must be > 0.5 -- at or below that is a tie, not evidence")
+        print(
+            f"WARNING: --min-agreement={args.min_agreement} allows ties -- "
+            "the winning class may be decided by dict ordering, not real signal.",
+            file=sys.stderr,
+        )
 
     decisions = aggregate(args.report, args.min_voters, args.min_agreement)
 
