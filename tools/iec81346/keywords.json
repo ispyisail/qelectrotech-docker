@@ -1,5 +1,6 @@
 {
   "_purpose": "Practical, bilingual (EN/FR) keyword-to-class-code matching rules for classify.py. Distinct from letters.json (the standard's own reference table) -- this is our own interpretation applying that table's definitions to real device names, kept as separate reviewable data rather than buried in the script so it can be corrected/extended without touching Python. Matched longest-phrase-first (most specific wins) against a lowercased element name; QET's element names are predominantly French, so French terms are included alongside English ones, not as an afterthought.",
+  "_suppression_note": "code: null marks a phrase that must NOT resolve to a class -- used to block a shorter, lower-priority rule from matching inside it (e.g. 'switch on'/'switch off' as a null-coded 2-word phrase stops the bare 1-word 'switch' rule from firing on 'switch-off delay timer', where 'switch' is part of a verb phrase describing timing direction, not a noun naming a switch device). Requires no code change: match() already treats a null/falsy code exactly like no rule matched at all, so the normal fallback tiers still run.",
   "rules": [
     { "phrase": "circuit breaker", "code": "Q" },
     { "phrase": "disjoncteur", "code": "Q" },
@@ -25,6 +26,8 @@
     { "phrase": "arret urgence", "code": "S" },
     { "phrase": "manual switch", "code": "S" },
     { "phrase": "interrupteur", "code": "S" },
+    { "phrase": "switch on", "code": null },
+    { "phrase": "switch off", "code": null },
     { "phrase": "switch", "code": "S" },
     { "phrase": "keypad", "code": "S" },
     { "phrase": "clavier", "code": "S" },
