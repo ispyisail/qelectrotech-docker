@@ -56,12 +56,17 @@ def load_rules(keywords_path: Path):
     # tier from 1956 to 888 matches by breaking exactly that. \bphrases?\b
     # keeps the leading boundary (still blocks "led" starting mid-word) and
     # allows one trailing "s" before requiring the boundary there too.
-    return [(re.compile(r"\b" + re.escape(phrase) + r"s?\b"), code, phrase) for phrase, code in rules]
+    # '(e)s' rather than plain 's': 'switch' + 's?' does not match
+    # 'switches', and these names are full of -es plurals (switches,
+    # breakers, fuses, boxes). Kept identical to the expression in
+    # classify_category.py -- both read the same keywords.json, so they
+    # must agree on what a phrase matches.
+    return [(re.compile(r"\b" + re.escape(phrase) + r"(?:e?s)?\b"), code, phrase) for phrase, code in rules]
 
 
 def load_class_names(letters_path: Path):
     data = json.loads(letters_path.read_text(encoding="utf-8"))
-    return {c["code"]: c["official_class_name"] for c in data["classes"]}
+    return {c["code"]: c["meaning"] for c in data["classes"]}
 
 
 def extract_name(elmt_path: Path):

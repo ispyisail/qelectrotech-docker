@@ -1,112 +1,142 @@
 {
-  "_source": "IEC 81346-2:2019, Table 1 (Entry classes), obtained from IEC's own free preview sample distributed via standards.iteh.ai (pages 1-15 of the publication, which include the front matter, scope, and Table 1 in full). This is the CURRENT edition (Edition 2.0, 2019-06) -- it replaced the 2009 edition and uses a materially different, more abstract classification scheme built on 'inherent function' rather than concrete device names.",
-  "_important_note": "The 2019 standard explicitly warns: 'Any class is defined by its definition only. Users should select the appropriate class for their object to be classified based on the definition, and not rely upon the class name or the examples.' The popular informal folklore (K=relay, Q=breaker, S=switch, M=motor, T=transformer) that circulates in the electrical trade largely reflects older/pre-standard convention and the EARLIER 2009 edition, not this literal, function-based 2019 text. Both this file's 'official_definition' (verbatim-sourced) and its 'common_examples' (my own interpretation, applying the official definition to real device types -- NOT from the standard's own examples, which live in Table 3 at a page range beyond this 15-page preview) are provided so the gap between the two is visible rather than hidden.",
-  "_unused_letters": {
-    "never_used": ["A", "I", "O"],
-    "reserved_for_future_standardization": ["D", "J", "L", "V", "Y", "Z"]
-  },
+  "_purpose": "The designation-prefix convention QElectroTech actually uses, derived from the project's own hand-curated 10_electric/qet_labels.xml. This is the reference that the matching rules in keywords.json are calibrated against, and that tools/iec81346/score.py checks them with.",
+  "_provenance": "Every entry whose 'evidenced_by' is non-empty comes from a category qet_labels.xml assigns that prefix to directly -- the curator's own decision, not an interpretation. Entries with an empty 'evidenced_by' are extrapolations by analogy, flagged so they can be challenged separately from the evidenced ones.",
+  "_relationship_to_iec_81346_2_2019": "This is NOT the table in IEC 81346-2:2019. That edition classifies by abstract 'inherent function' and would call a sensor B and a switching contact Q, where this project uses P and S. It also treats L, V and Y as reserved, while this project uses all three (inductors, diodes, valves), and adds two-letter codes (EH, KF, RB, YB) that a single-letter scheme has no room for. What is used here is the classic DIN 40719 / IEC 60617-era electrical convention. An earlier version of this tooling was calibrated to the 2019 table and consequently contradicted the curated data on 62% of the categories both covered -- see the closed qelectrotech/qelectrotech-elements#69. Reconciling the two is a decision for the QET maintainers, not something to quietly encode here.",
   "classes": [
     {
       "code": "B",
-      "official_definition": "object for picking up information and providing a representation",
-      "official_class_name": "sensing object",
-      "common_examples": ["sensor", "detector", "transducer", "transmitter (measuring)", "probe", "photocell", "encoder"]
+      "meaning": "source of electrical energy",
+      "evidenced_by": ["392_generators_sources/10_generators", "392_generators_sources/70_voltage_current_sources"],
+      "examples": ["generator", "alternator", "battery", "accumulator", "solar panel", "voltage source", "current source"],
+      "note": "Distinct from G: B is the generating or storing source itself, G is a mains-fed power supply unit."
     },
     {
       "code": "C",
-      "official_definition": "object for storing for subsequent retrieval",
-      "official_class_name": "storing object",
-      "common_examples": ["capacitor", "battery (as storage)", "accumulator", "memory module"]
+      "meaning": "capacitance",
+      "evidenced_by": ["395_electronics_semiconductors/02_capacitors", "395_electronics_semiconductors/20_capacitors"],
+      "examples": ["capacitor"]
     },
     {
-      "code": "E",
-      "official_definition": "object for emitting",
-      "official_class_name": "emitting object",
-      "common_examples": ["lamp", "indicator light", "heater", "heating element", "buzzer", "horn", "siren", "speaker"]
+      "code": "EH",
+      "meaning": "lighting equipment",
+      "evidenced_by": ["391_consumers_actuators/60_lightings"],
+      "examples": ["luminaire", "spotlight", "floodlight", "lighting fixture"],
+      "note": "Lighting as a load. An indicator lamp on a panel is signalling, so it is P, not EH."
     },
     {
       "code": "F",
-      "official_definition": "object for protecting against the effects of dangerous or undesirable conditions",
-      "official_class_name": "protecting object",
-      "common_examples": ["fuse", "circuit breaker (protective function)", "protective relay", "surge arrester", "overload relay", "earth leakage device", "lightning arrester"]
+      "meaning": "protection",
+      "evidenced_by": ["200_fuses_protective_gears/10_fuses", "200_fuses_protective_gears/11_circuit_breakers", "200_fuses_protective_gears/30_thermal_relays", "200_fuses_protective_gears/90_overvoltage_protections"],
+      "examples": ["fuse", "circuit breaker", "thermal relay", "overload relay", "surge arrester", "overvoltage protection"],
+      "note": "A plain circuit breaker is F, but a magneto-thermal breaker, a disconnecting switch and an RCCB are Q -- the curated data draws that line explicitly."
     },
     {
       "code": "G",
-      "official_definition": "object for providing a controllable flow",
-      "official_class_name": "generating object",
-      "common_examples": ["generator", "power supply", "battery (as source)", "alternator", "UPS", "solar panel/inverter source"]
+      "meaning": "power supply unit",
+      "evidenced_by": ["330_transformers_power_supplies/30_power_supplies"],
+      "examples": ["power supply", "PSU"]
     },
     {
       "code": "H",
-      "official_definition": "object for treating matter",
-      "official_class_name": "matter processing object",
-      "common_examples": ["filter (physical/fluid)", "pump", "compressor", "valve (process, not switching)", "mixer"]
+      "meaning": "time-dependent function",
+      "evidenced_by": ["390_sensors_instruments/60_timers"],
+      "examples": ["timer", "time relay", "timing relay"]
     },
     {
       "code": "K",
-      "official_definition": "object for treating input signals and providing an appropriate output",
-      "official_class_name": "information processing object",
-      "common_examples": ["relay (control/signal)", "timer", "logic module", "PLC", "controller", "contactor relay (auxiliary/control contacts)", "electronic control unit"]
+      "meaning": "relay / contactor / control logic",
+      "evidenced_by": ["310_relays_contactors_contacts/01_coils"],
+      "examples": ["coil", "relay", "contactor", "PLC", "controller", "logic module"],
+      "note": "The coil or device itself is K; its switching contacts are S."
+    },
+    {
+      "code": "KF",
+      "meaning": "filter",
+      "evidenced_by": ["340_converters_inverters/90_filters"],
+      "examples": ["line filter", "EMC filter"]
+    },
+    {
+      "code": "L",
+      "meaning": "inductance",
+      "evidenced_by": ["340_converters_inverters/20_current_tansformers", "395_electronics_semiconductors/03_inductors", "330_transformers_power_supplies/20_current_tansformers", "395_electronics_semiconductors/30_inductors"],
+      "examples": ["inductor", "choke", "current transformer"],
+      "note": "A current transformer is L here, not T -- treated as an inductive sensing winding rather than a power transformer. (The folder name is misspelled 'tansformers' upstream; the elements inside are named correctly, which is what the rules end up matching on.)"
     },
     {
       "code": "M",
-      "official_definition": "object for providing mechanical movement or force",
-      "official_class_name": "driving object",
-      "common_examples": ["motor", "actuator", "solenoid (mechanical actuation)", "cylinder (pneumatic/hydraulic)"]
-    },
-    {
-      "code": "N",
-      "official_definition": "object for enclosing partly or fully another object",
-      "official_class_name": "covering object",
-      "common_examples": ["enclosure", "cabinet", "case", "cover", "housing", "panel (as enclosure)"]
+      "meaning": "motor / driven machine",
+      "evidenced_by": ["391_consumers_actuators/10_engines"],
+      "examples": ["motor", "engine", "pump", "compressor", "fan"]
     },
     {
       "code": "P",
-      "official_definition": "object for providing perceptible information",
-      "official_class_name": "presenting object",
-      "common_examples": ["display", "meter", "gauge", "indicator panel", "annunciator", "dial", "screen"]
+      "meaning": "signalling and measurement",
+      "evidenced_by": ["380_signaling_operating/11_optical_signaling", "380_signaling_operating/12_acoustic_signaling", "390_sensors_instruments"],
+      "examples": ["sensor", "detector", "probe", "encoder", "indicator light", "signal lamp", "buzzer", "horn", "siren", "meter", "gauge", "display"],
+      "note": "Covers both 'tells the system something' (sensors, instruments) and 'tells the operator something' (lamps, buzzers, displays)."
     },
     {
       "code": "Q",
-      "official_definition": "object for controlling access or flow",
-      "official_class_name": "controlling object",
-      "common_examples": ["circuit breaker (power switching)", "contactor (power switching)", "disconnector", "isolator", "power switch", "motor starter"]
+      "meaning": "power switching",
+      "evidenced_by": ["200_fuses_protective_gears/12_magneto_thermal_circuit_breakers", "200_fuses_protective_gears/20_disconnecting_switches", "200_fuses_protective_gears/50_residual_current_circuit_breaker"],
+      "examples": ["disconnecting switch", "disconnector", "isolator", "magneto-thermal circuit breaker", "residual current device", "motor starter"],
+      "note": "Switching a power circuit, as opposed to S, which is signal-level or manually operated switching."
     },
     {
       "code": "R",
-      "official_definition": "object for restricting or stabilising",
-      "official_class_name": "restricting object",
-      "common_examples": ["resistor", "voltage regulator", "current limiter", "choke/inductor (limiting role)", "stabiliser"]
+      "meaning": "resistance",
+      "evidenced_by": ["391_consumers_actuators/50_heatings", "395_electronics_semiconductors/01_resistors", "395_electronics_semiconductors/10_resistors"],
+      "examples": ["resistor", "potentiometer", "rheostat", "heating element", "heater"]
+    },
+    {
+      "code": "RB",
+      "meaning": "uninterruptible power supply",
+      "evidenced_by": ["330_transformers_power_supplies/40_uninterruptible_power_supply"],
+      "examples": ["UPS"]
     },
     {
       "code": "S",
-      "official_definition": "object for detecting a human action and providing an appropriate response",
-      "official_class_name": "human interaction object",
-      "common_examples": ["push button", "selector switch", "manual switch", "keypad", "toggle switch", "emergency stop button"]
+      "meaning": "contacts and manually operated switching",
+      "evidenced_by": ["310_relays_contactors_contacts/02_contacts_cross_referencing", "310_relays_contactors_contacts/03_contacts", "380_signaling_operating/20_push_buttons", "380_signaling_operating/21_selector_switches", "380_signaling_operating/25_lever_switches", "390_sensors_instruments/41_limit_switches"],
+      "examples": ["contact", "auxiliary contact", "push button", "selector switch", "lever switch", "limit switch", "emergency stop"],
+      "note": "A limit switch is S even though it sits under 390_sensors_instruments (which is P): the curated data overrides the parent, because the thing itself is a switch."
     },
     {
       "code": "T",
-      "official_definition": "object for transforming",
-      "official_class_name": "transforming object",
-      "common_examples": ["transformer", "rectifier", "inverter", "converter", "frequency converter"]
+      "meaning": "transformer / converter",
+      "evidenced_by": ["330_transformers_power_supplies/10_transformers", "340_converters_inverters/10_converters"],
+      "examples": ["transformer", "converter", "rectifier", "inverter", "frequency converter", "dimmer"]
     },
     {
-      "code": "U",
-      "official_definition": "object for localising of other objects",
-      "official_class_name": "holding object",
-      "common_examples": ["terminal block (as a holder)", "mounting rail", "rack", "bracket", "support"]
-    },
-    {
-      "code": "W",
-      "official_definition": "object for leading from one place to another",
-      "official_class_name": "guiding object",
-      "common_examples": ["cable", "wire", "busbar", "conduit", "waveguide", "conductor (as a physical path)"]
+      "code": "V",
+      "meaning": "semiconductor",
+      "evidenced_by": ["395_electronics_semiconductors/11_diodes"],
+      "examples": ["diode", "transistor", "thyristor", "triac", "triode"]
     },
     {
       "code": "X",
-      "official_definition": "object for interfacing an object",
-      "official_class_name": "interfacing object",
-      "common_examples": ["plug", "socket", "terminal", "connector", "jack"]
+      "meaning": "connection point",
+      "evidenced_by": ["130_terminals_terminal_strips", "140_connectors_plugs"],
+      "examples": ["terminal", "terminal block", "terminal strip", "connector", "plug", "socket", "outlet", "jack"]
+    },
+    {
+      "code": "Y",
+      "meaning": "electromagnetic actuator",
+      "evidenced_by": ["391_consumers_actuators/20_valves"],
+      "examples": ["valve", "solenoid valve", "solenoid"]
+    },
+    {
+      "code": "YB",
+      "meaning": "brake",
+      "evidenced_by": ["391_consumers_actuators/30_brakes"],
+      "examples": ["brake"]
+    },
+    {
+      "code": "W",
+      "meaning": "conductor / transmission path",
+      "evidenced_by": [],
+      "examples": ["cable", "wire", "busbar", "conduit", "duct"],
+      "note": "Not evidenced in qet_labels.xml -- extrapolated from the classic convention, where W is the standard letter for cabling. Treat proposals carrying W as less certain than the evidenced classes."
     }
   ]
 }
