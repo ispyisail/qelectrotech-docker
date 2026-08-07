@@ -34,3 +34,8 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Simulator: raw sweep dumps are large and regeneratable (rerun
+# `python3 -m simulator sweep`); simulator/reports/findings/ is curated
+# and tracked deliberately.
+simulator/reports/*.jsonl

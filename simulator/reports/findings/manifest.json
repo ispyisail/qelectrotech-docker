@@ -1,0 +1,29 @@
+[
+  {
+    "name": "nan_coordinate_hang_grafcet",
+    "seed": "/home/user/qet-fix/examples/grafcet.qet",
+    "mutation": {
+      "kind": "inject_nan_coordinate",
+      "byte_start": 7768,
+      "byte_end": 7775,
+      "replacement": "x=\"nan\"",
+      "attribute": "x",
+      "original_value": "220"
+    },
+    "note": "hang (100% CPU busy-spin, confirmed via /proc/<pid>/stat utime), not a crash. Also reproduces on Habitat-Schemas_developpes.qet (y=nan) and iso_sfc_example.qet (y=nan).",
+    "mutated_file": "nan_coordinate_hang_grafcet.qet"
+  },
+  {
+    "name": "nul_byte_segv_cablage",
+    "seed": "/home/user/qet-fix/examples/cablage-eclairages_sikli-v5.qet",
+    "mutation": {
+      "kind": "flip_random_bit",
+      "byte_offset": 51565,
+      "bit": 5,
+      "original_byte": 32,
+      "new_byte": 0
+    },
+    "note": "SIGSEGV, reproduced 3/3 runs. Single bit flip turns an XML whitespace space (0x20) into an embedded NUL (0x00) between two <conductor> tags -- not inside any attribute value.",
+    "mutated_file": "nul_byte_segv_cablage.qet"
+  }
+]
