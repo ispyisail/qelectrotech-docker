@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(test_alignment_fix LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+find_package(Qt5 REQUIRED COMPONENTS Core)
+add_executable(test_alignment_fix test_alignment_fix.cpp)
+target_link_libraries(test_alignment_fix PRIVATE Qt5::Core)

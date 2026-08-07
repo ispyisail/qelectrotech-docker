@@ -103,3 +103,32 @@ def move_selection_arrow(xdo, layout):
     for _ in range(random.randint(3, 12)):
         xdo.key(random.choice(keys))
         time.sleep(0.04)
+
+
+def paste_bomb(xdo, layout):
+    """Select all, copy, then paste many times — exponentially grows the diagram."""
+    n = random.randint(5, 10)
+    log.info("action: paste_bomb x%d", n)
+    xdo.key("ctrl+a")
+    time.sleep(0.1)
+    xdo.key("ctrl+c")
+    time.sleep(0.1)
+    for _ in range(n):
+        xdo.key("ctrl+v")
+        time.sleep(0.15)
+        x, y = layout.random_canvas(margin=60)
+        xdo.click(x, y)
+        time.sleep(0.1)
+
+
+def undo_storm(xdo, layout):
+    """Hammer undo 40 times then redo 20 — stresses the undo stack hard."""
+    log.info("action: undo_storm")
+    xdo.click(layout.canvas_cx, layout.canvas_cy)
+    time.sleep(0.1)
+    for _ in range(40):
+        xdo.key("ctrl+z")
+        time.sleep(0.02)
+    for _ in range(20):
+        xdo.key("ctrl+y")
+        time.sleep(0.02)

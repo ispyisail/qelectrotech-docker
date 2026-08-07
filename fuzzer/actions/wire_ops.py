@@ -118,3 +118,18 @@ def edit_wire_properties(xdo, layout):
     xdo.key("Return")
     time.sleep(0.2)
     xdo.dismiss_dialogs(1)
+
+
+def flood_wires(xdo, layout):
+    """Draw 15-20 random wires in rapid succession."""
+    n = random.randint(15, 20)
+    log.info("action: flood_wires x%d", n)
+    for _ in range(n):
+        sx, sy = layout.random_canvas(margin=40)
+        ex, ey = layout.random_canvas(margin=40)
+        xdo.click(sx, sy)
+        time.sleep(0.05)
+        xdo.click(ex, ey)
+        time.sleep(0.05)
+        xdo.key("Escape")
+        time.sleep(0.02)

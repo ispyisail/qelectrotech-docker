@@ -5,6 +5,13 @@ fuzzer-asan-logs/
 fuzzer-tsan-logs/
 asan-logs/
 tsan-logs/
+fuzz-logs/
+edz-fuzz-logs/
+
+# Screenshots and build output from the ad-hoc alignment investigations
+# (test_alignment.sh regenerates align_test_out/)
+align_test_out/
+test_alignment_fix/build/
 
 # Fetched from qet-elements-10-electric -- re-run the service to regenerate
 elements-10-electric/

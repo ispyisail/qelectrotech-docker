@@ -128,3 +128,21 @@ def click_random_element(xdo, layout, positions):
     x, y = random.choice(positions)
     xdo.click(x, y)
     time.sleep(0.1)
+
+
+def flood_elements(xdo, layout):
+    """Drag 15-25 elements to the canvas in rapid succession."""
+    n = random.randint(15, 25)
+    log.info("action: flood_elements x%d", n)
+    new_positions = []
+    for _ in range(n):
+        src_x, src_y = layout.random_panel(
+            y_frac_lo=_PANEL_ELEM_Y_LO,
+            y_frac_hi=_PANEL_ELEM_Y_HI,
+        )
+        dst_x, dst_y = layout.random_canvas(margin=40)
+        xdo.drag(src_x, src_y, dst_x, dst_y, steps=8)
+        time.sleep(0.05)
+        xdo.dismiss_dialogs(1)
+        new_positions.append((dst_x, dst_y))
+    return new_positions
