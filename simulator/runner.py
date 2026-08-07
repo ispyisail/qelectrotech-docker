@@ -212,6 +212,19 @@ def run_sweep(cfg: RunConfig) -> dict[str, Any]:
         "report_path": str(report_path),
         "corpus_size": len(all_seeds),
         "quarantined_seeds": health.quarantined,
+        # Per-mutator attempt/finding counts, independent of whether any
+        # finding occurred. Without this, a sweep report only ever shows
+        # mutators that produced a finding -- there is no way to tell
+        # "this mutator ran 60 times and QET handled it cleanly every
+        # time" apart from "this mutator never actually ran" (a real
+        # selection bug). Both look identical as silence. Found the hard
+        # way: truncate_bytes had zero occurrences across ~500 mutation
+        # picks in every sweep run so far, which looked exactly like a
+        # bug until this counter (and a standalone check) showed it is
+        # selected at the expected ~1/8 rate and every truncated input is
+        # cleanly rejected by QDomDocument, never a crash.
+        "mutator_attempts": {name: 0 for name in cfg.mutator_names},
+        "mutator_findings": {name: 0 for name in cfg.mutator_names},
     }
 
     with open(report_path, "w") as report_f:
@@ -220,10 +233,16 @@ def run_sweep(cfg: RunConfig) -> dict[str, Any]:
             result = run_iteration(seed_path, cfg, rng, cfg.reports_dir)
             summary["iterations"] += 1
 
+            attempted = {s.op.removeprefix("mutate.") for s in result.trace.steps}
+            for name in attempted:
+                summary["mutator_attempts"][name] = summary["mutator_attempts"].get(name, 0) + 1
+
             if result.findings:
                 record = {"iteration": i, **result.to_dict()}
                 report_f.write(json.dumps(record) + "\n")
                 report_f.flush()
+                for name in attempted:
+                    summary["mutator_findings"][name] = summary["mutator_findings"].get(name, 0) + 1
                 for f in result.findings:
                     summary["findings_by_oracle"][f.oracle] = summary["findings_by_oracle"].get(f.oracle, 0) + 1
                     if f.severity == "crash":

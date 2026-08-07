@@ -247,7 +247,17 @@ class GeometryViolation:
 
 
 def nan_or_inf_violations(path: Path) -> list[GeometryViolation]:
-    tree = ET.parse(str(path))
+    try:
+        tree = ET.parse(str(path))
+    except ET.ParseError as e:
+        # Consistent with canonicalize(): unparseable input is a
+        # CanonError, not an uncaught exception. Found the hard way --
+        # against a *real* QET binary this branch was never reached
+        # (QET either crashes before producing output, refuses to write
+        # it, or writes well-formed XML), so it went unexercised until a
+        # deliberately dumb stand-in binary in a test fed a mutator's
+        # malformed byte-level garbage straight through unmodified.
+        raise CanonError(f"not well-formed XML: {e}") from e
     violations: list[GeometryViolation] = []
 
     for el in tree.getroot().iter():
@@ -286,7 +296,10 @@ def grid_regressions(before: Path, after: Path, grid: int = 10) -> list[GridRegr
     module-level note above for why an absolute check is the wrong tool.
     """
     def positions(path: Path) -> dict[str, tuple[float, float]]:
-        tree = ET.parse(str(path))
+        try:
+            tree = ET.parse(str(path))
+        except ET.ParseError as e:
+            raise CanonError(f"not well-formed XML: {e}") from e
         out = {}
         for el in tree.getroot().iter("element"):
             u = el.get("uuid")

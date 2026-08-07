@@ -94,6 +94,74 @@ class TestHealthCheckQuarantine(unittest.TestCase):
         self.assertIn("timeout", health.quarantined["poison_hangs.qet"])
 
 
+class TestSweepMutatorCoverage(unittest.TestCase):
+    """
+    Regression coverage for a real gap: a sweep report only ever writes a
+    line when a finding occurs, so a mutator that is selected but never
+    triggers anything is indistinguishable, from the report alone, from a
+    mutator that was never selected at all (a real selection bug). This
+    was found the hard way -- truncate_bytes had zero occurrences across
+    ~500 mutation picks in every prior sweep, which looked exactly like a
+    bug until manual checking showed it fires at the expected rate and
+    QET just handles truncated input cleanly. run_sweep()'s
+    mutator_attempts/mutator_findings counters exist so that question is
+    answerable from the summary directly, without a manual investigation.
+    """
+
+    def setUp(self):
+        self.corpus = Path(tempfile.mkdtemp(prefix="qet-sim-test-coverage-corpus-"))
+        self.reports = Path(tempfile.mkdtemp(prefix="qet-sim-test-coverage-reports-"))
+        self.addCleanup(shutil.rmtree, self.corpus, ignore_errors=True)
+        self.addCleanup(shutil.rmtree, self.reports, ignore_errors=True)
+        seed = Path("/home/user/qet-fix/examples/741.qet")
+        shutil.copy(seed, self.corpus / "741.qet")
+
+        # Always-clean fake binary: never crashes, never finds anything,
+        # regardless of what mutation was applied. Isolates "does the
+        # counter correctly tally every attempt" from "does QET crash",
+        # which is exercised for real elsewhere (fixture_known_bugs.py).
+        script = Path(tempfile.mkdtemp(prefix="qet-sim-test-coverage-bin-")) / "fakebin"
+        script.write_text(textwrap.dedent(f"""\
+            #!{sys.executable}
+            import sys, shutil
+            assert sys.argv[1] == "--resave"
+            shutil.copy(sys.argv[2], sys.argv[3])
+        """))
+        script.chmod(0o755)
+        self.addCleanup(shutil.rmtree, script.parent, ignore_errors=True)
+        self.fake_binary = script
+
+    def test_every_attempted_mutator_is_counted_even_with_no_findings(self):
+        from simulator.runner import RunConfig, run_sweep
+
+        cfg = RunConfig(
+            binary=str(self.fake_binary), corpus_dir=self.corpus, reports_dir=self.reports,
+            iterations=40, chain_length=1, timeout=5.0, master_seed=1,
+        )
+        summary = run_sweep(cfg)
+
+        # The fake binary is a blind byte-copy: it never crashes, and it
+        # never diverges between resave1 and resave2 (same bytes copied
+        # twice). It CAN still legitimately produce O2/O3/O6 "could not
+        # parse" findings when a mutator hands it malformed bytes it just
+        # passes through unmodified -- that is the oracles' own existing,
+        # correct CanonError handling doing its job, not something this
+        # test should assert away. What genuinely must hold for a binary
+        # that never crashes is exactly that: no crashes.
+        self.assertEqual(summary["crashes"], 0)
+        self.assertNotIn("O1", summary["findings_by_oracle"])
+        # Attempts must still be tallied for every mutator that was
+        # actually selected across 40 iterations. With 8 mutators and 40
+        # draws, expecting literally zero attempts for any one mutator is
+        # implausible (~(7/8)^40 ~= 0.5% per mutator) without it being a
+        # real selection gap.
+        total_attempts = sum(summary["mutator_attempts"].values())
+        self.assertEqual(total_attempts, 40, "chain_length=1 means exactly one mutator per iteration")
+        never_attempted = [name for name, n in summary["mutator_attempts"].items() if n == 0]
+        self.assertEqual(never_attempted, [],
+                          f"mutator(s) never selected across 40 draws -- check selection logic: {never_attempted}")
+
+
 class TestBuildAndReplayTrace(unittest.TestCase):
     def test_replayed_trace_reproduces_identical_bytes(self):
         seed = Path("/home/user/qet-fix/examples/741.qet")

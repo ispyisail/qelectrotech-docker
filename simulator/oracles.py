@@ -99,7 +99,17 @@ def o3_semantic_preservation(before: Path, after: Path) -> list[Finding]:
 def o6_nan_inf(path: Path) -> list[Finding]:
     """O6 (absolute half): no coordinate should ever be NaN/Inf. See canon.py's
     module docstring for why grid alignment is NOT checked absolutely."""
-    v = canon.nan_or_inf_violations(path)
+    try:
+        v = canon.nan_or_inf_violations(path)
+    except canon.CanonError as e:
+        # Same contract as o2_idempotence/o3_semantic_preservation: an
+        # unparseable file is a corruption Finding, not an exception that
+        # takes the whole sweep down with it. In practice against a real
+        # QET binary this path is unreachable (see canon.py's comment on
+        # nan_or_inf_violations for why) -- but "in practice" is not a
+        # substitute for the oracle handling its own documented failure
+        # mode, and this was in fact reached once, by a test.
+        return [Finding("O6", "corruption", f"could not parse: {e}", {"path": str(path)})]
     if not v:
         return []
     return [Finding(
@@ -112,7 +122,11 @@ def o6_nan_inf(path: Path) -> list[Finding]:
 def o6_grid_regression(before: Path, after: Path, grid: int = 10) -> list[Finding]:
     """O6 (delta half): an element on-grid before must stay on-grid after.
     This is the property PR #660 (group rotation drifting off-grid) sat in."""
-    regs = canon.grid_regressions(before, after, grid=grid)
+    try:
+        regs = canon.grid_regressions(before, after, grid=grid)
+    except canon.CanonError as e:
+        return [Finding("O6", "corruption", f"could not parse: {e}",
+                         {"before": str(before), "after": str(after)})]
     if not regs:
         return []
     return [Finding(

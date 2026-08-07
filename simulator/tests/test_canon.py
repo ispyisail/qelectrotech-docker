@@ -165,6 +165,17 @@ class TestNanInfViolations(unittest.TestCase):
                 offenders.append((f, v))
         self.assertEqual(offenders, [], f"real shipped examples should never contain NaN/Inf: {offenders}")
 
+    def test_malformed_xml_raises_canon_error_not_a_bare_exception(self):
+        # Regression: this used to let xml.etree.ElementTree.ParseError
+        # propagate uncaught, taking down the whole sweep instead of
+        # producing a Finding. Found via a test using a deliberately dumb
+        # stand-in binary that copies mutated (possibly malformed) bytes
+        # verbatim -- against the real QET binary this was never
+        # reachable, since QET itself never produces malformed output.
+        p = _write_variant(self.tmp, "<not well formed", "truncated_for_nan_check.qet")
+        with self.assertRaises(canon.CanonError):
+            canon.nan_or_inf_violations(p)
+
 
 class TestGridRegressions(unittest.TestCase):
     """
@@ -220,6 +231,12 @@ class TestGridRegressions(unittest.TestCase):
             if r:
                 offenders.append((f, len(r)))
         self.assertEqual(offenders, [], f"self-comparison must never regress: {offenders}")
+
+    def test_malformed_xml_raises_canon_error_not_a_bare_exception(self):
+        good = _write_variant(self.tmp, self.text, "grid_regr_good.qet")
+        bad = _write_variant(self.tmp, "<not well formed", "grid_regr_bad.qet")
+        with self.assertRaises(canon.CanonError):
+            canon.grid_regressions(good, bad)
 
 
 if __name__ == "__main__":

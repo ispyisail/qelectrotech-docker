@@ -103,10 +103,26 @@ class TestO6NanInf(unittest.TestCase):
         self.assertEqual(len(findings), 1)
         self.assertEqual(findings[0].oracle, "O6")
 
+    def test_malformed_file_is_a_finding_not_a_crash(self):
+        # Regression: this used to let ET.ParseError propagate out of the
+        # oracle uncaught, taking the whole sweep down instead of
+        # reporting a Finding -- inconsistent with o2_idempotence and
+        # o3_semantic_preservation, which already handled this.
+        p = _write("<not well formed", "o6_malformed.qet")
+        findings = oracles.o6_nan_inf(p)  # must not raise
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].severity, "corruption")
+
 
 class TestO6GridRegression(unittest.TestCase):
     def test_self_compare_passes(self):
         self.assertEqual(oracles.o6_grid_regression(SAMPLE, SAMPLE), [])
+
+    def test_malformed_file_is_a_finding_not_a_crash(self):
+        bad = _write("<not well formed", "o6grid_malformed.qet")
+        findings = oracles.o6_grid_regression(SAMPLE, bad)  # must not raise
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0].severity, "corruption")
 
     def test_pushed_off_grid_is_caught(self):
         text = SAMPLE.read_text()
