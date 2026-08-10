@@ -1,0 +1,242 @@
+diff --git a/sources/diagramevent/diagrameventaddelement.cpp b/sources/diagramevent/diagrameventaddelement.cpp
+index 9949c54d8..11248a220 100644
+--- a/sources/diagramevent/diagrameventaddelement.cpp
++++ b/sources/diagramevent/diagrameventaddelement.cpp
+@@ -509,4 +509,11 @@ void DiagramEventAddElement::addElement()
+ 
+ 	m_diagram -> undoStack().push(undo_object);
+ 	element->freezeNewAddedElement();
++
++		//A coming arrow doesn't have a number of its own to generate (see
++		//setUpFormula()) -- it needs to be told which going arrow it belongs
++		//to. Prompt for that link right away instead of leaving it blank
++		//and unlinked until the user happens to open its properties later.
++	if (element->linkType() == Element::PreviousReport)
++		element->editProperty();
+ }
+diff --git a/sources/qetgraphicsitem/dynamicelementtextitem.cpp b/sources/qetgraphicsitem/dynamicelementtextitem.cpp
+index 72cad0556..a78c0a1cb 100644
+--- a/sources/qetgraphicsitem/dynamicelementtextitem.cpp
++++ b/sources/qetgraphicsitem/dynamicelementtextitem.cpp
+@@ -938,13 +938,28 @@ void DynamicElementTextItem::reportFormulaChanged()
+ 
+ void DynamicElementTextItem::setConnectionForReportFormula(const QString &formula)
+ {
+-	if(m_other_report.isNull() || formula.isEmpty())
++	if(m_other_report.isNull())
+ 		return;
+-	
++
+ 	Element *other_elmt = m_other_report.data();
++
++		//Numbers are the link for AllReport: the displayed text is simply
++		//the partner's own label (see updateReportText()), so the only
++		//thing worth watching is that label changing -- none of the %f/%l/%c
++		//formula tokens below are relevant to it. ConductorDefinition keeps
++		//using the formula-token connections instead, unchanged.
++	if (m_parent_element.data()->linkType() & Element::AllReport)
++	{
++		connect(other_elmt, &Element::elementInfoChange, this, &DynamicElementTextItem::updateReportText);
++		return;
++	}
++
++	if (formula.isEmpty())
++		return;
++
+ 	QString string = formula;
+ 	Diagram *other_diagram = m_other_report.data()->diagram();
+-	
++
+ 		//Because the variable %F is a reference to another text which can contain variables,
+ 		//we must replace %F by the real text, to check if the real text contains the variable %id
+ 	if (other_diagram && string.contains("%F"))
+@@ -953,7 +968,7 @@ void DynamicElementTextItem::setConnectionForReportFormula(const QString &formul
+ 		string.replace("%F", other_diagram->border_and_titleblock.folio());
+ 		connect(&other_diagram->border_and_titleblock, &BorderTitleBlock::titleBlockFolioChanged, this, &DynamicElementTextItem::updateReportFormulaConnection);
+ 	}
+-	
++
+ 	if (other_diagram && (string.contains("%f") || string.contains("%id")))
+ 	{
+ 		connect(other_diagram->project(), &QETProject::projectDiagramsOrderChanged, this, &DynamicElementTextItem::updateReportText);
+@@ -968,13 +983,23 @@ void DynamicElementTextItem::setConnectionForReportFormula(const QString &formul
+ 
+ void DynamicElementTextItem::removeConnectionForReportFormula(const QString &formula)
+ {
+-	if(m_other_report.isNull() || formula.isEmpty())
++	if(m_other_report.isNull())
+ 		return;
+-	
++
+ 	Element *other_element = m_other_report.data();
++
++	if (m_parent_element.data()->linkType() & Element::AllReport)
++	{
++		disconnect(other_element, &Element::elementInfoChange, this, &DynamicElementTextItem::updateReportText);
++		return;
++	}
++
++	if (formula.isEmpty())
++		return;
++
+ 	QString string = formula;
+ 	Diagram *other_diagram = m_other_report.data()->diagram();
+-	
++
+ 		//Because the variable %F is a reference to another text which can contain variables,
+ 		//we must replace %F with the real text, to check if the real text contains the variable %id
+ 	if (other_diagram && string.contains("%F"))
+@@ -982,7 +1007,7 @@ void DynamicElementTextItem::removeConnectionForReportFormula(const QString &for
+ 		string.replace("%F", m_F_str);
+ 		disconnect(&other_diagram->border_and_titleblock, &BorderTitleBlock::titleBlockFolioChanged, this, &DynamicElementTextItem::updateReportFormulaConnection);
+ 	}
+-	
++
+ 	if (other_diagram && (string.contains("%f") || string.contains("%id")))
+ 	{
+ 		disconnect(other_diagram->project(), &QETProject::projectDiagramsOrderChanged, this, &DynamicElementTextItem::updateReportText);
+@@ -1071,9 +1096,17 @@ void DynamicElementTextItem::updateReportText()
+ 		if(m_other_report)
+ 		{
+ 			Element *elmt = m_other_report.data();
+-			QString label = m_report_formula;
+-			label = autonum::AssignVariables::formulaToLabel(label, elmt->rSequenceStruct(), elmt->diagram(), elmt);
+-			setPlainText(label);
++			if (m_parent_element.data()->linkType() & Element::AllReport)
++					//Numbers are the link: a coming arrow shows exactly the
++					//going arrow's own number, not a computed position --
++					//that's what lets a reader match them up on paper.
++				setPlainText(elmt->actualLabel());
++			else
++			{
++				QString label = m_report_formula;
++				label = autonum::AssignVariables::formulaToLabel(label, elmt->rSequenceStruct(), elmt->diagram(), elmt);
++				setPlainText(label);
++			}
+ 		}
+ 		else
+ 		{
+diff --git a/sources/qetgraphicsitem/element.cpp b/sources/qetgraphicsitem/element.cpp
+index d4c9a3c4a..629ab0c35 100644
+--- a/sources/qetgraphicsitem/element.cpp
++++ b/sources/qetgraphicsitem/element.cpp
+@@ -44,6 +44,7 @@
+ #include <QDebug>
+ 
+ #include <QDomElement>
++#include <QSet>
+ #include <utility>
+ 
+ class ElementXmlRetroCompatibility
+@@ -1653,6 +1654,15 @@ void Element::setUpFormula(bool code_letter, QUndoCommand *parent_undo)
+ 	if (linkType() == Element::Slave)
+ 		return;
+ 
++		//A coming arrow doesn't originate a reference, it completes one --
++		//it has nothing to auto-number until the user links it to a going
++		//arrow, at which point its displayed text is the linked-to element's
++		//live position (see DynamicElementTextItem::updateReportText()).
++		//Auto-assigning it its own number here was misleading: it looked
++		//like an independent ID when it should stay blank until linked.
++	if (linkType() == Element::PreviousReport)
++		return;
++
+ 	const bool is_report = linkType() & Element::AllReport;
+ 
+ 	if (diagram())
+@@ -1671,6 +1681,56 @@ void Element::setUpFormula(bool code_letter, QUndoCommand *parent_undo)
+ 		NumerotationContext nc = is_report
+ 				? project->reportAutoNum(current_autonum)
+ 				: project->elementAutoNum(current_autonum);
++
++			//Going arrows: fill the lowest free number instead of always
++			//incrementing, so deleting one gives its number back for reuse
++			//rather than leaving a permanent gap. Only meaningful for a
++			//plain numeric (unit/ten/hundred) counter part -- alphabetic and
++			//cyclic (wrap) parts keep their existing increment-only behavior.
++		if (is_report)
++		{
++			int numeric_index = -1;
++			for (int i = 0; i < nc.size(); ++i) {
++				const QString t = nc.itemAt(i).at(0);
++				if (t == QLatin1String("unit") || t == QLatin1String("ten") || t == QLatin1String("hundred")) {
++					numeric_index = i;
++					break;
++				}
++			}
++
++			if (numeric_index >= 0)
++			{
++				const QStringList numeric_item = nc.itemAt(numeric_index);
++				int increase = numeric_item.at(2).toInt();
++				if (increase <= 0)
++					increase = 1;
++
++				QSet<QString> used_labels;
++				ElementProvider ep(project);
++				for (const QPointer<Element> &other : ep.find(ElementData::NextReport))
++				{
++					if (other && other.data() != this && !other->actualLabel().isEmpty())
++						used_labels.insert(other->actualLabel());
++				}
++
++				NumerotationContext probe = nc;
++				int candidate = increase;
++				while (true)
++				{
++					probe.replaceValue(numeric_index, QString::number(candidate));
++					autonum::sequentialNumbers probe_seq;
++					autonum::setSequential(formula, probe_seq, probe, diagram(), current_autonum);
++					const QString probe_label = autonum::AssignVariables::formulaToLabel(formula, probe_seq, diagram(), this);
++					if (!used_labels.contains(probe_label))
++					{
++						nc.replaceValue(numeric_index, QString::number(candidate));
++						break;
++					}
++					candidate += increase;
++				}
++			}
++		}
++
+ 		NumerotationContextCommands ncc (nc);
+ 
+ 		m_autoNum_seq.clear();
+diff --git a/sources/ui/linksingleelementwidget.cpp b/sources/ui/linksingleelementwidget.cpp
+index 9c730ce1e..0fcfe4072 100644
+--- a/sources/ui/linksingleelementwidget.cpp
++++ b/sources/ui/linksingleelementwidget.cpp
+@@ -299,12 +299,20 @@ void LinkSingleElementWidget::buildTree()
+ 	}
+ 	
+ 	else if (m_element->elementData().m_type & ElementData::AllReport)
+-	{	
++	{
+ 		for(const auto &elmt : elmt_vector)
+ 		{
+ 			QStringList search_list;
+ 			QStringList str_list;
+ 
++				//The candidate's own number -- now the primary way to tell
++				//candidates apart, since matching numbers is what makes a
++				//pair of arrows visibly linked on the printed page.
++			const QString own_number = elmt->actualLabel();
++			str_list << own_number;
++			if (!own_number.isEmpty())
++				search_list << own_number;
++
+ 				//Which device this candidate's own wire actually leads to --
+ 				//computed fresh every time the list is built, so unlike an
+ 				//ID baked in at creation time it can never go stale when
+@@ -508,6 +516,12 @@ void LinkSingleElementWidget::setUpHeaderLabels()
+ 	
+ 	if (elmt_type & ElementData::AllReport)
+ 	{
++			//The candidate's own number -- for a going arrow this is its
++			//real, permanent label, and matching numbers is how a reader
++			//pairs an arrow leaving one page with the one arriving on
++			//another, so this is the primary thing to pick by.
++		list << tr("Numéro");
++
+ 			//Which device this arrow's own wire actually leads to -- the
+ 			//clue that used to be baked into the link's ID itself (and
+ 			//went stale whenever pages were reordered). Computed live
