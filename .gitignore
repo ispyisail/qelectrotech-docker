@@ -39,3 +39,4 @@ Thumbs.db
 # `python3 -m simulator sweep`); simulator/reports/findings/ is curated
 # and tracked deliberately.
 simulator/reports/*.jsonl
+scripts/helpers/wmstate
