@@ -103,21 +103,45 @@ tools/abdiff/
 - Classify as `same` / `differs` / `a-only-fails` / `b-only-fails`. Exit
   non-zero only on a real difference.
 
-### Proof fixture
+### Proof fixture — the CLI hang A/B
 
-Reproduce the PR #707 A/B in **one command**. Against `examples/741.qet` with
-`rotation` attributes stripped, variant A = `feature/test-ops-cli`, variant B =
-the same branch with the two `forceRotateByUser` lines reverted, command =
-`--test-ops` with a `rotate_texts` op: the harness must report **67 vs 0**
-rotation attributes and exit non-zero.
+Both branches exist and both sides of this were verified by hand on
+2026-08-16, so it is achievable today with no other work.
 
-That exact comparison took ~40 minutes by hand and is written up in
-`FINDINGS.md` F001-b. If the harness can't reproduce it in one invocation, it
-hasn't replaced anything.
+```bash
+scripts/qet-ab.sh --a master --b fix-cli-modal-dialog-hang \
+  -- --info /home/user/qet-fix/examples/schema_indus.qet
+```
 
-**Done when:** the proof fixture reproduces; a same-vs-same run reports `same`
-and exits 0; the second variant's build is measurably faster than the first
-(ccache is working).
+`examples/schema_indus.qet` is version 0.3, which raises a modal during load.
+On `master` that hangs `--info` forever; on `fix-cli-modal-dialog-hang` (PR
+#661) it completes with exit 0. The harness must report **`a-only-fails`** —
+variant A timing out, variant B succeeding — and exit non-zero.
+
+This is the case that matters most: **a timeout is a difference.** A harness
+that hangs waiting for variant A, or that reports "no output from either" and
+calls them equal, has failed the fixture. Timeouts must be first-class,
+per-variant, and classified as failure.
+
+**Second fixture, same-vs-same:** `--a master --b master` with any command must
+report `same` and exit 0.
+
+### Stretch fixture — once L2 lands
+
+Reproduce the PR #707 A/B in one command: variant A = `feature/test-ops-cli`,
+variant B = the same branch with the two `forceRotateByUser` lines reverted,
+command = `--test-ops` with a `rotate_texts` op, against `examples/741.qet`
+with `rotation` attributes stripped. Expect **67 vs 0** rotation attributes.
+
+**That comparison is not runnable yet** — `rotate_texts` was added on a scratch
+branch and discarded; L2 restores it. Do not attempt it during L1, and do not
+add the op as a side quest. It is recorded here because it is the comparison
+that took ~40 minutes by hand (`FINDINGS.md` F001-b), and it is the real
+measure of whether this harness replaced anything.
+
+**Done when:** the hang A/B classifies correctly and exits non-zero, the
+same-vs-same run reports `same` and exits 0, and the second variant's build is
+measurably faster than the first (ccache is working).
 
 ---
 
@@ -158,9 +182,9 @@ have a working template in the file; those two don't.
 executes all seven ops on `examples/741.qet` without error, and
 `python3 -m simulator selftest` stays green.
 
-Then the real one: **L1's proof fixture must run against this binary with no
-scratch work.** If reproducing the #707 A/B still requires hand-adding an op,
-L2 isn't done.
+Then the real one: **L1's stretch fixture must run against this binary with no
+scratch work** — `scripts/qet-ab.sh` reproducing the #707 A/B (67 vs 0) in one
+command. If that still requires hand-adding an op, L2 isn't done.
 
 **Done when:** both fixtures pass, the rebase script is committed, and
 `qet-env` documents the lab binary.
