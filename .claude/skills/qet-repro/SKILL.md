@@ -10,8 +10,14 @@ more reliable than the one after it.
 
 ## 1. Does it still exist?
 
-**Always try current master before anything else.** Three hand-picked
-bugtracker entries in a row (#256, #278, #288) turned out to be already fixed.
+**If it came from the bugtracker, check our own merged PRs first** — see
+`qet-triage` step 0. ~16 bugtracker numbers are already fixed from this
+account, and a `gh pr list` search settles it in five seconds where a repro
+attempt costs a build. Search on the phrase `bugtracker #NNN`, not the bare
+number: GitHub PR/issue numbers collide with bugtracker numbers constantly.
+
+**Then try current master.** Three hand-picked bugtracker entries in a row
+(#256, #278, #288) turned out to be already fixed.
 
 ```bash
 git -C /home/user/qet-fix log --oneline -1 master

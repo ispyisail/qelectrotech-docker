@@ -67,7 +67,27 @@ or you will conclude the feature does not exist.
 
 ## "Fix bugtracker #NNN"
 
-→ **Load `qet-repro`, then `qet-fix-and-ship`.**
+**Step 0, before anything else: have we already fixed it?** Roughly 16 of the
+bugtracker numbers have already been addressed from this account. Checking
+takes five seconds; discovering it by failing to reproduce takes a build.
+
+```bash
+gh pr list --repo qelectrotech/qelectrotech-source-mirror --author ispyisail \
+  --state all --limit 100 --json number,title,state \
+  --jq '.[] | select(.title|test("NNN")) | "PR #\(.number) \(.state) \(.title)"'
+```
+
+If it comes back merged, say so and stop: *"already fixed — PR #NNN, merged
+<date>"*. That is the complete answer to the request.
+
+**Trap: `#312` is ambiguous.** Bugtracker numbers and GitHub PR/issue numbers
+are separate systems that collide constantly. `git log --grep=312` on this
+repo returns both PR #707 (which fixes *bugtracker* 312) **and** an unrelated
+`Merge pull request #312 from Arusekk/dark-mode-collections`. Always search on
+the phrase `bugtracker #NNN`, not the bare number, and confirm which system the
+user means if it is not obvious.
+
+Not already fixed? → **Load `qet-repro`, then `qet-fix-and-ship`.**
 
 Reproduce on current master before writing any code. If it does not reproduce,
 that is a *result*, not a dead end: record "not reproduced on `<sha>` via
