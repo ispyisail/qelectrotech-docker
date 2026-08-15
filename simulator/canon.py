@@ -14,14 +14,19 @@ What counts as identity-bearing here, and why:
   - element:    uuid, type, x, y, z, orientation, prefix, freezeLabel.
                 NOT colour/font/label-rendering attributes -- those are
                 display config, not content.
-  - conductor:  QET's schema has no conductor uuid (verified against the
-                examples corpus -- <conductor> carries terminal1/terminal2
-                but no uuid attribute), so identity is the SORTED
-                (terminal1, terminal2) pair within its diagram. Sorted
-                because a conductor is electrically symmetric; if a
-                resave ever swapped which terminal is "1" and which is
-                "2" that would be a cosmetic difference, not a semantic
-                one, and should not fail O2/O3.
+  - conductor:  identity is the SORTED (terminal1, terminal2) pair within
+                its diagram. Sorted because a conductor is electrically
+                symmetric; if a resave ever swapped which terminal is "1"
+                and which is "2" that would be a cosmetic difference, not
+                a semantic one, and should not fail O2/O3.
+                Note: modern QET DOES write a uuid attribute on every
+                <conductor> it saves, but assigns it fresh on first load
+                of a legacy file that lacks one (probed: 741.qet gains 67
+                new uuids on first save, stable from the second save on),
+                so the uuid is a migration artifact, not identity.
+                uuid_universe (below) records it regardless, which is
+                what lets the O9 cross-run self-check expose that
+                first-save churn instead of hiding it.
   - diagram:    QET's schema has no diagram uuid either -- identity is
                 the `order` attribute (folios are explicitly ordered;
                 see moveDiagramUp/Down in qetdiagrameditor.cpp). Title is

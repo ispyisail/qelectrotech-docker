@@ -5,7 +5,7 @@ part of §5–6) of [`SIMULATOR-DESIGN.md`](../SIMULATOR-DESIGN.md). Read that
 document first — this file is "how to run it and what it actually found,"
 not the design rationale.
 
-**Status:** built, self-tested (85 unit tests), and run for real against a
+**Status:** built, self-tested (99 unit tests), and run for real against a
 Release build of `qelectrotech-source-mirror` master. Every claim below was
 verified against real output, not assumed — where a claim turned out to be
 wrong during development, this file says so.
@@ -21,10 +21,11 @@ simulator/
   mutate.py    6 text mutators + 2 byte mutators, each with exact replay
   oracles.py   O1/O2/O3/O6/O9 as named, composable Finding-producing functions
   shrink.py    ddmin over a Trace
-  runner.py    corpus x mutators -> resave -> oracles, with quarantine + auto-shrink
+  runner.py    corpus x mutators -> resave -> oracles, with quarantine, auto-shrink,
+               and the O9 double-run determinism self-check on every sweep
   __main__.py  `python3 -m simulator sweep|replay|selftest`
   fixtures/    known-bug fixtures (design doc §10)
-  tests/       85 unit tests, no binary needed except test_proc.py's real-subprocess tests
+  tests/       99 unit tests, no binary needed except test_proc.py's real-subprocess tests
   reports/     JSONL sweep output (gitignored)
 ```
 
@@ -173,6 +174,34 @@ only two, or that deeper mutation chains (`--chain-length N`, not exercised
 here) or coverage-guided steering (`SIMULATOR-DESIGN.md` §7, not built)
 wouldn't find more.
 
+### 5. O9 self-check (wired in during a post-review hardening pass): resave is run-to-run nondeterministic on legacy seeds
+
+The O9 double-run self-check (design doc §3, "check this first, on every
+run") flagged its own corpus on its first real run: identical input, two
+separate processes, different canonical output (`o9_deterministic: false`).
+Two distinct signatures, both probed and attributed rather than assumed:
+
+- **67 fresh conductor uuids per first save.** A legacy file whose
+  conductors lack uuids (741.qet: all 67 of them) gets a new random uuid
+  assigned to every `<conductor>` on first load. Probed: stable from the
+  second save on (resave1 -> resave2 keeps the same 67 uuids, same order),
+  and elements/diagrams are NOT assigned uuids this way (11 uuid-less
+  elements in the seed stay uuid-less). One-time migration churn, not
+  ongoing instability.
+- **Legacy terminal-ID churn** -- the I1 mechanism already documented in §2:
+  `table_adr_id` is a pointer-keyed `QHash<Terminal*, int>` rebuilt per save,
+  so the numeric `terminal1`/`terminal2` IDs differ across process runs.
+
+Consequence for the harness: on a legacy-heavy corpus O9 reports these two
+findings on every sweep and `o9_deterministic` stays `false` even though the
+harness's own Python pipeline is deterministic by construction. That is
+correct behaviour, not a defect -- the check's job is to expose cross-run
+nondeterminism, and it does. It cannot be expected to pass until the I1 bug
+is fixed upstream (and until first-save conductor-uuid migration is made
+deterministic, e.g. uuid-from-content). The findings are recorded at
+`iteration: -1` in the JSONL and do not block the sweep; on seeds with no
+legacy identifiers there is nothing for it to flag.
+
 ---
 
 ## Known gap: three of the four §10 fixtures need more than the CLI can give
@@ -226,7 +255,7 @@ the generator function doesn't look silently unused.
 ## Running the tests
 
 ```bash
-python3 -m simulator selftest          # 85 tests, no binary, ~4s
+python3 -m simulator selftest          # 99 tests, no binary, ~10s
 ```
 
 `test_proc.py`'s `TestRunCliReal` class spawns real subprocesses

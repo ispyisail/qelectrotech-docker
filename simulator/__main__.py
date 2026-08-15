@@ -54,7 +54,17 @@ def cmd_replay(args: argparse.Namespace) -> int:
         print(f"WARNING: seed file hash mismatch -- {seed_path} has changed since this "
               f"trace was recorded ({actual_sha} != {trace.seed_sha256})", file=sys.stderr)
 
-    mutated = _apply_trace_to_bytes(trace, seed_bytes)
+    # Same SingleApplication guard as sweep and every fixture: replaying
+    # against a live instance would silently report that instance's state
+    # instead of ours (see env.py's module docstring for the two past
+    # cross-contaminations).
+    env.assert_no_other_qet_running(args.binary)
+
+    try:
+        mutated = _apply_trace_to_bytes(trace, seed_bytes)
+    except mutate.ReplayError as e:
+        print(f"cannot replay trace: {e}", file=sys.stderr)
+        return 2
     cfg = RunConfig(binary=args.binary, corpus_dir=args.corpus, reports_dir=DEFAULT_REPORTS)
 
     with env.sandbox_context() as sb:

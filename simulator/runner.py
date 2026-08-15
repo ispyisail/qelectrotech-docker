@@ -158,6 +158,37 @@ def _execute_and_check(mutated_bytes: bytes, cfg: RunConfig, sandbox: env.Sandbo
     return findings
 
 
+def _o9_determinism_check(cfg: RunConfig, seed_bytes: bytes) -> tuple[bool | None, list[oracles.Finding]]:
+    """
+    O9 (SIMULATOR-DESIGN.md §3: "check this first, on every run"): run the
+    full pipeline twice on identical input and require identical canonical
+    output. Cost is 4 CLI invocations once per sweep -- worth it, because a
+    harness (or binary) that is nondeterministic run-to-run makes every
+    other finding in the sweep uninterpretable.
+
+    Returns (deterministic, findings) where `deterministic` is None if the
+    check could not be completed (a run crashed or produced nothing to
+    compare -- that is O1's job in the main loop, not a pass).
+    """
+    outputs = []
+    for _ in range(2):
+        with env.sandbox_context(cfg.reports_dir) as sb:
+            _execute_and_check(seed_bytes, cfg, sb)
+            r1 = sb.work / "resave1.qet"
+            r2 = sb.work / "resave2.qet"
+            if not (r1.exists() and r2.exists()):
+                return None, []
+            try:
+                outputs.append((canon.canonicalize(r1), canon.canonicalize(r2)))
+            except canon.CanonError:
+                return None, []
+
+    findings = []
+    for i, label in ((0, "first resave"), (1, "second resave")):
+        findings += oracles.o9_determinism(outputs[0][i], outputs[1][i], label)
+    return not findings, findings
+
+
 def run_iteration(seed_path: Path, cfg: RunConfig, rng: random.Random, base_sandbox_dir: Path) -> IterationResult:
     seed_bytes = seed_path.read_bytes()
     trace = _build_mutated_trace(seed_path, seed_bytes, cfg, rng)
@@ -196,6 +227,12 @@ def run_sweep(cfg: RunConfig) -> dict[str, Any]:
     if not all_seeds:
         raise RuntimeError(f"no .qet files found in {cfg.corpus_dir}")
 
+    # Sandboxes are created under reports_dir (health check below, and every
+    # iteration), so it must exist first: on a fresh clone reports/ is absent
+    # (gitignored) and tempfile.mkdtemp(dir=...) raises FileNotFoundError
+    # before a single iteration runs.
+    cfg.reports_dir.mkdir(parents=True, exist_ok=True)
+
     health = health_check_corpus(all_seeds, cfg, cfg.reports_dir)
     corpus = health.healthy
     if not corpus:
@@ -203,7 +240,6 @@ def run_sweep(cfg: RunConfig) -> dict[str, Any]:
             f"every seed in {cfg.corpus_dir} failed its health check: {health.quarantined}"
         )
 
-    cfg.reports_dir.mkdir(parents=True, exist_ok=True)
     report_path = cfg.reports_dir / f"sweep_{int(time.time())}.jsonl"
 
     rng = random.Random(cfg.master_seed)
@@ -225,9 +261,24 @@ def run_sweep(cfg: RunConfig) -> dict[str, Any]:
         # cleanly rejected by QDomDocument, never a crash.
         "mutator_attempts": {name: 0 for name in cfg.mutator_names},
         "mutator_findings": {name: 0 for name in cfg.mutator_names},
+        # O9 self-check result (design doc §3: "check this first, on every
+        # run"). True = double-run produced identical canonical output;
+        # False = harness/binary is nondeterministic and every other finding
+        # in this run is suspect; None = could not be completed (see
+        # _o9_determinism_check()).
+        "o9_deterministic": None,
     }
 
     with open(report_path, "w") as report_f:
+        o9_ok, o9_findings = _o9_determinism_check(cfg, corpus[0].read_bytes())
+        summary["o9_deterministic"] = o9_ok
+        if o9_findings:
+            report_f.write(json.dumps(
+                {"iteration": -1, "o9_self_check": [f.to_dict() for f in o9_findings]}) + "\n")
+            report_f.flush()
+            for f in o9_findings:
+                summary["findings_by_oracle"][f.oracle] = summary["findings_by_oracle"].get(f.oracle, 0) + 1
+
         for i in range(cfg.iterations):
             seed_path = rng.choice(corpus)
             result = run_iteration(seed_path, cfg, rng, cfg.reports_dir)

@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from simulator import mutate
 from simulator.runner import (RunConfig, _apply_trace_to_bytes,
                                _build_mutated_trace, discover_corpus,
-                               health_check_corpus)
+                               health_check_corpus, run_sweep)
 
 # A stand-in for `qelectrotech --resave <in> <out>` that hangs forever if
 # the input file's name contains "poison", and otherwise just copies it.
@@ -176,6 +176,91 @@ class TestBuildAndReplayTrace(unittest.TestCase):
         second = _apply_trace_to_bytes(trace, seed_bytes)
         self.assertEqual(first, second, "replaying the same trace twice must be byte-identical")
         self.assertGreaterEqual(len(trace.steps), 1)
+
+
+class TestFirstRunWithAbsentReportsDir(unittest.TestCase):
+    """
+    Regression for the fresh-clone bug: run_sweep created sandboxes under
+    reports_dir (via health_check_corpus) BEFORE creating reports_dir
+    itself. reports/ is gitignored, so on a fresh checkout the very first
+    `sweep` run raised FileNotFoundError before a single iteration.
+    """
+
+    def test_sweep_creates_reports_dir_and_runs(self):
+        tmp = Path(tempfile.mkdtemp(prefix="qet-sim-test-firstrun-"))
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        corpus = tmp / "corpus"
+        corpus.mkdir()
+        (corpus / "seed.qet").write_text(
+            '<project><diagram order="0"><element uuid="{00000000-0000-0000-0000-000000000001}"'
+            ' x="10" y="10"/></diagram></project>')
+        reports = tmp / "reports-does-not-exist"
+
+        # Deterministic byte-copy fake binary (same pattern as
+        # TestSweepMutatorCoverage): never crashes, never diverges.
+        script = tmp / "fakebin"
+        script.write_text(textwrap.dedent(f"""\
+            #!{sys.executable}
+            import sys, shutil
+            assert sys.argv[1] == "--resave"
+            shutil.copy(sys.argv[2], sys.argv[3])
+        """))
+        script.chmod(0o755)
+
+        cfg = RunConfig(binary=str(script), corpus_dir=corpus, reports_dir=reports,
+                        iterations=2, timeout=5.0, master_seed=1)
+        summary = run_sweep(cfg)
+
+        self.assertTrue(reports.exists(), "run_sweep must create reports_dir itself")
+        self.assertEqual(summary["iterations"], 2)
+        self.assertTrue(summary["o9_deterministic"],
+                        "byte-copy fake binary is deterministic, so the O9 self-check must pass")
+
+
+class TestO9SelfCheck(unittest.TestCase):
+    """
+    O9 (SIMULATOR-DESIGN.md §3, "check this first, on every run") is wired
+    into every sweep: identical input must produce identical canonical
+    output, checked before any iteration result is trusted.
+    """
+
+    def test_nondeterministic_binary_is_flagged(self):
+        tmp = Path(tempfile.mkdtemp(prefix="qet-sim-test-o9-"))
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        corpus = tmp / "corpus"
+        corpus.mkdir()
+        (corpus / "seed.qet").write_text(
+            '<project><diagram order="0"><element uuid="{00000000-0000-0000-0000-000000000001}"'
+            ' x="10" y="10"/></diagram></project>')
+
+        # A fake binary whose resave output depends on an external counter:
+        # every invocation injects a new unique uuid, so two runs on
+        # identical input diverge -- exactly what O9 must catch.
+        counter = tmp / "counter.txt"
+        script = tmp / "nondetbin"
+        script.write_text(textwrap.dedent(f"""\
+            #!{sys.executable}
+            import sys, pathlib
+            assert sys.argv[1] == "--resave"
+            counter = pathlib.Path({str(counter)!r})
+            n = int(counter.read_text()) if counter.exists() else 0
+            counter.write_text(str(n + 1))
+            src = pathlib.Path(sys.argv[2]).read_bytes()
+            injected = (b'<element uuid="{{00000000-0000-0000-0000-0000000000%02d}}"'
+                        b' x="1" y="1"/>' % n)
+            out = sys.argv[3]
+            with open(out, "wb") as f:
+                f.write(src.replace(b"</project>", injected + b"</project>"))
+        """))
+        script.chmod(0o755)
+
+        cfg = RunConfig(binary=str(script), corpus_dir=corpus, reports_dir=tmp / "reports",
+                        iterations=1, timeout=5.0, master_seed=1)
+        summary = run_sweep(cfg)
+
+        self.assertFalse(summary["o9_deterministic"],
+                         "identical input produced different canonical output -- O9 must fail")
+        self.assertIn("O9", summary["findings_by_oracle"])
 
 
 if __name__ == "__main__":

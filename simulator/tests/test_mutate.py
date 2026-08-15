@@ -65,6 +65,18 @@ class TestTextMutators(unittest.TestCase):
                 self.assertEqual(replayed, original.data,
                                   f"{name}: replay diverged from the original mutation")
 
+    def test_apply_resolved_raises_replay_error_on_invalid_utf8(self):
+        # A text-domain step replayed against bytes that are no longer
+        # valid UTF-8 (e.g. the seed file changed since the trace was
+        # recorded -- cmd_replay deliberately allows that with a warning)
+        # must raise a clear ReplayError, not a bare UnicodeDecodeError
+        # traceback out of the whole sweep.
+        args = {"kind": "drop_random_attribute",
+                "byte_start": 0, "byte_end": 0, "replacement": "",
+                "tag": "a", "attribute": "b"}
+        with self.assertRaises(mutate.ReplayError):
+            mutate.apply_resolved(args, b"\xff\xfe\x00")
+
 
 class TestByteMutators(unittest.TestCase):
     def setUp(self):

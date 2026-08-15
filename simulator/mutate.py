@@ -36,6 +36,12 @@ class MutationResult:
     args: dict
 
 
+class ReplayError(RuntimeError):
+    """A recorded Step cannot be re-applied to the given bytes (e.g. the
+    seed file changed since the trace was recorded, and a text-domain
+    splice no longer lands on valid UTF-8)."""
+
+
 def _splice(text: str, start: int, end: int, replacement: str, kind: str, **extra) -> MutationResult:
     """Every text mutator funnels through here so replay only needs one code path."""
     mutated = text[:start] + replacement + text[end:]
@@ -203,7 +209,13 @@ def apply_resolved(args: dict, data: bytes) -> bytes:
         mutated[args["byte_offset"]] ^= (1 << args["bit"])
         return bytes(mutated)
     # every text mutator: uniform byte_start/byte_end/replacement splice
-    text = data.decode("utf-8")
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as e:
+        raise ReplayError(
+            f"step kind={kind!r} cannot be replayed: the current bytes are not "
+            f"valid UTF-8 (has the seed file changed since this trace was recorded?)"
+        ) from e
     mutated = text[: args["byte_start"]] + args["replacement"] + text[args["byte_end"]:]
     return mutated.encode("utf-8")
 
