@@ -77,6 +77,19 @@ _MIN_ELEMENT_GAP = 25
 # contain deeply-indented, widely-spaced rows that otherwise look exactly
 # like element rows.
 _TREE_EXIT_INDENT = 10
+# A SELECTED row renders as a full-width highlight band: the highlight
+# background (~134 grey) counts as dark, so the band spans the whole row
+# width and has neither the element indent (~116+) nor the element gap
+# (~25+) signal. Selected *element* rows are still told apart by height:
+# they carry a thumbnail, so the highlight band is ~42px tall, while a
+# selected category's is ~19-21px. Measured from the 2026-08-15
+# shift-override run (03/05 = unselected text bands at indent 163/183,
+# 07/09 = selected element bands y282-324).
+_MIN_ELEMENT_ROW_HEIGHT = 35
+# How wide a full-row highlight band is. Text bands never get this wide
+# (observed max 201px); the tree header and panel rows below the tree do
+# span this wide but are far shorter than _MIN_ELEMENT_ROW_HEIGHT.
+_FULL_ROW_SPAN = 300
 
 
 @dataclass
@@ -131,6 +144,14 @@ def first_element_row(bands: list[Band]) -> Band | None:
             return None          # scanned past the tree; no element found
         if b.left > _TREE_EXIT_INDENT:
             seen_indented = True
+        # Selected element row: full-width highlight band, tall enough to
+        # carry a thumbnail. Check before the indent rules -- its left edge
+        # is the highlight background, not the text, so the indent signal
+        # is gone. A selected *category* row fails the height test and
+        # falls through to be skipped as indented category content.
+        if (b.right - b.left >= _FULL_ROW_SPAN
+                and b.y1 - b.y0 >= _MIN_ELEMENT_ROW_HEIGHT):
+            return b
         if b.left < _MIN_ELEMENT_INDENT:
             continue
         if i == 0:
@@ -164,9 +185,12 @@ def locate_first_element(
     row = first_element_row(bands)
     if row is None:
         return None
-    # Click into the label, to the right of the thumbnail: the thumbnail
-    # column starts at `left`, the text a little further right.
-    return (x0 + row.left + 90, row.cy)
+    # Click into the label, to the right of the thumbnail. For a normal
+    # row `left` is the text's own left edge; for a selected row `left` is
+    # the highlight background's edge, so the thumbnail column comes first
+    # and the click must go further right to land on the text.
+    dx = 130 if (row.right - row.left) >= _FULL_ROW_SPAN else 90
+    return (x0 + row.left + dx, row.cy)
 
 
 # --------------------------------------------------------------------- #

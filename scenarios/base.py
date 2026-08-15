@@ -60,6 +60,7 @@ class ScenarioContext:
         binary: str | None = None,
         display: str | None = None,
         common_elements_dir: str | None = None,
+        common_tbt_dir: str | None = None,
         config_dir: str | None = None,
         data_dir: str | None = None,
         window_timeout: float = 25.0,
@@ -78,6 +79,7 @@ class ScenarioContext:
         # default. Only set this if a scenario explicitly needs a
         # *different* collection than the one built into the image.
         self.common_elements_dir = common_elements_dir
+        self.common_tbt_dir = common_tbt_dir
         self.config_dir = config_dir
         self.data_dir = data_dir
         self.window_timeout = window_timeout
@@ -119,13 +121,19 @@ class ScenarioContext:
         # in a scenario needs this or it silently double-fires.
         env["QT_XCB_NO_XI2"] = "1"
 
+        # QET's parser (QETArguments, sources/qetarguments.cpp) only
+        # recognises these overrides in --flag=value form; the
+        # space-separated form is silently ignored, which earlier hid a
+        # "collection didn't load" failure behind an empty panel.
         args = [self.binary]
         if self.common_elements_dir:
-            args += ["--common-elements-dir", self.common_elements_dir]
+            args += [f"--common-elements-dir={self.common_elements_dir}"]
+        if self.common_tbt_dir:
+            args += [f"--common-tbt-dir={self.common_tbt_dir}"]
         if self.config_dir:
-            args += ["--config-dir", self.config_dir]
+            args += [f"--config-dir={self.config_dir}"]
         if self.data_dir:
-            args += ["--data-dir", self.data_dir]
+            args += [f"--data-dir={self.data_dir}"]
 
         log.info("launching: %s", " ".join(args))
         self.proc = subprocess.Popen(
@@ -445,6 +453,11 @@ class ScenarioContext:
         self.xdo.click(fx, fy)
         self.xdo.key("ctrl+a")
         self.xdo.type_text(search_term)
+        # A previous drag leaves the row selected, and re-filtering the
+        # same term does NOT clear it -- QET restores the current index
+        # after a rebuild (elementscollectionwidget.cpp:925-940). treefind
+        # recognises the selected-row rendering (full-width, thumbnail-
+        # height highlight band), so a plain re-filter is fine.
         time.sleep(timeout)
         self.checkpoint(f"filter_{search_term}")
 
