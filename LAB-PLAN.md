@@ -16,49 +16,112 @@ every W-item cheaper, so if both plans are in flight, do L1 first.
 
 ## Model selection
 
+**Claude budget is the scarce resource. DeepSeek is the default executor; Claude
+is reserved for judgment.** The split below follows one rule:
+
+> **Construction with a mechanical proof fixture → DeepSeek.
+> Judgment with no mechanical check → Claude.**
+
+That rule works *because* every item in this plan already has a proof fixture.
+The fixture is what makes a cheaper executor safe: it either passes or it
+doesn't, and you can check it in one command without trusting the model's
+self-report. On items where the deliverable is a judgment call, there is no
+fixture to hide behind and a confidently wrong answer costs more than it saved.
+
 ### The models
 
-| Model | ID | Input / output per MTok | Context | Positioning |
-|---|---|---|---|---|
-| Claude Fable 5 | `claude-fable-5` | $10 / $50 | 1M | Most capable widely released; hardest reasoning and long-horizon agentic work |
-| Claude Opus 5 | `claude-opus-5` | $5 / $25 | 1M | Complex agentic coding and long-horizon work; half Fable's cost |
-| Claude Sonnet 5 | `claude-sonnet-5` | $3 / $15 (intro $2 / $10 to 2026-08-31) | 1M | Best speed-to-intelligence; near-Opus on coding and agentic work |
-| Claude Haiku 4.5 | `claude-haiku-4-5` | $1 / $5 | 200K | Fastest and cheapest; simple, well-specified tasks |
+| Model | ID | Role here |
+|---|---|---|
+| DeepSeek V4 Pro | `deepseek-v4-pro` | Default executor for construction items |
+| DeepSeek V4 Flash | `deepseek-v4-flash` | Plumbing items and subagents |
+| Claude Opus 5 | `claude-opus-5` | Judgment items, escalation, review |
+| Claude Sonnet 5 | `claude-sonnet-5` | Escalation step between the two |
 
-### Minimum model per item
+**Verified working 2026-08-16** against `https://api.deepseek.com/anthropic`:
+both models respond on the Anthropic-compatible `/v1/messages` endpoint, and
+**tool use works** — a tool-use probe returned `stop_reason: "tool_use"` with a
+correctly-formed command. Tool use was the thing worth checking; every item in
+this plan is agentic file-and-bash work, and an executor that can't call tools
+is useless here regardless of its reasoning.
 
-"Minimum" means: the cheapest model I'd expect to finish the item without
-supervision, given this repo's skills are installed. Escalate on failure rather
-than starting high.
+### Running DeepSeek
 
-| Item | Minimum model | Effort | Why that floor |
-|---|---|---|---|
-| **L1** A/B harness | `claude-sonnet-5` | `xhigh` | Shell + Python against existing modules. Spec is tight and verification is mechanical — but it has to make judgment calls about what counts as a difference, which is past Haiku |
-| **L2** Lab binary + ops | `claude-sonnet-5` | `xhigh` | C++ in an unfamiliar Qt codebase. Each new op mirrors an existing one, so the pattern carries it. **Escalate to `claude-opus-5` for `paste` and `add_element`** — those touch the ElementScene paste path and the collection loader, neither of which has a clean template |
-| **L3** Gates in CI | `claude-haiku-4-5` | `medium` | Wiring existing, already-working commands into a runner. No design decisions left |
-| **L4** In-flight visibility | `claude-haiku-4-5` | `medium` | `gh` queries plus formatting. Pure data plumbing |
-| **L5** Coverage audit | `claude-opus-5` | `xhigh` | Analysis, not construction. Requires reasoning about what the tooling is structurally blind to — a wrong answer here is confidently wrong and costs a wasted build |
-| **L6** Verification audit | `claude-opus-5` | `xhigh` | Reading 45 open PRs and judging claim-by-claim which were observed vs inferred. High false-positive risk; the whole value is in the judgment |
+`~/.bashrc` already defines the switch; the key lives in `~/.deepseek_key`
+(mode 600). **This runs as a separate terminal session, not as a subagent** —
+a subagent spawned from a Claude session inherits that session's model config,
+so there is no way to dispatch DeepSeek work from inside Claude Code:
 
-**Nothing here needs `claude-fable-5`.** These are well-scoped engineering
-tasks against a documented codebase, not open-ended research. Reach for it only
-if an item stalls on Opus twice.
+```bash
+use_deepseek     # sets ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN + model vars
+claude           # or: deepseekrun
+```
 
-**The skills change the floor.** `.claude/skills/` now carries the environment
-facts, the routing, and the traps that used to be tacit. A Sonnet or Haiku
-session in this repo starts with the SingleApplication guard, the build recipe,
-and the vocabulary map already in hand — which is most of what made these tasks
-need a bigger model before. If an item fails on its stated minimum, check
-whether the relevant skill is missing something before blaming the model.
+The workflow is therefore: **Claude writes the brief → you run it in a DeepSeek
+session → you check the proof fixture → Claude reviews only if it fails.**
 
-### Per-session harness
+### Assignment per item
 
-- One item per session. Give it: this file, `TOOLING-PLAN.md` §0–§2, and the
-  item's section. Do not hand a model both plans at once.
-- Effort settings above are starting points. Coding and agentic work runs best
-  at `xhigh`; drop to `high` if a session is burning tokens without progress.
-- **Verification stays with you.** Every item's proof fixture is something you
-  can check in one command. Run it yourself before accepting the work.
+| Item | Executor | Why |
+|---|---|---|
+| **L1** A/B harness | `deepseek-v4-pro` | Tight spec, existing modules to reuse, mechanical fixture. **Already ~half built** — see the resumption note below |
+| **L2** Lab binary + ops | `deepseek-v4-pro` | Each op mirrors an existing one in `cli_export.cpp`. **Escalate `paste`/`add_element` to Claude** — no clean template, and they touch the ElementScene paste path and collection loader |
+| **L3** Gates in CI | `deepseek-v4-flash` | Wiring already-working commands into a runner. No design decisions remain |
+| **L4** In-flight visibility | `deepseek-v4-flash` | `gh` queries plus formatting. Pure data plumbing |
+| **L5** Coverage audit | **Claude Opus 5** | Naming what the tooling is *structurally blind to* is exactly the judgment a fixture can't check. Wrong here → a wasted build |
+| **L6** Verification audit | **Claude Opus 5** | Judging 45 PRs claim-by-claim for inferred-vs-observed. High false-positive cost; the value *is* the judgment |
+
+L5 and L6 are also the two cheapest items in Claude tokens — they produce a
+document, not a codebase, and involve no build loop. Keeping them on Claude
+costs little and protects the decisions that steer everything else.
+
+### Escalation ladder — and its trigger
+
+**This has not been benchmarked on this codebase.** DeepSeek's API works; how
+well it executes *these* items is unmeasured. Treat each first assignment as an
+experiment with a defined stopping rule rather than a settled decision:
+
+```
+deepseek-v4-flash → deepseek-v4-pro → claude-sonnet-5 → claude-opus-5
+```
+
+**Escalate when any of these is true**, rather than on a vague sense that it's
+struggling:
+
+1. The proof fixture fails twice with the same root cause.
+2. It edits files outside the item's stated scope.
+3. It reports done without having run the fixture — treat a self-report as no
+   evidence at all.
+4. It violates a `TOOLING-PLAN.md` §2 trap after being pointed at it (running
+   without a sandbox, treating a timeout as an absence of difference).
+
+Log the escalation and the trigger in the item's commit message. After two or
+three items you'll have real data on where DeepSeek's ceiling sits here, which
+is worth more than any guess made now.
+
+### Briefing a DeepSeek session
+
+The briefs matter more than they did for Claude. Include, every time:
+
+- **The item's section from this file, verbatim** — plus `TOOLING-PLAN.md`
+  §0–§2. Don't summarise; paste it.
+- **The proof fixture as the definition of done**, with the exact command and
+  the exact expected output.
+- **An explicit scope boundary**: the files it may create or modify, and a
+  statement that everything else is off-limits.
+- **The traps that apply to this item**, restated inline. Don't rely on it
+  finding them in a linked file.
+- **"Show the real command output"** — not a summary of it.
+
+`.claude/skills/` may or may not load in a DeepSeek session depending on how
+Claude Code handles a non-Anthropic backend. **Assume it doesn't** and paste the
+relevant skill content into the brief.
+
+### Verification stays with you — and this is now load-bearing
+
+Every fixture is a one-command check. With a cheaper executor, running it
+yourself stops being good practice and becomes the mechanism the whole plan
+rests on. A DeepSeek session reporting success is *not* evidence; the fixture
+output is.
 
 ---
 
@@ -66,6 +129,23 @@ whether the relevant skill is missing something before blaming the model.
 
 **Do this first.** It pays back on every future fix, and L2's proof depends on
 it being convenient.
+
+> ### Resumption state (2026-08-16) — read before starting
+>
+> A first attempt got **partway** and stopped mid-run. On disk, **untracked and
+> uncommitted**: `scripts/qet-ab.sh` and `tools/abdiff/` (`build.py`, `run.py`,
+> `compare.py`, `report.py`, `__main__.py`, `README.md`). A build tree exists at
+> `/home/user/qet-fix/build-ab/7307a59c101a/`.
+>
+> **None of the three done-criteria were demonstrated.** No fixture output, no
+> build timings, no branch, no commit. The build layer looks right — the cmake
+> invocation picked up ccache, mold, PCH and disconnected FetchContent from
+> `qet-fastbuild.sh` — but *nothing about the harness has been shown to work.*
+>
+> Treat the existing code as **a draft to verify, not a foundation to build
+> on.** Read it, run the fixtures, fix what fails. If the timeout handling is
+> wrong (the most likely defect — see the fixture below), rewrite that part
+> rather than patching around it.
 
 **Goal:** one command builds two variants, runs the same thing against both,
 and diffs the result.
