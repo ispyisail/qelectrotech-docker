@@ -21,7 +21,7 @@ sys.path.insert(0, str(_REPO_ROOT / "fuzzer"))
 sys.path.insert(0, str(_REPO_ROOT))
 
 from actions.base import XDo, QETLayout          # noqa: E402
-from scenarios import treefind                  # noqa: E402
+from scenarios import treefind, termfind         # noqa: E402
 from simulator import canon as _canon            # noqa: E402
 
 log = logging.getLogger(__name__)
@@ -418,6 +418,48 @@ class ScenarioContext:
         self.xdo.key("Escape")
         time.sleep(0.2)
         return True
+
+    def connect_terminals(self, p1: tuple[int, int], p2: tuple[int, int]):
+        """
+        Draw a wire between two terminal screen positions.
+
+        Contradicts fuzzer/actions/wire_ops.py's docstring (click-click,
+        no drag): that was tried here first -- with click points refined
+        to land exactly on the terminal's red pixel mark via termfind --
+        and still produced 0 saved conductors every time. What actually
+        works, confirmed by direct user correction and then verified
+        against the saved file's conductor count, is a real press-move-
+        release drag identical to the one place_element already uses to
+        drop an element from the Collections tree: mousedown on the first
+        terminal, move, mouseup on the second.
+
+        Callers are responsible for computing (p1, p2) as real terminal
+        positions (element drop point + that element's local terminal
+        offset -- see TERMINALS in simple_motor_starter.py, read directly
+        from the .elmt XML rather than guessed). This method does not
+        verify a wire was actually created; as with place_element, only
+        the saved file's conductor count is ground truth.
+        """
+        # Refine both points against the real pixels before dragging:
+        # computed (drop point + local XML offset) geometry lands close
+        # but not exact -- see termfind.py's docstring for why exactness
+        # matters here (missing the terminal at drag-start means no wire
+        # is even begun). Falls back to the computed point if no red
+        # terminal mark is found nearby.
+        shot = self.debug_dir / "_termfind_scan.png"
+        termfind.screenshot(self.display, shot)
+        r1 = termfind.find_terminal_near(shot, *p1) or p1
+        r2 = termfind.find_terminal_near(shot, *p2) or p2
+        log.info(
+            "connect_terminals: p1=%s -> %s, p2=%s -> %s", p1, r1, p2, r2
+        )
+        self.xdo.drag(*r1, *r2)
+        time.sleep(0.3)
+        self.checkpoint("after_wire")
+        # Clear anything left in "drawing" state (e.g. a miss that left
+        # the conductor tool armed) so it can't poison the next action.
+        self.xdo.key("Escape")
+        time.sleep(0.2)
 
     def save_as(self, path: str):
         Path(path).parent.mkdir(parents=True, exist_ok=True)

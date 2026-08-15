@@ -53,6 +53,35 @@ ELEMENTS = {
     "motor":          ("Three-phase engine", "moteur_tri"),
 }
 
+# Local terminal offsets (x, y) FROM THE .elmt XML of the exact files these
+# search terms are known to resolve to on the collection's first hit --
+# relais_mono.elmt, contacteur_crm.elmt, moteur_tri.elmt (verified by grepping
+# <terminal .../> tags directly out of the built image; see
+# scenarios/reference_circuit.py for the same "read the real file, don't
+# guess" technique applied to a whole project instead of one element).
+#
+# QET terminal coordinates are local to the element's drop point and, per
+# the working hypothesis validated across earlier placement runs (a 200px
+# screen offset between two dropped elements produced exactly 200 scene
+# units of separation in the saved file), scene units and screen pixels are
+# 1:1 at the default zoom level this scenario runs at. That lets a terminal's
+# screen position be computed directly as (drop_screen_x + local_x,
+# drop_screen_y + local_y) without any separate calibration step.
+#
+# Each entry picks one real electrical path through the element:
+#   overload_relay: relais_mono has 2 poles (x=0 and x=10); we wire through
+#       the x=10 pole, output at its south terminal (10, 20).
+#   contactor: single input terminal at (10, -20) [north], single output at
+#       (10, 90) [south] (the icon shows one duplicated pair of input
+#       terminal defs at identical coords -- both draw the same point).
+#   motor: U1/V1/W1 are the three-phase inputs, all on the north edge;
+#       U1 at (-20, -30) is used as this scenario's single incoming feed.
+TERMINALS = {
+    "overload_relay": {"in": (10, -20), "out": (10, 20)},
+    "contactor": {"in": (10, -20), "out": (10, 90)},
+    "motor": {"in": (-20, -30)},
+}
+
 
 def run(out_path: str | None = None) -> ScenarioResult:
     """Build: thermal overload relay -> contactor -> three-phase motor."""
@@ -84,9 +113,33 @@ def run(out_path: str | None = None) -> ScenarioResult:
             # now guarded by the in-folio assertion below so this cannot
             # regress unnoticed.
             attempted = {}
+            drop_points = {}
             for key, x_off in (("overload_relay", -540), ("contactor", -340), ("motor", -140)):
                 display_name, _path_fragment = ELEMENTS[key]
+                drop_points[key] = (cx + x_off, cy)
                 attempted[key] = ctx.place_element(display_name, cx + x_off, cy)
+
+            # Wire: overload_relay --out--> contactor --in-->  and
+            #       contactor --out--> motor --in-->
+            # Each endpoint is the element's drop screen point plus its
+            # local terminal offset from TERMINALS -- see that dict's
+            # comment for where the offsets came from and why the 1:1
+            # screen-pixel/scene-unit assumption is safe to use directly.
+            def _term_screen(key, which):
+                dx, dy = drop_points[key]
+                ox, oy = TERMINALS[key][which]
+                return (dx + ox, dy + oy)
+
+            if attempted.get("overload_relay") and attempted.get("contactor"):
+                ctx.connect_terminals(
+                    _term_screen("overload_relay", "out"),
+                    _term_screen("contactor", "in"),
+                )
+            if attempted.get("contactor") and attempted.get("motor"):
+                ctx.connect_terminals(
+                    _term_screen("contactor", "out"),
+                    _term_screen("motor", "in"),
+                )
 
             ctx.save_as(out_path)
             canon = ctx.verify(out_path)
@@ -127,7 +180,15 @@ def run(out_path: str | None = None) -> ScenarioResult:
                         f"{(el.get('type') or '').rsplit('/', 1)[-1]}@({x:.0f},{y:.0f})"
                     )
 
-        passed = not missing and not outside
+        # Two wires were attempted (relay->contactor, contactor->motor);
+        # a miss lands the click(s) on empty canvas and either draws no
+        # conductor or leaves the tool armed for the next action to
+        # accidentally complete -- so this checks the real count, not
+        # just "attempted True".
+        conductor_count = counts.get("conductors", 0)
+        wiring_ok = conductor_count >= 2
+
+        passed = not missing and not outside and wiring_ok
 
         if counts.get("elements", 0) == 0:
             detail = (
@@ -140,7 +201,7 @@ def run(out_path: str | None = None) -> ScenarioResult:
         else:
             detail = (
                 f"attempted={attempted} found_in_saved_file={sorted(found)} "
-                f"missing={missing}"
+                f"missing={missing} conductors={conductor_count}"
             )
 
         return ScenarioResult(
