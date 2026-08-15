@@ -142,17 +142,14 @@ class ScenarioContext:
                 f"display={self.display})"
             )
 
-        # NOTE: cross-monitor placement (_place_away_from_terminal) is
-        # implemented below but NOT called here yet. Observed empirically to
-        # sometimes leave the window in an inconsistent size/position
-        # rather than cleanly on the other monitor, and worse, since
-        # self.layout is built from a geometry read that would happen
-        # AFTER it, a partially-broken move poisons every click coordinate
-        # for the rest of the run. Needs a verify-after-move check (re-read
-        # geometry, confirm it actually landed near the target monitor,
-        # retry or fall back to "leave it where it spawned" otherwise)
-        # before it's safe to enable by default. Tracked as a known gap,
-        # not silently dropped.
+        # Cross-monitor placement, so a run stays watchable rather than
+        # fighting the CLI terminal for the screen. Verified-and-retried
+        # internally (see _try_move_to_monitor) rather than trusted
+        # blindly -- self.layout below is always built from a geometry
+        # read taken AFTER this call, so even a failed/partial move can't
+        # poison the click coordinates the rest of the run depends on; it
+        # just means the window stayed wherever it actually ended up.
+        self._place_away_from_terminal()
 
         geo = self.xdo.get_geometry()
         if not geo:
@@ -207,27 +204,76 @@ class ScenarioContext:
                     return i
         return 0
 
+    def _try_move_to_monitor(self, mx: int, my: int, mw: int, mh: int) -> bool:
+        """One move+resize attempt, verified by re-reading real geometry
+        afterward -- never trust the command's exit code alone, xdotool
+        reports success whether or not the window manager actually
+        complied. Returns whether the window ended up convincingly on
+        that monitor at a reasonable size."""
+        env = {**os.environ, "DISPLAY": self.display}
+        subprocess.run(
+            ["xdotool", "windowmove", self.xdo.window_id, str(mx + 8), str(my + 38)],
+            env=env, timeout=5,
+        )
+        subprocess.run(
+            ["xdotool", "windowsize", self.xdo.window_id, str(mw - 16), str(mh - 46)],
+            env=env, timeout=5,
+        )
+        time.sleep(0.6)
+
+        got = self.xdo._geometry_of(self.xdo.window_id)
+        if not got:
+            return False
+        # Sanity thresholds, not exact-pixel matching: WM decoration and
+        # panel reservations vary, so demand "clearly on this monitor and
+        # not absurdly small" rather than an exact fit. The 22x22 phantom
+        # window bug earlier this session is exactly the failure mode
+        # "not absurdly small" exists to catch.
+        cx, cy = got["x"] + got["w"] // 2, got["y"] + got["h"] // 2
+        on_target_monitor = (mx <= cx < mx + mw) and (my <= cy < my + mh)
+        reasonable_size = got["w"] >= mw * 0.5 and got["h"] >= mh * 0.5
+        return on_target_monitor and reasonable_size
+
     def _place_away_from_terminal(self):
-        """Move+resize the QET window onto the monitor the terminal isn't on."""
+        """
+        Move+resize the QET window onto the monitor the terminal isn't on.
+
+        Verified, not assumed: an earlier version trusted the move
+        unconditionally, which sometimes left the window small and on the
+        wrong monitor while claiming success. Every attempt here is
+        checked by re-reading real geometry afterward. self.layout is
+        always built from a fresh read taken after this returns (success
+        or not), so a failed move degrades to "window stayed where it
+        spawned" rather than "coordinates computed from a lie".
+        """
         mons = self._monitors()
         if len(mons) < 2:
-            return  # single-monitor session: nothing to move away from
+            log.info("single monitor detected, nothing to move away from")
+            return
         term_mon = self._terminal_monitor(mons)
         target = 1 if term_mon == 0 else 0
         mx, my, mw, mh = mons[target]
-        try:
-            subprocess.run(
-                ["xdotool", "windowmove", self.xdo.window_id, str(mx + 8), str(my + 38)],
-                env={**os.environ, "DISPLAY": self.display}, timeout=5,
-            )
-            subprocess.run(
-                ["xdotool", "windowsize", self.xdo.window_id, str(mw - 16), str(mh - 46)],
-                env={**os.environ, "DISPLAY": self.display}, timeout=5,
-            )
-            time.sleep(0.5)
-            log.info("placed QET window on monitor %d (terminal is on %d)", target, term_mon)
-        except Exception as e:
-            log.warning("could not move window to monitor %d: %s", target, e)
+
+        for attempt in (1, 2):
+            try:
+                if self._try_move_to_monitor(mx, my, mw, mh):
+                    log.info(
+                        "placed QET window on monitor %d (terminal is on %d), attempt %d",
+                        target, term_mon, attempt,
+                    )
+                    return
+                log.warning(
+                    "move to monitor %d did not verify on attempt %d, %s",
+                    target, attempt, "retrying" if attempt == 1 else "giving up",
+                )
+            except Exception as e:
+                log.warning("move to monitor %d raised on attempt %d: %s", target, attempt, e)
+            time.sleep(1.0)
+
+        log.warning(
+            "could not confirm window on monitor %d after 2 attempts -- "
+            "continuing with wherever it actually is", target,
+        )
 
     def checkpoint(self, label: str):
         """
