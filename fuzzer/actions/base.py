@@ -44,17 +44,45 @@ class XDo:
     # ------------------------------------------------------------------ #
     # window management                                                     #
     # ------------------------------------------------------------------ #
-    def find_window(self, name: str = "QElectroTech", timeout: float = 20.0) -> bool:
+    def find_window(self, name: str = "QElectroTech", timeout: float = 20.0,
+                     pid: int | None = None) -> bool:
+        """
+        `xdotool search --name` is a substring match across ALL clients on
+        the display, not just this app: it can return unmapped 1x1/3x3
+        Qt-internal helper windows (activating one raises "_NET_WM_DESKTOP
+        failed"), or -- on a display shared with anything else -- a
+        completely unrelated window whose title happens to contain the
+        search string. Diagnosed empirically 2026-08-15 while automating QET
+        on a display that also had browser tabs titled "QElectroTech" open;
+        clicks silently went to the wrong window. Pass `pid` (the QET
+        subprocess's own PID, which the fuzzer always has) to search by
+        ownership instead of name -- exact, no ambiguity possible.
+        """
         deadline = time.time() + timeout
         while time.time() < deadline:
-            r = self._run(["xdotool", "search", "--name", name])
+            if pid is not None:
+                r = self._run(["xdotool", "search", "--pid", str(pid)])
+            else:
+                r = self._run(["xdotool", "search", "--name", name])
             if r and r.stdout.strip():
                 ids = [x for x in r.stdout.strip().split("\n") if x]
-                if ids:
-                    self.window_id = ids[-1]
-                    log.info("QET window found: %s", self.window_id)
-                    # Give it a moment to finish drawing
-                    time.sleep(1.0)
+                # Prefer the largest mapped window: filters out the
+                # unmapped 1x1/3x3 Qt helper windows that `search` also
+                # returns for this process.
+                best_id, best_area = None, 0
+                for wid in ids:
+                    geo = self._geometry_of(wid)
+                    if not geo:
+                        continue
+                    area = geo["w"] * geo["h"]
+                    if area > best_area:
+                        best_area, best_id = area, wid
+                if best_id and best_area >= 200 * 200:
+                    self.window_id = best_id
+                    best_geo = self._geometry_of(best_id)
+                    log.info("QET window found: %s (%dx%d)",
+                              self.window_id, best_geo["w"], best_geo["h"])
+                    time.sleep(1.0)  # give it a moment to finish drawing
                     return True
             time.sleep(0.5)
         return False
@@ -65,28 +93,40 @@ class XDo:
         r = self._run(["xdotool", "getwindowgeometry", self.window_id])
         return r is not None and r.returncode == 0
 
+    def _geometry_of(self, window_id: str) -> dict | None:
+        """
+        Absolute client-area geometry for an arbitrary window id, via
+        xwininfo -- NOT `xdotool getwindowgeometry`. Under a reparenting WM
+        (xfwm4, confirmed here; likely others) that command applies the
+        frame offset twice, off by (+5,+29) measured on this session. The
+        window still exists and the offset click still lands *inside* it,
+        so nothing errors -- it just misses the menu bar / toolbar / dialog
+        buttons the caller was aiming at. Verified by cropping a screenshot
+        at both candidate origins and checking which one starts exactly at
+        the menu bar.
+        """
+        r = self._run(["xwininfo", "-id", window_id])
+        if not r or r.returncode != 0:
+            return None
+        x = y = w = h = None
+        for line in r.stdout.splitlines():
+            line = line.strip()
+            if line.startswith("Absolute upper-left X:"):
+                x = int(line.rsplit(":", 1)[1])
+            elif line.startswith("Absolute upper-left Y:"):
+                y = int(line.rsplit(":", 1)[1])
+            elif line.startswith("Width:"):
+                w = int(line.rsplit(":", 1)[1])
+            elif line.startswith("Height:"):
+                h = int(line.rsplit(":", 1)[1])
+        if x is None or w is None:
+            return None
+        return {"x": x, "y": y, "w": w, "h": h}
+
     def get_geometry(self) -> dict | None:
         if not self.window_id:
             return None
-        r = self._run(["xdotool", "getwindowgeometry", "--shell", self.window_id])
-        if not r or r.returncode != 0:
-            return None
-        geo: dict = {}
-        for line in r.stdout.strip().split("\n"):
-            if "=" in line:
-                k, v = line.split("=", 1)
-                try:
-                    geo[k.strip()] = int(v.strip())
-                except ValueError:
-                    pass
-        if "X" in geo:
-            return {
-                "x": geo["X"],
-                "y": geo["Y"],
-                "w": geo["WIDTH"],
-                "h": geo["HEIGHT"],
-            }
-        return None
+        return self._geometry_of(self.window_id)
 
     def focus(self):
         if self.window_id:

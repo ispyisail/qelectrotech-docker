@@ -40,3 +40,4 @@ Thumbs.db
 # and tracked deliberately.
 simulator/reports/*.jsonl
 scripts/helpers/wmstate
+scenario-debug/

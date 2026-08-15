@@ -143,6 +143,13 @@ def canonicalize(path: Path) -> Canon:
             "elements": elements,
             "conductors": conductors,
             "dynamic_texts": dtexts,
+            # The folio's own attributes (cols/colsize/rows/rowsize/...).
+            # Deliberately kept raw and NOT compared by diff()/canon_equal()
+            # -- they describe the page, not its content. Exposed so callers
+            # can bound-check element coordinates against the drawable area:
+            # an element dropped just outside the frame still saves as a
+            # perfectly valid project, so nothing else here would catch it.
+            "raw_attrs": dict(d.attrib),
         })
 
     diagrams.sort(key=lambda d: d["order"])

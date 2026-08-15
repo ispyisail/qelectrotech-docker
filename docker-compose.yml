@@ -200,6 +200,79 @@ services:
     stdin_open: true
     tty: true
 
+  # ── Manual test: feature/report-link-autonum (PR #701/#702) ────────────
+  # Clean single-branch build, not merged with anything else. Own home
+  # volume (not qet-home) so it can't SingleApplication-collide with an
+  # already-running qet-testbuild/qet-edz/main container on the same host.
+  # Rebuild with a new REPORTLINK_REV to pick up pushes to the branch:
+  #   docker compose build --build-arg REPORTLINK_REV=$(date +%s) qet-reportlink
+  qet-reportlink:
+    build:
+      context: .
+      target: reportlink
+    image: qelectrotech:reportlink
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - qet-reportlink-home:/home/qet
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+  # ── Manual test: mega multi-PR combined build (2026-08-11) ─────────────
+  # Fresh clone from upstream master with 47 currently-open, Qt5-compatible
+  # PRs merged in (see Dockerfile stage comment for the full exclusion
+  # list). Own home volume so it can't SingleApplication-collide with an
+  # already-running qet-testbuild/qet-reportlink/qet-edz/main container.
+  # Rebuild with a new MEGATEST_REV to pick up pushes to the branch:
+  #   docker compose build --build-arg MEGATEST_REV=$(date +%s) qet-megatest
+  qet-megatest:
+    build:
+      context: .
+      target: megatest
+    image: qelectrotech:megatest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - qet-megatest-home:/home/qet
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+  # ── Scenario runner: deterministic, scripted GUI tests ──────────────────
+  # Different job from qet-fuzz (random-action crash hunting) and the
+  # simulator/ package (CLI-only file mutation, no GUI): a scenario opens
+  # QET, builds a *specific* circuit through the real UI, saves, and
+  # verifies the saved file's structure. See scenarios/ in this repo.
+  #
+  # Runs with the host's real X server (not an internal Xvfb) so it's
+  # visible while it happens -- same X11-passthrough pattern as
+  # qet-megatest above. Own home volume so it can't SingleApplication-
+  # collide with an already-running qet-megatest/qet-testbuild container.
+  #
+  #   docker compose run --rm qet-scenarios --list
+  #   docker compose run --rm qet-scenarios run simple_motor_starter
+  qet-scenarios:
+    build:
+      context: .
+      target: scenarios
+    image: qelectrotech:scenarios
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - qet-scenarios-home:/home/qet
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+    stdin_open: true
+    tty: true
+
   # ── Elements repo fetch (10_electric only) ─────────────────────────────
   # Clones qelectrotech/qelectrotech-elements (the repo the elements/
   # submodule in qelectrotech-source-mirror points at) and copies out just
@@ -268,3 +341,6 @@ services:
 
 volumes:
   qet-home:
+  qet-reportlink-home:
+  qet-megatest-home:
+  qet-scenarios-home:

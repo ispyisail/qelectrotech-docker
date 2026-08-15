@@ -175,13 +175,23 @@ def run_self_test() -> bool:
           (r2.stdout or r2.stderr).strip()[:60])
 
     # 3. QET starts and window appears
-    env = dict(os.environ, DISPLAY=DISPLAY)
+    #
+    # QT_XCB_NO_XI2=1: without this, Qt5's xcb plugin receives both XInput2
+    # and core X11 pointer events for a single physical click, so every
+    # xdo.click()/drag() is silently delivered TWICE (same millisecond).
+    # A menu click opens then instantly closes; a canvas click can register
+    # as an unintended double-click. Diagnosed empirically 2026-08-15 with a
+    # minimal Qt widget counting press events (3 clicks -> 6 presses without
+    # this, 3 -> 3 with it). Keyboard-driven actions were never affected,
+    # which is why key()-heavy action files always looked reliable while
+    # click()-heavy ones didn't.
+    env = dict(os.environ, DISPLAY=DISPLAY, QT_XCB_NO_XI2="1")
     proc = subprocess.Popen(
         [QET_BINARY], env=env,
         stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True,
     )
     xdo = XDo(DISPLAY)
-    found = xdo.find_window(timeout=25)
+    found = xdo.find_window(timeout=25, pid=proc.pid)
     check("QET window appears on virtual display", found,
           f"window_id={xdo.window_id}")
 
@@ -421,12 +431,12 @@ class FuzzerSession:
                 return _NAMES[idx], idx
 
     def run_one_session(self):
-        env = dict(os.environ, DISPLAY=DISPLAY)
+        env = dict(os.environ, DISPLAY=DISPLAY, QT_XCB_NO_XI2="1")  # see self-test note above: fixes click-doubling
         proc = start_qet(env)
         monitor = ProcessMonitor(proc, CRASH_LOG, SCREENSHOT_DIR, DISPLAY)
 
         xdo = XDo(DISPLAY)
-        if not xdo.find_window(timeout=25):
+        if not xdo.find_window(timeout=25, pid=proc.pid):
             self.log.error("QET window never appeared")
             monitor.check("startup")
             monitor.kill()

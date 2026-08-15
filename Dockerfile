@@ -976,6 +976,247 @@ ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
 
 CMD ["qelectrotech"]
 
+# ── Manual test build: feature/report-link-autonum (PR #701/#702) ─────────────
+# Clean single-branch build (no merging, unlike testbuild above) so PR #702
+# can be exercised as-is: clickable folio-reference arrows, Renvois
+# auto-numbering with optional Préfixe/Suffixe, and the report-label
+# reload/live-update fix.
+FROM ubuntu:22.04 AS reportlink-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+# Same staleness trap as TESTBUILD_REV above: this branch gets new commits
+# pushed to it as review feedback lands, but Docker caches the git clone
+# layer by command string alone. Bump REPORTLINK_REV to force a fresh clone:
+#   docker compose build --build-arg REPORTLINK_REV=$(date +%s) qet-reportlink
+ARG REPORTLINK_REV=1
+RUN echo "cache key: ${REPORTLINK_REV}" \
+    && git clone --recursive --depth=1 --branch feature/report-link-autonum \
+       https://github.com/ispyisail/qelectrotech-source-mirror.git . \
+    && git log -1 --format='built from %H %s' > /src/BUILT_FROM.txt \
+    && cat /src/BUILT_FROM.txt
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS reportlink
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    libxcb-cursor0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=reportlink-builder /usr/local /usr/local
+# Record which commit this image was actually built from:
+# docker run --rm qelectrotech:reportlink cat /BUILT_FROM.txt
+COPY --from=reportlink-builder /src/BUILT_FROM.txt /BUILT_FROM.txt
+
+RUN useradd -m -u 1000 qet
+USER qet
+WORKDIR /home/qet
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+
+CMD ["qelectrotech"]
+
+# ── Manual test build: mega multi-PR combined build (2026-08-11) ──────────
+# Fresh clone from upstream master with 47 currently-open, Qt5-compatible
+# PRs merged in. Excludes: Qt6-migration PRs (#709, #705, #507, #505),
+# a draft (#635, needs libspnav besides) and #396 (CI-only draft) --
+# #690/#704/#692 (all drafts) were added by explicit request, each merged
+# clean or with a small hand-resolved conflict -- CONFLICTING-with-master
+# PRs per GitHub (#505, #502), a CI-only workflow PR not relevant to an
+# app testbuild (#510), and 2 PRs left unmerged after hand-resolving 9 of
+# the original 11 conflicts: #657 (60-QAction refactor touching most of
+# qetdiagrameditor.cpp -- too large to safely hand-merge quickly) and
+# #516 (a genuine data-race fix in setUpData() -- merging it risked either
+# silently reintroducing the race or breaking its related unreadable-
+# folder tooltip feature). Branch: testbuild-mega-20260811 on the
+# ispyisail fork. Throwaway integration branch, not a proposed change --
+# never open a PR
+# from it. To refresh: re-merge onto current master, force-push the
+# branch, then rebuild with a new cache key:
+#   docker compose build --build-arg MEGATEST_REV=$(date +%s) qet-megatest
+# ─────────────────────────────────────────────
+FROM ubuntu:22.04 AS megatest-builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    pkg-config \
+    qtbase5-dev \
+    qtbase5-private-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    extra-cmake-modules \
+    libkf5coreaddons-dev \
+    libkf5widgetsaddons-dev \
+    libsqlite3-dev \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+ARG MEGATEST_REV=1
+RUN echo "cache key: ${MEGATEST_REV}" \
+    && git clone --recursive --depth=1 --branch testbuild-mega-20260811 \
+       https://github.com/ispyisail/qelectrotech-source-mirror.git . \
+    && git log -1 --format='built from %H %s' > /src/BUILT_FROM.txt \
+    && cat /src/BUILT_FROM.txt
+
+RUN cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -G Ninja
+
+RUN cmake --build build --parallel $(nproc)
+RUN cmake --install build
+
+FROM ubuntu:22.04 AS megatest
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5core5a \
+    libqt5gui5 \
+    libqt5widgets5 \
+    libqt5svg5 \
+    libqt5xml5 \
+    libqt5sql5 \
+    libqt5sql5-sqlite \
+    libqt5dbus5 \
+    libqt5printsupport5 \
+    libqt5concurrent5 \
+    qt5-gtk-platformtheme \
+    libkf5coreaddons5 \
+    libkf5widgetsaddons5 \
+    libsqlite3-0 \
+    libx11-6 \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxext6 \
+    libxrender1 \
+    fonts-dejavu-core \
+    libxcb-cursor0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=megatest-builder /usr/local /usr/local
+# Record which commit this image was actually built from:
+# docker run --rm qelectrotech:megatest cat /BUILT_FROM.txt
+COPY --from=megatest-builder /src/BUILT_FROM.txt /BUILT_FROM.txt
+
+RUN useradd -m -u 1000 qet
+USER qet
+WORKDIR /home/qet
+
+ENV XDG_DATA_DIRS=/usr/local/share:/usr/share
+
+CMD ["qelectrotech"]
+
+# ── Scenario runner: deterministic, scripted GUI tests on the mega build ──
+# Adds xdotool/scrot/python3 automation tooling and scenarios/ (+ the
+# fuzzer.actions GUI-driving code and simulator.canon verification it
+# reuses) on top of the already-built, elements-collection-complete
+# megatest image, rather than rebuilding QET again from scratch.
+# Runs with the host's real X server (network_mode: host, X11 socket
+# mounted -- see docker-compose.yml's qet-scenarios service), not an
+# internal Xvfb, so a run is actually visible while it happens.
+FROM megatest AS scenarios
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xdotool \
+    scrot \
+    python3 \
+    python3-pip \
+    python3-pil \
+    x11-utils \
+    x11-xserver-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY scenarios/ /app/scenarios/
+COPY fuzzer/actions/ /app/fuzzer/actions/
+COPY simulator/ /app/simulator/
+RUN chown -R qet:qet /app
+
+USER qet
+WORKDIR /app
+
+ENV QET_BINARY=/usr/local/bin/qelectrotech
+
+ENTRYPOINT ["python3", "-m", "scenarios"]
+CMD ["--list"]
+
 # ─────────────────────────────────────────────
 # Stage 12: elements repo fetch (10_electric only)
 # Standalone clone of qelectrotech/qelectrotech-elements -- the same repo
