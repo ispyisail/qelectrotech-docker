@@ -41,13 +41,68 @@ def _is_terminal_red(px: tuple[int, int, int]) -> bool:
     return r > 255 - _RED_TOLERANCE and g < _RED_TOLERANCE and b < _RED_TOLERANCE
 
 
+def _in_direction(p: tuple[int, int], ref: tuple[int, int], ori: str) -> bool:
+    """Is mark `p` in the expected terminal direction from `ref`?
+
+    The terminal's orientation says which way its item rect extends from
+    the terminal position, so the true mark must sit mainly along that
+    axis from the approx point. Without this filter, plain
+    nearest-mark anchoring snaps a close-but-off computed click onto the
+    WRONG terminal whenever a neighbour terminal's mark sits nearer:
+    borne_2's drawn marks sit ~5px off their saved positions, so a click
+    computed for the top terminal (stock offset (0,-10), measured
+    landing ~(3,-6) relative) sat nearer the east mark (~(5,-3)) than
+    the top mark, and QET's itemAt() then connected the wire to east --
+    three folio-3 wires came out on borne east terminals because of it.
+    """
+    dx, dy = p[0] - ref[0], p[1] - ref[1]
+    if ori == "n":
+        return dy < -2 and abs(dy) > abs(dx)
+    if ori == "s":
+        return dy > 2 and abs(dy) > abs(dx)
+    if ori == "e":
+        return dx > 2 and abs(dx) > abs(dy)
+    if ori == "w":
+        return dx < -2 and abs(dx) > abs(dy)
+    return False
+
+
+# A terminal's real mark can sit up to ~10px from the computed click
+# (measured-origin error ~5px + drawn-mark offset error ~5px, borne
+# B's top mark measured 9.9px off). Marks farther than this in the
+# expected direction belong to a DIFFERENT element's terminal (K.bottom
+# sits 30px from C.top's mark), so the direction filter must not reach
+# them. Below ~4px a mark is essentially AT the click -- the direction
+# test can fail there (the mark straddles the click), but such a mark
+# is unambiguously the intended one.
+_DIR_RADIUS = 12
+_AT_CLICK_RADIUS = 4
+
+
 def find_terminal_near(
-    screenshot_path: str | Path, approx_x: int, approx_y: int, search_radius: int = 40
+    screenshot_path: str | Path, approx_x: int, approx_y: int,
+    search_radius: int = 40, orientation: str | None = None,
 ) -> tuple[int, int] | None:
     """
     Search a `search_radius`-px box around (approx_x, approx_y) in the
-    screenshot for a red terminal mark, and return the centroid of
-    whichever cluster of red pixels sits closest to the approx point.
+    screenshot for a red terminal mark, and return the centroid of the
+    chosen cluster of red pixels.
+
+    With `orientation` None (the old behaviour), the cluster nearest the
+    approx point wins -- fine when the box holds only one real mark, but
+    wrong for close-neighbour terminals (borne top/east are ~9px apart,
+    and a computed click can land nearer the other one's mark). With an
+    orientation letter, selection is two-tier: marks in the expected
+    direction WITHIN _DIR_RADIUS of the approx point win (the radius
+    gate stops the filter from leaping to a different element's mark
+    when the true mark is not in the expected direction -- e.g. a click
+    computed 4px past the terminal jitters the true mark to the "wrong"
+    side, and without the gate the filter grabs the next element's
+    mark 30px away); if none qualify, marks within _AT_CLICK_RADIUS
+    win (a mark essentially AT the click is the intended one even
+    though the direction test fails on it); otherwise the plain
+    nearest-mark behaviour is kept as a last resort rather than
+    returning nothing.
 
     Returns None if no red pixel is found in the box at all -- callers
     should fall back to the computed point rather than clicking blind.
@@ -72,6 +127,36 @@ def find_terminal_near(
 
     if not matches:
         return None
+
+    # Direction filter: keep only marks in the expected terminal
+    # direction (see _in_direction for the borne top/east case that
+    # motivated it), but only among marks within _DIR_RADIUS of the
+    # approx point -- farther marks in the same direction belong to a
+    # different element's terminal (measured: 29-30px away). A mark
+    # exactly on or beside the approx point in the wrong axis can
+    # never be the target terminal.
+    if orientation is not None:
+        click = (approx_x, approx_y)
+        directed = [
+            p for p in matches
+            if _in_direction(p, click, orientation)
+            and (p[0] - click[0]) ** 2 + (p[1] - click[1]) ** 2 <= _DIR_RADIUS ** 2
+        ]
+        if directed:
+            matches = directed
+        else:
+            # No mark in the expected direction within the gate: the
+            # computed click can overshoot a terminal by a few px and
+            # jitter its mark to the "wrong" side of the click (the
+            # true mark's direction test then fails). A mark essentially
+            # AT the click is unambiguously the intended one -- pick
+            # from those before falling back to plain nearest-mark.
+            at_click = [
+                p for p in matches
+                if (p[0] - click[0]) ** 2 + (p[1] - click[1]) ** 2 <= _AT_CLICK_RADIUS ** 2
+            ]
+            if at_click:
+                matches = at_click
 
     # Anchor on whichever matching pixel is nearest the approx point --
     # this disambiguates between two real terminal marks both inside the

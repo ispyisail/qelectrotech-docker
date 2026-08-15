@@ -61,28 +61,29 @@ to re-check. Three folio-3 features fall out of that check:
 Verification (what "verified" means here):
 
   * Element presence by saved type-path fragment, as in folio 1/2.
-  * Each wire's INSTANCE PAIR by saved element position vs the measured
-    placement origin, per-axis tolerance 20px. Folio 1 used 80 because
-    its grid spacing allowed it; this grid is far denser -- the closest
-    element pair is 30px apart in x (CS1<->CS2), so 80 would let wire
-    6's edge (D--CS1) satisfy wire 4's expectation (D--CS2). At 20 no
-    two elements of this grid are within (20,20) of each other, so
-    every expected pair has exactly one possible edge pair, while the
-    measured placement error stays comfortably under the tolerance
-    (locate_element's pattern match is sub-15px across folio 1/2 runs).
+  * Each wire TERMINAL-exact: the conductor's element1/element2 uuids
+    are mapped to grid keys by saved position vs the measured placement
+    origin (per-axis tolerance 20px -- no two elements of this grid are
+    within (20,20) of each other, so every pair is unique), and its
+    terminal1/terminal2 ids (format B: static per-.elmt-definition
+    uuids) resolve through the project-level <collection> definitions
+    in the save; the definition's offset + orientation letter identify
+    the terminal NAME against TERMINALS with a 1.5px exact match. A
+    wire drawn on borne's east terminal instead of top therefore FAILS
+    -- borne top/east are ~9px apart, far inside the 20px instance-pair
+    tolerance that let exactly such swaps pass when this scenario only
+    checked element pairs.
   * EXACT conductor count == len(WIRES). Two of the 18 wires (17 and
     18) share the same instance pair CS5<->CS6, so pair matching alone
     cannot tell a single CS5--CS6 edge from the required two; the exact
     count is what catches a missing one (17 != 18).
-  * Honest limitation: format-B saves carry conductor terminal ids
-    that do NOT resolve against the embedded definition's terminal
-    uuids (probed on a real recent scenario save), so which terminal of
-    an instance each wire used cannot be re-checked from the file. The
-    drawing side is still terminal-exact: wire endpoints are computed
+  * The drawing side is terminal-exact too: wire endpoints are computed
     from the measured origin + the .elmt terminal offsets and refined
-    by termfind against the red marks, whose nearest neighbours are
-    40px away (con_simple top/bottom) -- far beyond the sub-15px
-    origin error, so a refinement cannot jump terminals.
+    by termfind WITH the terminal's orientation, so the refinement
+    anchors on the red mark lying in that terminal's direction rather
+    than whichever mark is nearest. The plain nearest-mark refinement
+    is what once snapped the borne top clicks onto the east marks and
+    saved three wires on the wrong terminals (see termfind.py).
 """
 from __future__ import annotations
 
@@ -150,7 +151,15 @@ def run(out_path: str | None = None) -> ScenarioResult:
             wired = []
             for a, ta, b, tb in WIRES:
                 if attempted.get(a) and attempted.get(b):
-                    ctx.connect_terminals(_term_screen(a, ta), _term_screen(b, tb))
+                    # Pass each terminal's orientation so termfind's
+                    # pixel refinement anchors on the mark in that
+                    # terminal's direction (borne top/east are ~9px
+                    # apart and plain nearest-mark snapping puts the
+                    # wire on east -- see termfind._in_direction).
+                    ctx.connect_terminals(
+                        _term_screen(a, ta), _term_screen(b, tb),
+                        TERMINALS[a][ta][1], TERMINALS[b][tb][1],
+                    )
                     wired.append((a, b))
 
             ctx.save_as(out_path)
@@ -183,8 +192,12 @@ def run(out_path: str | None = None) -> ScenarioResult:
 
         conductor_count = counts.get("conductors", 0)
 
-        # Instance-pair verification, tol=_VERIFY_TOL per axis (see the
-        # docstring's verification section for the tolerance analysis).
+        # Terminal-exact wiring verification (see the docstring's
+        # verification section). Resolve each conductor's terminal ids
+        # through the save's project-level collection definitions and
+        # identify the terminal NAME by exact offset + orientation
+        # against TERMINALS; a wire saved on borne east instead of top
+        # fails here instead of passing under an instance-pair tolerance.
         topo = extract_topology(out_path)
 
         def _saved_pos(uuid):
@@ -200,18 +213,50 @@ def run(out_path: str | None = None) -> ScenarioResult:
         verified_scene = {
             k: (sx - kx, sy - ky) for k, (sx, sy) in verified.items()
         }
+
+        def _key_of(uuid):
+            p = _saved_pos(uuid)
+            if p is None:
+                return None
+            for k, vp in verified_scene.items():
+                if _near(p, vp):
+                    return k
+            return None
+
+        def _identify(key, dock, ori):
+            if key is None:
+                return None
+            for tname, ((ox, oy), tori) in TERMINALS[key].items():
+                if (abs(dock[0] - ox) <= 1.5 and abs(dock[1] - oy) <= 1.5
+                        and ori == tori):
+                    return tname
+            return None
+
         wiring_missing = []
-        for a, b in wired:
-            pa, pb = verified_scene[a], verified_scene[b]
-            match = any(
-                (_near(_saved_pos(e.element1_uuid), pa)
-                 and _near(_saved_pos(e.element2_uuid), pb))
-                or (_near(_saved_pos(e.element1_uuid), pb)
-                    and _near(_saved_pos(e.element2_uuid), pa))
-                for e in topo.edges
-            )
-            if not match:
-                wiring_missing.append(f"{a}--{b}")
+        edge_used = set()
+        for a, ta, b, tb in WIRES:
+            if not attempted.get(a) or not attempted.get(b):
+                continue
+            match = None
+            for i, e in enumerate(topo.edges):
+                if i in edge_used:
+                    continue
+                k1, k2 = _key_of(e.element1_uuid), _key_of(e.element2_uuid)
+                if {k1, k2} != {a, b}:
+                    continue
+                d1 = topo.terminal_defs.get(e.terminal1_id)
+                d2 = topo.terminal_defs.get(e.terminal2_id)
+                if d1 is None or d2 is None:
+                    continue
+                n1 = _identify(k1, (d1[0], d1[1]), d1[2])
+                n2 = _identify(k2, (d2[0], d2[1]), d2[2])
+                if {n1, n2} == {ta, tb}:
+                    match = i
+                    break
+            if match is None:
+                wiring_missing.append(f"{a}.{ta}--{b}.{tb}")
+            else:
+                edge_used.add(match)
 
         # EXACT count, not >=: with auto-conductor off and the
         # checked grid (no alignments, no crossings), QET must save

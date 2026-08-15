@@ -599,7 +599,10 @@ class ScenarioContext:
         time.sleep(0.2)
         return True
 
-    def connect_terminals(self, p1: tuple[int, int], p2: tuple[int, int]):
+    def connect_terminals(
+        self, p1: tuple[int, int], p2: tuple[int, int],
+        o1: str | None = None, o2: str | None = None,
+    ):
         """
         Draw a wire between two terminal screen positions.
 
@@ -616,9 +619,15 @@ class ScenarioContext:
         Callers are responsible for computing (p1, p2) as real terminal
         positions (element drop point + that element's local terminal
         offset -- see TERMINALS in simple_motor_starter.py, read directly
-        from the .elmt XML rather than guessed). This method does not
-        verify a wire was actually created; as with place_element, only
-        the saved file's conductor count is ground truth.
+        from the .elmt XML rather than guessed). Callers SHOULD also pass
+        the terminals' orientations (o1, o2) so the pixel refinement
+        anchors on the mark that lies in that terminal's direction; when
+        omitted the refinement falls back to plain nearest-mark, which
+        snaps onto a neighbour terminal's mark when the computed click
+        lands closer to it (the borne top/east failure on folio 3).
+        This method does not verify a wire was actually created; as with
+        place_element, only the saved file's conductor count is ground
+        truth.
         """
         # Refine both points against the real pixels before dragging:
         # computed (drop point + local XML offset) geometry lands close
@@ -628,8 +637,8 @@ class ScenarioContext:
         # terminal mark is found nearby.
         shot = self.debug_dir / "_termfind_scan.png"
         termfind.screenshot(self.display, shot)
-        r1 = termfind.find_terminal_near(shot, *p1) or p1
-        r2 = termfind.find_terminal_near(shot, *p2) or p2
+        r1 = termfind.find_terminal_near(shot, *p1, orientation=o1) or p1
+        r2 = termfind.find_terminal_near(shot, *p2, orientation=o2) or p2
         log.info(
             "connect_terminals: p1=%s -> %s, p2=%s -> %s", p1, r1, p2, r2
         )

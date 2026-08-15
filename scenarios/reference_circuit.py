@@ -29,7 +29,7 @@ Usage
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -93,6 +93,11 @@ class Edge:
 class Topology:
     elements: dict[str, ElementInfo]   # uuid -> info
     edges: list[Edge]
+    # Format B only: project-level collection terminal definitions,
+    # static per-.elmt terminal uuid -> (local_x, local_y, orientation
+    # letter n/e/s/w). These are what <conductor terminal1/terminal2>
+    # uuids resolve through; empty on format-A files.
+    terminal_defs: dict[str, tuple[float, float, str]] = field(default_factory=dict)
 
     def edges_for_type(self, type_fragment: str) -> list[Edge]:
         """Edges touching any element whose type path contains `type_fragment`."""
@@ -130,6 +135,19 @@ def extract_topology(qet_path: str | Path) -> Topology:
             terminals=terms,
         )
 
+    # Format B: project-level collection terminal definitions (static
+    # per-.elmt uuids, orientation as letters). The placed elements'
+    # own <terminals> use numeric ids, so uuid-carrying entries are the
+    # collection defs -- skipped in the element loop above because they
+    # don't live under an <element>.
+    terminal_defs: dict[str, tuple[float, float, str]] = {}
+    for t in root.iter("terminal"):
+        tu = t.get("uuid")
+        if tu is not None:
+            terminal_defs[tu] = (float(t.get("x", 0)),
+                                 float(t.get("y", 0)),
+                                 t.get("orientation", "") or "n")
+
     edges: list[Edge] = []
     for c in root.iter("conductor"):
         t1id, t2id = c.get("terminal1"), c.get("terminal2")
@@ -155,7 +173,7 @@ def extract_topology(qet_path: str | Path) -> Topology:
             terminal2_id=t2id,
         ))
 
-    return Topology(elements=elements, edges=edges)
+    return Topology(elements=elements, edges=edges, terminal_defs=terminal_defs)
 
 
 if __name__ == "__main__":
