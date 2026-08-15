@@ -15,10 +15,11 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
 
-from scenarios import simple_motor_starter  # noqa: E402
+from scenarios import simple_motor_starter, motor_starter_with_breaker  # noqa: E402
 
 REGISTRY = {
     "simple_motor_starter": simple_motor_starter.run,
+    "motor_starter_with_breaker": motor_starter_with_breaker.run,
 }
 
 
