@@ -11,7 +11,9 @@ was actually observed, the exact command, and what remains unproven.
 **Binary:** `/home/user/qet-fix/build-fast/qelectrotech`, built from
 `cabinet-layout-editor` @ `3ba741ed9` (**pre-fix** — still calls
 `forceMovedByUser`)
-**Status:** persistence half **proven**; command half **still unproven**
+**Status:** **CLOSED 2026-08-16** — both halves proven. See F001-b below for the
+A/B that closed it, and the refactor that made it possible. The sections that
+follow describe the state before that work.
 
 ### The claim under test
 
@@ -109,3 +111,72 @@ none of which is the bug:
 Consistent with `TOOLING-PLAN.md` and the `qet-bughunt` skill: the file layer
 answered in one command what the GUI could not answer in six attempts. Script
 kept at `scratchpad/verify312.sh`; **not** promoted into the repo.
+
+---
+
+## F001-b — PR #707 / #312 verification gap CLOSED, and the refactor that closed it
+
+**Date:** 2026-08-16
+**Branch:** `fix/rotate-texts-dialog-out-of-command` in
+`/home/user/qet-fix-wt/rotatetexts`, off `upstream/master` @ `610001a84`
+**Commit:** `7b4fbfde6` — 3 files, +85/-17
+
+### The blocker, removed
+
+`RotateTextsCommand` called `QDialog::exec()` from inside its constructor, so
+it could not be built without a human. The refactor takes the angle as a
+constructor parameter and moves the asking into two statics:
+
+```cpp
+static bool hasSelectedTexts(Diagram *diagram);   // anything to rotate?
+static bool askRotation(qreal &rotation);         // dialog; false if cancelled
+```
+
+The single call site (`qetdiagrameditor.cpp`, `"rotate_selected_text"`) asks
+first, then builds the command. GUI behaviour is unchanged: same dialog, same
+title, and still no dialog on an empty selection. `askRotation()` stays in this
+class deliberately so the `QObject` `tr()` context is preserved and existing
+translations of *"Orienter les textes sélectionnés"* are not invalidated.
+
+### The A/B that closed the gap
+
+Driven headlessly through a **scratch** `--test-ops` op (`rotate_texts`, kept
+out of the PR) against `examples/741.qet` — 67 conductors, single folio, all
+`rotation` attributes stripped first:
+
+```bash
+echo '[{"op":"rotate_texts","angle":45}]' > ops.json
+QT_QPA_PLATFORM=offscreen qelectrotech --test-ops in.qet ops.json out.qet
+grep -o '<conductor [^>]*\brotation="[^"]*"' out.qet | wc -l
+```
+
+| build | conductors with `rotation` | conductors with `userx` |
+|---|---|---|
+| PR #707 applied (`forceRotateByUser`) | **67** | 0 |
+| PR #707 reverted (`forceMovedByUser`) | **0** | **67** |
+
+- **Symptom reproduced:** the reverted build writes no rotation at all — the
+  rotation is lost on reload. That is bugtracker #312.
+- **Fix confirmed:** the fixed build writes all 67.
+- **Second symptom confirmed:** the hypothesis recorded in F001 is now
+  measured. The buggy build wrote `userx` on all 67 conductors, spuriously
+  pinning text positions the user never moved. Projects saved by an affected
+  build carry those pins, and the fix does not remove them. **Whether that
+  needs a migration is still unassessed.**
+
+### Latent null dereference, fixed in passing
+
+When nothing is selected the constructor calls `setObsolete(true)` without ever
+creating `m_anim_group`, and `QUndoStack::push()` calls `redo()` *before* it
+discards an obsolete command — dereferencing a null pointer. Unreachable today
+only because the action is disabled on an empty selection. `undo()`/`redo()`
+now guard. This is exactly the shape W5's undo/redo oracle is meant to find.
+
+### Known limitation of the headless path
+
+The rotation *value* is applied through `QPropertyAnimation` via
+`m_anim_group->start()`, which needs a spinning event loop. Headless, the flag
+is set and the attribute is written, but the value stays at its pre-animation
+figure (`rotation="0"` rather than `45`). Fine for testing the save gate, which
+is what #312 was about; a scripted caller wanting the actual angle applied
+would need the animation to complete or be bypassed. Not filed.
