@@ -17,6 +17,7 @@ import os
 import tempfile
 
 from scenarios.base import ScenarioContext, ScenarioError, ScenarioResult
+from scenarios.reference_circuit import extract_topology
 
 log = logging.getLogger(__name__)
 
@@ -186,7 +187,27 @@ def run(out_path: str | None = None) -> ScenarioResult:
         # accidentally complete -- so this checks the real count, not
         # just "attempted True".
         conductor_count = counts.get("conductors", 0)
-        wiring_ok = conductor_count >= 2
+
+        # Count alone isn't proof the wires connect the RIGHT terminals --
+        # two conductors could exist between the wrong pair of elements and
+        # this would still pass. Re-parse the saved file with the same
+        # topology extractor used against real reference projects
+        # (reference_circuit.py) and check the actual chain: relay's edge
+        # must reach the contactor, and the contactor's edge must separately
+        # reach the motor. This is the "loop against a known-good reference"
+        # check -- perceuse.qet showed direct terminal-to-terminal
+        # conductors (no junction elements needed) are normal, valid QET
+        # wiring, which is the same shape asserted here.
+        topo = extract_topology(out_path)
+        relay_to_contactor = any(
+            {e.element1_type, e.element2_type} == {"relais_mono.elmt", "contacteur_crm.elmt"}
+            for e in topo.edges
+        )
+        contactor_to_motor = any(
+            {e.element1_type, e.element2_type} == {"contacteur_crm.elmt", "moteur_tri.elmt"}
+            for e in topo.edges
+        )
+        wiring_ok = conductor_count >= 2 and relay_to_contactor and contactor_to_motor
 
         passed = not missing and not outside and wiring_ok
 
@@ -201,7 +222,9 @@ def run(out_path: str | None = None) -> ScenarioResult:
         else:
             detail = (
                 f"attempted={attempted} found_in_saved_file={sorted(found)} "
-                f"missing={missing} conductors={conductor_count}"
+                f"missing={missing} conductors={conductor_count} "
+                f"relay_to_contactor={relay_to_contactor} "
+                f"contactor_to_motor={contactor_to_motor}"
             )
 
         return ScenarioResult(

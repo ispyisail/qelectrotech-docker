@@ -33,10 +33,10 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-# NOTE ON THE REAL FORMAT (verified against perceuse.qet, not guessed --
-# an earlier version of this file guessed element1/element2/terminal1id
-# attributes that do not exist and would have silently returned nothing):
+# NOTE ON THE REAL FORMAT -- there are TWO, not guessed, verified against
+# real files:
 #
+# Format A (perceuse.qet, affuteuse_250h.qet -- older/other QET builds):
 #   <element uuid="..." type="..." x=".." y="..">
 #     <terminals>
 #       <terminal id="245" x="0" y="4" orientation="0"/>   <!-- id is a
@@ -46,6 +46,23 @@ from pathlib import Path
 #   <conductor terminal1="245" terminal2="308" .../>   <!-- these ARE those
 #     global terminal ids, not element uuids. To find which element a
 #     conductor touches, build id -> owning-element first. -->
+#
+# Format B (this repo's built qelectrotech binary, confirmed against a
+# scenarios/simple_motor_starter.py save): <conductor> carries element1/
+# element2 attributes DIRECTLY as the placed <element uuid="..."> values --
+# no terminal-id lookup needed at all. Its terminal1/terminal2 are instead
+# the STATIC per-elmt-definition terminal uuid (stable across every
+# instance of that .elmt, e.g. every placed relais_mono.elmt shares the
+# same four terminal uuids), which does NOT appear anywhere on the placed
+# <element><terminals><terminal id=".."> tags (those only carry a fresh
+# per-instance numeric id, no uuid) -- so format A's id-based resolution
+# silently finds nothing on a format B file instead of erroring, which is
+# exactly what happened the first time this ran against a real scenario
+# save (topology checks all false despite 2 real conductors existing).
+#
+# extract_topology() below tries format B first (element1/element2 present
+# on the <conductor> itself) and only falls back to the format A id-lookup
+# when they're absent.
 
 
 @dataclass
@@ -118,8 +135,15 @@ def extract_topology(qet_path: str | Path) -> Topology:
         t1id, t2id = c.get("terminal1"), c.get("terminal2")
         if t1id is None or t2id is None:
             continue
-        e1u = terminal_owner.get(t1id)
-        e2u = terminal_owner.get(t2id)
+
+        # Format B: the conductor names its own elements directly.
+        e1u = c.get("element1")
+        e2u = c.get("element2")
+        if e1u is None or e2u is None:
+            # Format A: resolve through the diagram-wide terminal id map.
+            e1u = terminal_owner.get(t1id)
+            e2u = terminal_owner.get(t2id)
+
         e1 = elements.get(e1u) if e1u else None
         e2 = elements.get(e2u) if e2u else None
         edges.append(Edge(
