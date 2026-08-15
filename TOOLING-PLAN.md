@@ -27,7 +27,15 @@ they are the parts that decide whether the output is worth anything.**
 
 3. **Do not file anything upstream.** No `gh pr create`, no pushes to
    `qelectrotech/*`, no posts to the bugtracker, no comments on discussions.
-   Collect findings into the tool's report and stop. The repo owner files.
+   The repo owner files.
+
+   But **do not let a real finding die in a JSON file either.** Every defect
+   that survives verification gets an entry in `FINDINGS.md` at the repo root:
+   one section per finding, with the exact command that reproduces it, the
+   binary's git sha, the input file (committed if small), what was expected,
+   what happened, and whether it is already known upstream. That file is the
+   handoff. A finding that exists only inside `reports/*.jsonl` has not been
+   reported.
 
 4. **Do not modify anything under `scenarios/`.** It is finished work kept as
    fixtures.
@@ -180,6 +188,14 @@ will be the same artifact; some are real (the known `Diagram::toXml` stacking
 order defect described in `tests/determinism/check.py`'s docstring). Split
 them and record which is which — that list is a deliverable.
 
+**Warming breaks replay of existing traces.** Mutators record *byte offsets*,
+and a trace stores `seed_name` + `seed_sha256`, which `cmd_replay` resolves
+against whatever `--corpus` it is given. A warmed file has different bytes, so
+every trace already recorded under `simulator/reports/*.jsonl` replays only
+against the **original** `examples/` directory. Do not delete or overwrite the
+original corpus, and make `replay` print a clear message when the hash does not
+match (it already warns — check the warning actually fires and is legible).
+
 ### W1.2 Add a regression test
 
 Add to `simulator/tests/`: a test asserting that warming is idempotent
@@ -206,10 +222,13 @@ Rewrite as `scripts/cli-sweep.sh` (committed this time):
   crashed or timed out, excluding the known `--export-wires` empty-result
   exit-1 case (trap #8).
 
-**Proof fixture:** run the sweep against `examples/schema_indus.qet` using a
-binary built from plain `master`. The script must report 8 timeouts (trap #5).
-Against a binary from a branch containing PR #737, it must report none. If it
-cannot tell those two situations apart, it is not wired up correctly.
+**Proof fixture:** run the sweep against `examples/schema_indus.qet` (version
+0.3) with a binary built from plain `master`: **every verb that loads the
+project must be reported as a timeout** (the earlier sweep saw 8 — do not
+hard-code that number, it depends on which verbs you run). Then rebuild from
+the local branch `fix/cli-headless-version-prompt-hang`, which carries PR #737,
+and re-run: it must report none. If the script cannot tell those two binaries
+apart, it is not wired up correctly.
 
 **Done when:** `python3 -m simulator sweep --binary … --corpus <warmed>` runs
 50 iterations with `o9_self_check` passing; `scripts/cli-sweep.sh` is
@@ -223,8 +242,20 @@ committed and demonstrates the proof fixture; selftest suite green.
 files and reports semantic defects, over a corpus nobody has ever swept
 semantically. No build, no launch, no GUI — seconds per full run.
 
-**Estimated size:** the largest item here. Build it rule by rule; each rule is
-independently useful.
+**Estimated size:** the largest item here — so **ship it in two stages** and do
+not start stage 2 until stage 1 is verified and committed.
+
+- **W2 stage 1 — the five rules that already have proof fixtures**: P001, P002,
+  P003, E001, E002. All five are crash-or-corruption rules, all five are
+  checkable without reading much QET source, and between them they cover every
+  known-bad file in this repo. Stage 1 alone is a useful tool.
+- **W2 stage 2 — the semantic rules**: everything else in the tables below.
+  Each one needs its hypothesis confirmed against QET's source first, and each
+  one can turn out to be wrong (one already did — see the note after the
+  project table). Add them one at a time, running the full corpus after each.
+
+Do not implement all eighteen rules and then start verifying. That is how a
+rule that fires 783 times gets shipped.
 
 ### W2.1 Layout
 
@@ -245,10 +276,13 @@ Contract for every rule: a function taking the parsed model and yielding
 `error` (data loss or crash risk), `warning` (real defect, cosmetic impact),
 `info` (opt-in, off by default).
 
-CLI must support `--baseline baseline.json`: known violations recorded there
-are suppressed, so the tool becomes a *gate* on new problems rather than a
-wall of pre-existing noise. This is the same pattern
-`tests/determinism/baseline.json` uses — copy it.
+CLI must support `--baseline baseline.json`: violations recorded there are
+known and do not fail the run, so the tool becomes a *gate* on new problems
+rather than a wall of pre-existing noise. `tests/determinism/check.py` does the
+same thing — it records expected results and exits non-zero only when something
+**got worse**, with `--write-baseline` to re-record. Copy that shape, including
+the "got worse" comparison; a baseline that merely suppresses is one that hides
+a rule silently breaking.
 
 ### W2.2 Rules — projects (`.qet`)
 
@@ -263,11 +297,19 @@ known.
 | P003 | duplicate `uuid` value within one project | error | `canon.canonicalize()` already builds `uuid_universe` — reuse |
 | P004 | `<conductor>` references a terminal that does not exist on the named element | error | `sources/qetgraphicsitem/conductor.cpp`, `terminal.cpp` |
 | P005 | master/slave cross-reference points at a missing element uuid | error | `sources/ui/masterpropertieswidget.cpp`, `sources/properties/elementdata.cpp` |
-| P006 | `element_info`-style rows referencing a missing element | error | this is exactly upstream PR #664 — read that PR's diff first |
 | P007 | title-block template referenced but not embedded in the project | warning | `sources/titleblock/` |
 | P008 | diagram `order` attributes are not a contiguous 1..N | warning | `moveDiagramUp/Down` in `sources/qetdiagrameditor.cpp` |
 | P009 | project version newer than current, or ≤ 0.6 | info | the modal-hang class, trap #5 |
 | P010 | element position off the grid | info, **off by default** | PR #660. Many legitimate projects are off-grid; only meaningful as a *delta* across an edit, which is W3/W5's job, not a static rule |
+
+**There is deliberately no "orphan `element_info` row" rule here.** That was in
+an earlier draft and it is wrong: `element_info` is a *runtime SQLite table*
+created in `sources/dataBase/projectdatabase.cpp:308` with
+`FOREIGN KEY (element_uuid) REFERENCES element (uuid)`. The `.qet` file stores
+element information inline as `<elementInformations>` inside each `<element>`,
+so there are no free-standing rows in a file at rest and the PR #664 defect
+cannot be seen statically. It is a live-state bug and belongs to W5's O5 —
+which checks the database. Do not re-add it here.
 
 ### W2.3 Rules — elements (`.elmt`)
 
@@ -276,7 +318,7 @@ known.
 | E001 | file does not parse as XML (Python `ElementTree`) | error | 5 known bad files in the mirror; all in `<name lang="ca">` from one bad translation batch |
 | E002 | illegal control byte | error | `xpx.elmt` contains `&#11;` and **segfaults Qt's `QDomDocument::setContent()`** rather than erroring. That contrast (Python rejects, Qt dies) is the finding |
 | E003 | two terminals at identical (x, y, orientation) | warning | verify against `sources/qetgraphicsitem/terminal.cpp` |
-| E004 | no `<name lang="fr">` | warning | French is the `tr()` source language throughout QET |
+| E004 | no `<name lang="fr">` | info, **off by default** | **Measured: 783 of 6,918 files, 11%.** Mostly `20_manufacturers_articles` (ifm, festo) and `98_graphics` forms, where an untranslated catalogue part number is correct content, not a defect. As a warning it would bury every real finding on the first run. If enabled at all, scope it to hand-drawn categories and exclude `20_manufacturers_articles` |
 | E005 | `<definition>` width/height ≤ 0, or drawing extends outside the declared box | warning | verify against `sources/editor/` |
 | E006 | duplicate uuid across the whole collection | error | collection-wide, needs a second pass |
 | E007 | attribute value outside its enumerated domain (e.g. terminal `orientation` ∉ {n,s,e,w}) | error | enumerate from the source, not from guesswork |
@@ -357,10 +399,11 @@ Add a `docker compose` service or a cron-friendly wrapper that runs
 `refdiff-reports/`. Do not have it post anywhere.
 
 **Proof fixture:** plant a deliberate regression on a scratch branch off
-master — e.g. make `Diagram::toXml` drop every element whose `order` is even —
-build it, and confirm `refdiff` reports it as a `regression` with a non-zero
-exit. Then delete the scratch branch. A harness that has never seen a
-regression it was supposed to catch is unproven.
+master — in `Diagram::toXml`, skip serialising every second element (a simple
+counter; **note `order` is a *diagram* attribute, not an element one — do not
+key off it**) — build it, and confirm `refdiff` reports a `regression` with a
+non-zero exit and names the lost uuids. Then delete the scratch branch. A
+harness that has never seen a regression it was supposed to catch is unproven.
 
 **Done when:** the planted regression is caught, a clean `master` vs `master`
 run reports zero differences (this also re-proves determinism), and one real
@@ -394,6 +437,11 @@ There is no authenticated API token here, so scrape HTML. Requirements:
 
 - **Cache every fetched page to disk** and read from cache by default; add
   `--refresh` to re-fetch. Never re-scrape in a loop while developing parsers.
+- Parse with `html.parser` from the stdlib (`urllib.request` to fetch). No
+  `requests`, no `beautifulsoup4` — and **no regex over HTML**, which is where
+  a MantisBT table scraper silently starts returning empty fields after any
+  theme change. Assert the parser found the expected field count per row and
+  fail loudly if it did not.
 - Rate-limit to ≤ 1 request/second and set a descriptive User-Agent. This is a
   small volunteer-run server.
 - Parse: id, summary, description, steps-to-reproduce, status, resolution,
@@ -403,20 +451,33 @@ There is no authenticated API token here, so scrape HTML. Requirements:
 
 ### W4.2 Classification
 
-For each open, unassigned bug produce:
+Stage this the same way as W2. **Stage 1 is the part with durable value: a
+complete, structured, locally-cached corpus of every open bug plus an
+attempted reproduction.** That is worth having even if every heuristic below
+turns out to be useless.
+
+Stage 1, for each open unassigned bug:
 
 - **`repro_class`**: `headless` (description implies file load/save/export or
   CLI — attemptable now), `gui` (needs interaction), `unclear`.
-- **`code_paths`**: candidate source files, from keyword → path matching over
-  `git grep` in `/home/user/qet-fix`. Keep the keyword table in a JSON file
-  that a human can edit; `tools/iec81346/keywords.json` is the existing
-  pattern to copy.
 - **`auto_repro`**: for `headless` bugs with an attached project, run the
-  implied CLI verb against it under the sandbox and record the outcome.
-- **`likely_stale`**: heuristics — the bug predates a merged commit touching
-  its candidate code paths; or auto-repro succeeds where the bug says it
-  fails. Flag as a *hypothesis to check*, never as a conclusion.
+  implied CLI verb against it under the sandbox and record the outcome
+  verbatim — command, exit code, stderr. This is the highest-value field in
+  the whole tool and the only one that produces evidence rather than a guess.
+
+Stage 2, only once stage 1 is committed and its records have been spot-checked:
+
+- **`code_paths`**: candidate source files from a keyword → path table over
+  `git grep` in `/home/user/qet-fix`, kept in an editable JSON file
+  (`tools/iec81346/keywords.json` is the pattern to copy).
+- **`likely_stale`**: the bug predates a merged commit touching its candidate
+  paths, or auto-repro succeeds where the bug says it fails. Always a
+  *hypothesis to check*, never a conclusion.
 - **`effort_hint`**: size of the candidate code path region.
+
+Be honest about stage 2: keyword→path matching over a codebase this size is
+crude, and a confident-looking wrong `code_paths` is worse than an empty one.
+If the calibration below does not separate, ship stage 1 and say why.
 
 Output a markdown worklist sorted by (likely fixable × likely live), plus the
 raw JSON. Ship a `--stale-only` view — the "these look already fixed, confirm
@@ -428,13 +489,21 @@ and close" list is a distinct piece of work with its own value.
 - Never assert "fixed" without a reproduction attempt on current master; write
   "not reproduced on `<sha>` via `<exact command>`" and let a human judge.
 
-**Proof fixture:** the tool must classify #256, #278 and #288 as
-`likely_stale`, and must *not* classify all three as live. Their statuses were
-established by hand and are the calibration set.
+**Proof fixture — and a warning about it.** The calibration set is #256, #278
+and #288 (hand-checked: **not reproducible on master**, i.e. already fixed)
+*plus* at least three bugs known to have been live and since fixed by a real
+PR — #291, #306 and #335 are documented cases with PRs attached.
+
+**Three samples can be overfitted by accident.** Tuning heuristics until the
+stale three come out stale is trivial and proves nothing; that is why the live
+set is in the calibration too. The bar is: the classifier separates the two
+groups *without* a rule that names any specific bug id. If it cannot, say so
+in the README and ship the classifier as `unclear` for everything rather than
+shipping a confident wrong answer.
 
 **Done when:** every open unassigned bug has a record, the calibration set
-classifies correctly, and the top-20 worklist has been read end to end by a
-human and judged plausible.
+separates without id-specific rules, and the top-20 worklist has been read end
+to end by a human and judged plausible.
 
 ---
 
@@ -539,10 +608,22 @@ New `simulator/opsweep.py`, modelled on `runner.py`:
 
 **Proof fixture:** `simulator/fixtures/fixture_element_info_orphan.py`
 reproduces PR #664 (an orphan `element_info` row after a delete/undo cycle).
-O5 must independently discover that same defect when run against a binary
-built *without* the PR #664 fix, driven only by generated op traces — not by
-the hand-written fixture. If it cannot rediscover a bug that is known to be
-inside its search space, the oracle is not actually checking what it claims.
+O5 must independently rediscover that defect from *generated* op traces, not
+from the hand-written fixture. If it cannot rediscover a bug known to be inside
+its search space, the oracle is not checking what it claims.
+
+The two binaries you need already exist as local branches, and this has been
+verified:
+
+- **without the fix** — `feature/test-ops-cli` as-is. PR #664 is still open
+  upstream and that branch carries no `element_info` fix, so a plain build of
+  it is the "bug present" binary. Nothing to construct.
+- **with the fix (control)** — merge the local branch
+  `fix-element-info-orphan-row` (or `pr-664`) into a scratch copy of
+  `feature/test-ops-cli` and build that. O5 must go quiet on this one.
+
+A finding that does not disappear on the control binary is a false positive in
+the oracle, not a bug in QET.
 
 **Done when:** the proof fixture is rediscovered from a generated trace, O4
 runs at both depths across all extended ops, every finding writes a replayable
