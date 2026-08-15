@@ -102,6 +102,13 @@ _NEAR_WHITE = 250
 # shift-override run (03/05 = unselected text bands at indent 163/183,
 # 07/09 = selected element bands y282-324).
 _MIN_ELEMENT_ROW_HEIGHT = 35
+# Sibling match rows (same directory, same depth) share their label
+# indent; text antialiasing wobbles the text left edge by up to 8px
+# (measured: 163/171 alternating across four "Switch 2 positions"
+# siblings). Category rows nest in ~20px steps, so 10 still separates
+# them. Anything further left is a category (parents of a further
+# match group) and must not be taken for a sibling.
+_SIBLING_INDENT_TOL = 10
 # How wide a full-row highlight band is. Text bands never get this wide
 # (observed max 201px); the tree header and panel rows below the tree do
 # span this wide but are far shorter than _MIN_ELEMENT_ROW_HEIGHT.
@@ -154,6 +161,40 @@ def _band_bg(reg: Image.Image, b: Band, y0: int) -> int:
     if not (0 <= x < w and 0 <= y < h):
         return 255
     return px[x, y]
+
+
+# How many dark pixels a column needs before it counts as glyph text
+# rather than the tree's sparse branch-guide dots (a dot column holds at
+# most 2-4 dark pixels; a 1px-wide glyph stem in a >=10px band holds 6+).
+_TEXT_MIN_COLUMN_PIXELS = 5
+
+
+def _text_left(reg: Image.Image, b: Band, y0: int) -> int:
+    """
+    Left edge of the band's *text*, ignoring the tree's branch-guide
+    dots. The raw band `left` is the leftmost dark pixel of anything in
+    the band -- for deep rows that is often a 1-2px guide dot, whose x
+    position jitters per row (measured 128-149 across four sibling rows
+    whose text all starts at the same x). Comparing raw lefts with an 8px
+    sibling tolerance therefore skipped rows: the "Switch 2 positions"
+    family has four same-name matches and element_rows returned three,
+    silently dropping contact_002. The first column dense enough to be a
+    glyph stem is stable across siblings (wobble <= 8px from
+    antialiasing). Falls back to `b.left` when the region image is not
+    available or nothing is dense enough.
+    """
+    if reg is None:
+        return b.left
+    px = reg.load()
+    by0 = max(0, b.y0 - y0)
+    by1 = min(reg.size[1] - 1, b.y1 - y0)
+    if by1 <= by0:
+        return b.left
+    for x in range(b.left, b.right + 1):
+        n = sum(1 for y in range(by0, by1) if px[x, y] < _DARK)
+        if n >= _TEXT_MIN_COLUMN_PIXELS:
+            return x
+    return b.left
 
 
 def first_element_row(
@@ -213,15 +254,80 @@ def first_element_row(
     return None
 
 
-def locate_first_element(
+def element_rows(
+    bands: list[Band], reg: Image.Image | None = None, y0: int = 0
+) -> list[Band]:
+    """
+    All element rows in the filtered tree, top to bottom.
+
+    After the first element row (located with first_element_row's full
+    signal set), sibling matches continue as consecutive bands with the
+    same label indent (all matches of one search live in one directory,
+    so no category row separates them); a selected row renders as a
+    full-width highlight band instead and is recognised by its span +
+    height. Sibling indent is compared on the text left edge
+    (_text_left), not the raw band edge, which carries the tree's
+    jittering branch-guide dots. When the indent drops (a category
+    chain of a further match group), the scan falls back to
+    first_element_row's indent-jump signal from that point.
+    """
+    rows: list[Band] = []
+    i = 0
+    while i < len(bands):
+        found: Band | None = None
+        if rows:
+            # Sibling continuation: same-indent band, or selected
+            # full-width band, before any indent drop. Indent is compared
+            # on the *text* left edge -- the raw band left edge picks up
+            # the tree's branch-guide dots, which jitter per row and made
+            # same-name siblings look 13px apart (see _text_left).
+            prev_left = _text_left(reg, rows[-1], y0) if reg is not None else rows[-1].left
+            for j in range(i, len(bands)):
+                b = bands[j]
+                span = b.right - b.left
+                if span >= _FULL_ROW_SPAN and b.y1 - b.y0 >= _MIN_ELEMENT_ROW_HEIGHT:
+                    found, i = b, j + 1
+                    break
+                # Full-width short band at the region's left edge: the scan
+                # has run past the tree into the docks below it (panel title
+                # bars and their content rows are full-width, ~10-14px tall,
+                # and reach the region's left edge -- a selected element row
+                # also spans full width but is thumbnail-height, caught by
+                # the rule above). Without this, the sibling-indent test
+                # takes every panel row for a sibling of a selected row
+                # (both have left ~2), inflating the element count.
+                if (b.left <= _TREE_EXIT_INDENT and span >= _FULL_ROW_SPAN
+                        and b.y1 - b.y0 < _MIN_ELEMENT_ROW_HEIGHT):
+                    break
+                b_left = _text_left(reg, b, y0) if reg is not None else b.left
+                if abs(b_left - prev_left) <= _SIBLING_INDENT_TOL:
+                    found, i = b, j + 1
+                    break
+                if b_left < prev_left - _SIBLING_INDENT_TOL:
+                    break
+        if found is None:
+            row = first_element_row(bands[i:], reg, y0)
+            if row is None:
+                break
+            found = row
+            while i < len(bands) and bands[i] is not row:
+                i += 1
+            i += 1
+        rows.append(found)
+    return rows
+
+
+def locate_nth_element(
     display: str,
     region: tuple[int, int, int, int],
+    index: int,
     screenshot_path: str | Path | None = None,
 ) -> tuple[int, int] | None:
     """
     Screenshot the display and return absolute (x, y) to click for the
-    first element in the filtered tree, or None if no element row is
-    visible (i.e. the filter matched nothing).
+    index-th (0-based) element row in the filtered tree, or None if
+    fewer than index+1 element rows are visible (filter matched nothing,
+    or matched fewer rows).
 
     `region` is (x0, y0, x1, y1) in absolute screen coords, covering the
     Collections tree below its tabs.
@@ -235,15 +341,26 @@ def locate_first_element(
     )
     bands = find_bands(tmp, x0, y0, x1, y1)
     reg = Image.open(tmp).convert("L").crop((x0, y0, x1, y1))
-    row = first_element_row(bands, reg, y0)
-    if row is None:
+    rows = element_rows(bands, reg, y0)
+    if index >= len(rows):
         return None
+    row = rows[index]
     # Click into the label, to the right of the thumbnail. For a normal
     # row `left` is the text's own left edge; for a selected row `left` is
     # the highlight background's edge, so the thumbnail column comes first
     # and the click must go further right to land on the text.
     dx = 130 if (row.right - row.left) >= _FULL_ROW_SPAN else 90
     return (x0 + row.left + dx, row.cy)
+
+
+def locate_first_element(
+    display: str,
+    region: tuple[int, int, int, int],
+    screenshot_path: str | Path | None = None,
+) -> tuple[int, int] | None:
+    """locate_nth_element(..., index=0) — kept under its old name for
+    the existing callers."""
+    return locate_nth_element(display, region, 0, screenshot_path)
 
 
 # --------------------------------------------------------------------- #

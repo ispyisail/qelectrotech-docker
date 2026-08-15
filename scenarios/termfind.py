@@ -94,11 +94,18 @@ def find_red_clusters(
     """
     All red terminal-mark clusters inside the box, as centroids.
 
-    Step-2 sampling + greedy clustering: one cluster per terminal mark.
-    `merge_radius` must stay below the smallest terminal-to-terminal
-    spacing (10px in every element this project wires) so adjacent
-    terminals stay distinct clusters -- the whole point versus
-    find_terminal_near(), which returns only one mark.
+    Every pixel is sampled (no step): QET's free-terminal marks can be a
+    single pixel wide (borne_2's top/bottom marks measured 1px wide at an
+    odd x), and step-2 sampling only ever saw even coordinates -- such a
+    mark produced zero sampled pixels and was silently dropped, which is
+    how tremie_folio3's first run "verified" borne A 62px from where it
+    actually sat: with its two narrow marks gone, A's pattern degenerated
+    to its east mark and lost the score contest to the Digidrive's
+    bottom-row marks 75px away. Greedy clustering: one cluster per
+    terminal mark. `merge_radius` must stay below the smallest
+    terminal-to-terminal spacing (10px in every element this project
+    wires) so adjacent terminals stay distinct clusters -- the whole
+    point versus find_terminal_near(), which returns only one mark.
     """
     if Image is None:
         return []
@@ -109,8 +116,8 @@ def find_red_clusters(
     px = im.load()
     points = [
         (x, y)
-        for y in range(y0, y1, 2)
-        for x in range(x0, x1, 2)
+        for y in range(y0, y1)
+        for x in range(x0, x1)
         if _is_terminal_red(px[x, y])
     ]
     clusters: list[list[int]] = []   # [sum_x, sum_y, count]

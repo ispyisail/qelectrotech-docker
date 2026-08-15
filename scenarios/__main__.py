@@ -20,6 +20,7 @@ from scenarios import (  # noqa: E402
     motor_starter_with_breaker,
     tremie_folio1,
     tremie_folio2,
+    tremie_folio3,
 )
 
 REGISTRY = {
@@ -27,6 +28,7 @@ REGISTRY = {
     "motor_starter_with_breaker": motor_starter_with_breaker.run,
     "tremie_folio1": tremie_folio1.run,
     "tremie_folio2": tremie_folio2.run,
+    "tremie_folio3": tremie_folio3.run,
 }
 
 

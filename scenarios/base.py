@@ -491,10 +491,13 @@ class ScenarioContext:
             shot, approx_origin, term_offsets, search_radius
         )
 
-    def find_element_in_collection(self, search_term: str, timeout: float = 2.0) -> tuple[int, int] | None:
+    def find_element_in_collection(
+        self, search_term: str, timeout: float = 2.0, result_index: int = 0
+    ) -> tuple[int, int] | None:
         """
         Type into the Collections panel's filter box and return the screen
-        position of the first filtered result, or None if nothing matched.
+        position of the result_index-th (0-based) filtered result, or None
+        if fewer than result_index+1 rows matched.
 
         Uses the filter box rather than expanding tree categories by
         clicking: category structure changes over time (see #672 in this
@@ -503,6 +506,13 @@ class ScenarioContext:
         position and behaviour is stable UI, and it collapses "find this
         element" from a multi-level tree navigation into one type + one
         click.
+
+        result_index matters because QET's filter matches the DISPLAY
+        NAME only, and many stock elements share one (every terminal
+        strip is "Terminal block", "Optic sensor (NC)" is both the 3p
+        and the 4p sensor, ...). The tree order is stable within a baked
+        image, so the index of a specific .elmt is a constant -- probed
+        once (see the folio-3 probe), then hard-coded by callers.
         """
         # Filter box sits in the top-right "Collections" dock, near the
         # right edge and just below the menu bar.
@@ -529,16 +539,20 @@ class ScenarioContext:
             self.layout.wx + self.layout.ww - 5,
             self.layout.wy + 544,                           # above "Selection properties"
         )
-        pos = treefind.locate_first_element(self.display, region)
+        pos = treefind.locate_nth_element(self.display, region, result_index)
         if pos is None:
             log.warning(
-                "collection filter %r matched no element rows -- check the "
-                "search term is the element's DISPLAY NAME in the current UI "
-                "language, not its .elmt filename", search_term,
+                "collection filter %r matched fewer than %d element rows -- "
+                "check the search term is the element's DISPLAY NAME in the "
+                "current UI language (not its .elmt filename) and that "
+                "result_index is within the visible match list",
+                search_term, result_index + 1,
             )
         return pos
 
-    def place_element(self, search_term: str, canvas_x: int, canvas_y: int) -> bool:
+    def place_element(
+        self, search_term: str, canvas_x: int, canvas_y: int, result_index: int = 0
+    ) -> bool:
         """
         Find `search_term` in the Collections filter, double-click it
         (inserts at a default position per QET's double-click-inserts
@@ -554,7 +568,7 @@ class ScenarioContext:
         xdotool can confirm insertion. Verify with canon on the saved
         file instead of trusting this return value.
         """
-        pos = self.find_element_in_collection(search_term)
+        pos = self.find_element_in_collection(search_term, result_index=result_index)
         if pos is None:
             return False
 
