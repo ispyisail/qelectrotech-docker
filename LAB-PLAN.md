@@ -47,17 +47,46 @@ is useless here regardless of its reasoning.
 ### Running DeepSeek
 
 `~/.bashrc` already defines the switch; the key lives in `~/.deepseek_key`
-(mode 600). **This runs as a separate terminal session, not as a subagent** —
-a subagent spawned from a Claude session inherits that session's model config,
-so there is no way to dispatch DeepSeek work from inside Claude Code:
+(mode 600).
+
+**Interactively**, in your own terminal:
 
 ```bash
 use_deepseek     # sets ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN + model vars
 claude           # or: deepseekrun
 ```
 
-The workflow is therefore: **Claude writes the brief → you run it in a DeepSeek
-session → you check the proof fixture → Claude reviews only if it fails.**
+**Headlessly, dispatched from inside a Claude session** — *this works, contrary
+to an earlier claim in this file that it did not.* The `Agent` tool inherits the
+parent session's model, but a `claude -p` subprocess with the env vars set does
+not:
+
+```bash
+KEY=$(cat ~/.deepseek_key | tr -d '\n')
+nohup env -u ANTHROPIC_API_KEY \
+  ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$KEY" \
+  ANTHROPIC_MODEL="deepseek-v4-pro" \
+  ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro" \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash" \
+  CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-flash" \
+  claude -p "Read the task brief at briefs/<ITEM>.md and carry it out in full." \
+  --allowedTools "Bash,Read,Write,Edit,Glob,Grep" > run.log 2>&1 &
+```
+
+**Verified 2026-08-16:** routing confirmed by
+`[claude-code:unrecognized_model] {"model":"deepseek-v4-pro","query_source":"sdk"}`
+in the log, with a tool call executing correctly.
+
+Two notes on that log line: `-u ANTHROPIC_API_KEY` is required (a set API key
+takes precedence and silently routes to Anthropic), and Claude Code does not
+recognise the DeepSeek model ids, so it assumes a 200k context window. That is
+conservative and harmless; set `CLAUDE_CODE_MAX_CONTEXT_TOKENS` if the real
+window is larger and it starts auto-compacting too eagerly.
+
+Either way the workflow is the same: **Claude writes the brief → a DeepSeek
+session runs it → you check the proof fixture → Claude reviews only if it
+fails.**
 
 ### Assignment per item
 
