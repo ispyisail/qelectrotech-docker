@@ -135,6 +135,37 @@ have gone off-scope. Stop.
 
 ---
 
+## 5a. WORK IN A DEDICATED WORKTREE — do not check out in the main tree
+
+**The main working tree at `/home/user/qet-fix` currently holds 24 uncommitted
+modified files on branch `cabinet-layout-editor`. That is real unfinished human
+work. A `git checkout` there could destroy it.**
+
+Create your own worktree and do all C++ work inside it:
+
+```bash
+cd /home/user/qet-fix
+git worktree add -b lab/test-ops-extended /home/user/qet-fix-wt/lab feature/test-ops-cli
+cd /home/user/qet-fix-wt/lab
+# merge the #752 branch here, edit here, build from here
+```
+
+Rules:
+
+- **Never run `git checkout`, `git switch`, `git stash`, or `git reset` in
+  `/home/user/qet-fix` itself.** Read-only commands (`git log`, `git show`,
+  `git branch --list`, `git worktree add`) are fine there.
+- Do not touch the branches `cabinet-layout-editor`, `master`, or
+  `fix-cli-modal-dialog-hang`.
+- Another build may be running concurrently in `/home/user/qet-fix/build-ab/`.
+  **Leave that directory alone.** Build into `/home/user/qet-fix/build-lab/`.
+
+If `git worktree add` fails because a branch is already checked out elsewhere,
+pick a different branch name — do not force it, and do not remove somebody
+else's worktree.
+
+---
+
 ## 6. Environment facts
 
 | Thing | Value |
