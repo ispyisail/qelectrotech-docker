@@ -5,8 +5,43 @@ description: Diagnose a QElectroTech crash, hang, or freeze — getting a stack 
 
 # QET crashes and hangs
 
-Load `qet-env` first. **Classify before investigating** — these are three
-different bug classes with three different tools.
+Load `qet-env` first.
+
+## Fast path: "it crashes when I open a file"
+
+This is the most common report and it is bisectable in about five seconds.
+Ask two questions, then run one command.
+
+1. **Every file, or one specific file?** Every file → the install or config is
+   broken, not the file; try a clean sandbox (`simulator/env.py`) before
+   anything else. One file → that file triggers a bug and *is* the repro.
+2. **A project (`.qet`) or an element (`.elmt`)?**
+
+```bash
+# project
+QT_QPA_PLATFORM=offscreen timeout 120 \
+  /home/user/qet-fix/build-fast/qelectrotech --resave the-file.qet /tmp/out.qet
+# element
+QT_QPA_PLATFORM=offscreen timeout 120 \
+  /home/user/qet-fix/build-fast/qelectrotech --check-elements the-file.elmt
+```
+
+| Result | What it means | Next |
+|---|---|---|
+| Crashes headless | bug is in the load/parse path | best case — fully reproducible, no GUI, get a stack with the gdb recipe below and minimise the input |
+| Runs fine headless | bug is in the GUI/render path | `docker compose run --rm qet-debug`, reproduce by hand under gdb |
+| Hangs, no output | probably a modal dialog during load | see **Hangs** below — this is PR #737, not a crash |
+
+**Known instance of exactly this symptom:** `xpx.elmt` in the element
+collection contains `&#11;` (U+000B, illegal in XML 1.0) and **segfaults Qt's
+`QDomDocument::setContent()`** instead of erroring. If the file is an element
+and it dies during parse, check for illegal control bytes first — validate with
+Python's `ElementTree`, which rejects them cleanly. That contrast is the
+finding, and it is a bug in two places at once.
+
+## Classify before investigating
+
+These are three different bug classes with three different tools.
 
 | Symptom | Process state | Reach for |
 |---|---|---|

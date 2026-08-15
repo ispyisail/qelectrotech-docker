@@ -17,7 +17,14 @@ Load `qet-env` before running anything. Then match the request below.
 
 → **Load `qet-crash`.**
 
-Split the two immediately, because they are different bug classes:
+**If it crashes on opening a specific file, that file is the reproduction.**
+Go headless before anything else — `--resave` for a project, `--check-elements`
+for an element, both with a timeout. Crashing headless means the bug is in the
+load path (best case: reproducible, minimisable, clean stack). Running fine
+headless means it is in the GUI path, which is a different investigation. Do
+not open a GUI to chase a crash you can trigger from the command line.
+
+Split crash from hang immediately, because they are different bug classes:
 - **Crash** (process dies) → ASan, stack trace, minimal input.
 - **Hang** (process alive, unresponsive) → look for a modal dialog first. A
   version-incompatible project hangs every headless verb forever (PR #737).
