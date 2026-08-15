@@ -433,6 +433,64 @@ class ScenarioContext:
         time.sleep(1.0)
         self.checkpoint("new_project")
 
+    def disable_auto_conductor(self):
+        """
+        Uncheck Projet > "Automatic conductor creation" for this project.
+
+        QET's placement auto-connect (DiagramEventAddElement calls
+        element->AlignedFreeTerminals() and creates one conductor per
+        aligned terminal pair, at ANY distance, ~10px tolerance) is gated
+        only by project()->autoConductor(). Any grid that lines two
+        terminal columns up on a shared x or y silently gains spurious
+        conductors. Toggling this off eliminates the mechanism at the
+        source, instead of designing grids where no two terminal
+        coordinates coincide (infeasible for parts like the Digidrive,
+        with 13 terminal columns).
+
+        Menu path, verified live by the /tmp/probe_autoconnect.py probe
+        (run in the scenarios container): Alt+P opens the Projet menu
+        (mnemonic P in both "Projet" and "Project") with its FIRST item
+        already highlighted -- Qt keyboard-opened menus pre-highlight it,
+        which the probe proved the hard way: Down x2 lands on "Add a
+        folio" and created a second diagram. A single Down reaches the
+        2nd item, m_auto_conductor. The run's exact conductor count is
+        the per-run proof the toggle actually applied (ON would add a
+        spurious conductor per aligned pair).
+        """
+        self.xdo.key("alt+p")
+        time.sleep(0.6)
+        self.xdo.key("Down")
+        time.sleep(0.2)
+        self.xdo.key("Return")
+        time.sleep(0.4)
+        self.checkpoint("auto_conductor_off")
+
+    def locate_element(
+        self,
+        approx_origin: tuple[int, int],
+        term_offsets: list[tuple[int, int]],
+        search_radius: int = 120,
+    ) -> tuple[int, int] | None:
+        """
+        Find the real screen origin of a just-placed element by matching
+        its red terminal-offset pattern against the pixels, instead of
+        trusting the drop point.
+
+        Placement is not always exact: the Digidrive's drag-and-drop
+        commit lands with a nondeterministic hotspot offset (observed
+        exact, +10px, and -140/-130 across runs), and wires computed
+        from the wrong origin can grab a NEIGHBOR's terminal. The
+        screenshot + pattern match in termfind.locate_element_origin()
+        measures where the terminals actually are. None (no red marks
+        found, e.g. elements whose terminals don't render red) means
+        the caller should fall back to the drop point.
+        """
+        shot = self.debug_dir / "_locate_scan.png"
+        termfind.screenshot(self.display, shot)
+        return termfind.locate_element_origin(
+            shot, approx_origin, term_offsets, search_radius
+        )
+
     def find_element_in_collection(self, search_term: str, timeout: float = 2.0) -> tuple[int, int] | None:
         """
         Type into the Collections panel's filter box and return the screen
@@ -571,6 +629,15 @@ class ScenarioContext:
 
     def save_as(self, path: str):
         Path(path).parent.mkdir(parents=True, exist_ok=True)
+        # Remove any previous save first: an existing file makes QET pop
+        # a "replace existing file?" confirmation, and a missed
+        # confirmation silently leaves the OLD file in place -- which
+        # this harness then verifies as if it were the new save (a
+        # real failure: a stale file from a previous run reported 24
+        # conductors for a 15-wire scenario). Deleting first means the
+        # save never prompts.
+        Path(path).unlink(missing_ok=True)
+        started = time.time()
         self.xdo.key("ctrl+shift+s")
         time.sleep(1.0)
         self.checkpoint("save_dialog")
@@ -578,10 +645,19 @@ class ScenarioContext:
         time.sleep(0.3)
         self.xdo.key("Return")
         time.sleep(1.0)
-        # Confirm any "replace existing file" prompt.
-        self.xdo.key("Return")
-        time.sleep(0.5)
         self.checkpoint("after_save")
+        # Verify the save actually happened -- don't let a missed dialog
+        # turn the next verification into a stale-file read.
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            mtime = 0.0
+        if mtime < started:
+            raise ScenarioError(
+                f"save_as({path}): file was not written (mtime {mtime:.0f} "
+                "predates the save) -- the save dialog likely never "
+                "completed; the previous save was NOT left in place"
+            )
 
     def verify(self, saved_path: str) -> _canon.Canon:
         p = Path(saved_path)

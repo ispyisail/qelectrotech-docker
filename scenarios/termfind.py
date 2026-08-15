@@ -86,6 +86,124 @@ def find_terminal_near(
     return (round(cx), round(cy))
 
 
+def find_red_clusters(
+    screenshot_path: str | Path,
+    x0: int, y0: int, x1: int, y1: int,
+    merge_radius: int = 8,
+) -> list[tuple[int, int]]:
+    """
+    All red terminal-mark clusters inside the box, as centroids.
+
+    Step-2 sampling + greedy clustering: one cluster per terminal mark.
+    `merge_radius` must stay below the smallest terminal-to-terminal
+    spacing (10px in every element this project wires) so adjacent
+    terminals stay distinct clusters -- the whole point versus
+    find_terminal_near(), which returns only one mark.
+    """
+    if Image is None:
+        return []
+    im = Image.open(screenshot_path).convert("RGB")
+    w, h = im.size
+    x0, y0 = max(0, x0), max(0, y0)
+    x1, y1 = min(w, x1), min(h, y1)
+    px = im.load()
+    points = [
+        (x, y)
+        for y in range(y0, y1, 2)
+        for x in range(x0, x1, 2)
+        if _is_terminal_red(px[x, y])
+    ]
+    clusters: list[list[int]] = []   # [sum_x, sum_y, count]
+    for px_, py_ in points:
+        for c in clusters:
+            cx_, cy_, n = c
+            if abs(cx_ / n - px_) <= merge_radius and abs(cy_ / n - py_) <= merge_radius:
+                c[0] += px_
+                c[1] += py_
+                c[2] += 1
+                break
+        else:
+            clusters.append([px_, py_, 1])
+    return [(round(sx / n), round(sy / n)) for sx, sy, n in clusters if n >= 2]
+
+
+def locate_element_origin(
+    screenshot_path: str | Path,
+    approx_origin: tuple[int, int],
+    term_offsets: list[tuple[int, int]],
+    search_radius: int = 120,
+    tol: int = 14,
+) -> tuple[int, int] | None:
+    """
+    Locate an element's real origin by matching its red terminal-offset
+    pattern against the red clusters in a `search_radius` box around
+    `approx_origin`.
+
+    For every (cluster, offset) pair the implied origin is
+    cluster - offset; each candidate scores by how many of the element's
+    offsets have an as-yet-unused cluster within `tol` of
+    candidate+offset. Best score wins; ties go to the candidate nearest
+    approx_origin (placement is at least approximately right, and this
+    breaks the tie against a neighbor with the same offset pattern
+    inside the box). The origin is then refined to the per-axis median
+    of the matched pairs' implied origins -- accurate even when drawn
+    marks sit a few px off their .elmt offsets.
+
+    Returns None if fewer than 2 offsets matched, i.e. the element's red
+    pattern is not there (terminals that don't render red, or a
+    placement that landed far outside the box).
+    """
+    if Image is None or not term_offsets:
+        return None
+    ax, ay = approx_origin
+    if search_radius is None:
+        # Whole screenshot: for elements whose placement offset can be
+        # arbitrarily large. The pattern score (number of matched
+        # offsets) is what keeps this safe -- a wrong candidate built
+        # from noise or another element's marks scores far below the
+        # element's own full pattern.
+        clusters = find_red_clusters(screenshot_path, 0, 0, 10**9, 10**9)
+    else:
+        clusters = find_red_clusters(
+            screenshot_path,
+            ax - search_radius, ay - search_radius,
+            ax + search_radius, ay + search_radius,
+        )
+    if len(clusters) < 2:
+        return None
+
+    def _matched_origins(origin: tuple[int, int]) -> list[tuple[int, int]]:
+        used: set[int] = set()
+        pairs = []
+        for ox, oy in term_offsets:
+            tx, ty = origin[0] + ox, origin[1] + oy
+            for i, (cx, cy) in enumerate(clusters):
+                if i in used:
+                    continue
+                if abs(cx - tx) <= tol and abs(cy - ty) <= tol:
+                    used.add(i)
+                    pairs.append((cx - ox, cy - oy))
+                    break
+        return pairs
+
+    best_score, best_dist, best_origin = -1, 0, None
+    for cx, cy in clusters:
+        for ox, oy in term_offsets:
+            origin = (cx - ox, cy - oy)
+            score = len(_matched_origins(origin))
+            dist = (origin[0] - ax) ** 2 + (origin[1] - ay) ** 2
+            if (score, -dist) > (best_score, -best_dist):
+                best_score, best_dist, best_origin = score, dist, origin
+
+    if best_origin is None or best_score < 2:
+        return None
+    pairs = _matched_origins(best_origin)
+    xs = sorted(p[0] for p in pairs)
+    ys = sorted(p[1] for p in pairs)
+    mid = len(xs) // 2
+    return (xs[mid], ys[mid])
+
+
 def screenshot(display: str, out_path: str | Path) -> Path:
     """Take a full screenshot via scrot -- same tool checkpoint() already uses."""
     out_path = Path(out_path)
