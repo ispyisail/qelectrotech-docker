@@ -11,6 +11,12 @@ one they want.
 
 Load `qet-env` before running anything. Then match the request below.
 
+**Every branch starts with a cheap existence check. Do it before building
+anything.** Is it already fixed, already implemented, already known? Each check
+below costs seconds; skipping it costs a build, and in testing that was the
+failure mode of *every* branch of this router — the workflow was right and it
+started too far in.
+
 ---
 
 ## "It crashed" / "it froze" / "it hung"
@@ -106,6 +112,31 @@ work on.
 ---
 
 ## "I want feature X" / "someone asked for X in discussion #NNN"
+
+**Step 0: does it already exist?** A feature request from someone who does not
+know the app deeply is very often one of three things, and all three are
+cheaper to check than to build:
+
+| | Check |
+|---|---|
+| Already implemented | grep the source — **translate the words first** (`qet-glossary`), the codebase rarely uses the user's term |
+| Implemented under a different name or menu | check the UI actions in `sources/qetdiagrameditor.cpp` and the panel context menus |
+| Implemented but **conditionally disabled** | look for a guard on the call — the feature may be off for read-only projects, empty selections, or a missing setting |
+
+The third case is the subtle one and it is common. Worked example: *"can you
+make the folio tabs reorderable"* — they already are. `projectview.cpp:842`
+does `m_tab->setMovable(true)`, `QTabBar::tabMoved` is wired to
+`ProjectView::tabMoved`, and reordering by menu exists too
+(`moveDiagramUp/Down`, `elementspanelwidget.cpp:110`). But line 999 does
+`m_tab->setMovable(editable)` — so on a read-only project dragging silently
+does nothing. That request is not a feature at all; it is either a usage
+question or a bug about the read-only state, and building anything would have
+been wasted work.
+
+If it exists, say so, say how to reach it, and ask whether the real complaint
+is that it does not work in their situation.
+
+Only once it genuinely does not exist:
 
 1. Is there a discussion or bugtracker entry? If not, create one and get a
    signal **before** building.
