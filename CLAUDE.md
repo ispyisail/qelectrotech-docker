@@ -37,6 +37,7 @@ rebuild the image, so a fix can silently fail to reach the container.
 |---|---|
 | know which tool to use for a task | `DECISION-TREE.md` |
 | know what tooling to build next | `TOOLING-PLAN.md` |
+| build the verification bench (and pick a model for it) | `LAB-PLAN.md` |
 | build faster | `QET-BUILD-SPEED.md` |
 | understand the testing/oracle thesis | `SIMULATOR-DESIGN.md` |
 | see how a scope doc is written before a big feature | `QUICK-INSERT-SCOPE.md`, `LINK-ID-SCOPE.md` |
