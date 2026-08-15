@@ -17,6 +17,22 @@ below costs seconds; skipping it costs a build, and in testing that was the
 failure mode of *every* branch of this router — the workflow was right and it
 started too far in.
 
+**This includes checking your own open PRs, and that check is the one most
+often skipped.** There are ~45 of them. It applies to architecture and refactors
+too, not just bug fixes — a good idea now was very likely a good idea two weeks
+ago, and may already be sitting in review:
+
+```bash
+gh pr list --repo qelectrotech/qelectrotech-source-mirror --author ispyisail \
+  --state open --limit 100 --json number,title,headRefName \
+  --jq '.[] | "#\(.number)  \(.title)"' | grep -i '<keyword>'
+```
+
+Real case: a "non-interactive mode for headless runs" was designed, built,
+verified and opened as #753 — then found to be a duplicate of #661, opened
+twelve days earlier from this same account, with the same hook point and the
+same four guards. One `gh pr list | grep -i modal` would have caught it.
+
 ---
 
 ## "It crashed" / "it froze" / "it hung"
