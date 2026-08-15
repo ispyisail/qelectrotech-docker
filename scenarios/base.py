@@ -178,30 +178,109 @@ class ScenarioContext:
                 mons.append((x, y, w, h))
         return mons
 
+    # WM_CLASS (class part) names of terminal emulators that can plausibly
+    # host the Claude CLI prompt. A whitelist rather than a browser
+    # blacklist: browsers proliferate, terminal emulators are a small set.
+    # Keep in sync with scripts/guiauto.sh's term_monitor().
+    _TERMINAL_WM_CLASSES = {
+        "ptyxis", "xfce4-terminal", "xterm", "uxterm", "gnome-terminal",
+        "konsole", "kitty", "alacritty", "wezterm", "tilix", "rxvt", "urxvt",
+        "lxterminal", "qterminal", "foot", "st", "terminator", "tabby",
+        "x-terminal-emulator",
+    }
+
+    def _xprop_wm_class(self, wid: str) -> str:
+        """Class part of a window's WM_CLASS (lowercased), '' if unknown."""
+        try:
+            out = subprocess.run(
+                ["xprop", "-id", wid, "WM_CLASS"],
+                env={**os.environ, "DISPLAY": self.display},
+                capture_output=True, text=True, timeout=5,
+            ).stdout
+        except Exception:
+            return ""
+        quoted = re.findall(r'"([^"]*)"', out)
+        return quoted[-1].lower() if quoted else ""
+
+    def _window_viewable(self, wid: str) -> bool:
+        try:
+            out = subprocess.run(
+                ["xwininfo", "-id", wid],
+                env={**os.environ, "DISPLAY": self.display},
+                capture_output=True, text=True, timeout=5,
+            ).stdout
+        except Exception:
+            return False
+        return "IsViewable" in out
+
     def _terminal_monitor(self, mons: list[tuple[int, int, int, int]]) -> int:
         """
         Index into `mons` of the monitor showing the Claude CLI terminal,
         so the scenario window can be placed on the OTHER one and stay
         visible/watchable rather than fighting the terminal for the screen.
-        Falls back to monitor 0 if no terminal window is found (e.g.
-        running fully headless) -- placement just becomes a no-op then.
+
+        DISAMBIGUATION (real bug, fixed 2026-08-15): `xdotool search
+        --name claude` is a substring match across ALL clients, so it also
+        returns browser tabs whose page title contains "Claude Code"
+        (observed: an unviewable Google Chrome tab on the wrong monitor).
+        Taking the first id blindly parked QET on the terminal's OWN
+        monitor -- exactly the opposite of the intent. Candidates are now
+        ranked: (1) viewable + terminal-emulator WM_CLASS, (2) the focused
+        window if it is one of the matches, (3) any viewable match,
+        (4) the focused window's monitor even without a name match,
+        (5) monitor 0.
         """
-        try:
-            out = subprocess.run(
-                ["xdotool", "search", "--name", "claude"],
-                env={**os.environ, "DISPLAY": self.display},
-                capture_output=True, text=True, timeout=5,
-            ).stdout
-        except Exception:
-            return 0
-        for wid in out.split():
-            g = self.xdo._geometry_of(wid) if self.xdo else None
-            if not g:
-                continue
-            cx, cy = g["x"] + g["w"] // 2, g["y"] + g["h"] // 2
+        def monitor_of(geo) -> int:
+            if not geo:
+                return -1
+            cx = geo["x"] + geo["w"] // 2
+            cy = geo["y"] + geo["h"] // 2
             for i, (mx, my, mw, mh) in enumerate(mons):
                 if mx <= cx < mx + mw and my <= cy < my + mh:
                     return i
+            return -1
+
+        try:
+            ids = subprocess.run(
+                ["xdotool", "search", "--name", "claude"],
+                env={**os.environ, "DISPLAY": self.display},
+                capture_output=True, text=True, timeout=5,
+            ).stdout.split()
+        except Exception:
+            ids = []
+        try:
+            active = subprocess.run(
+                ["xdotool", "getactivewindow"],
+                env={**os.environ, "DISPLAY": self.display},
+                capture_output=True, text=True, timeout=5,
+            ).stdout.strip()
+        except Exception:
+            active = ""
+
+        # Rank 1: a real terminal that matches the name.
+        for wid in ids:
+            if (self._window_viewable(wid)
+                    and self._xprop_wm_class(wid) in self._TERMINAL_WM_CLASSES):
+                m = monitor_of(self.xdo._geometry_of(wid) if self.xdo else None)
+                if m >= 0:
+                    return m
+        # Rank 2: the focused window, if it is one of the matches.
+        if active and active in ids:
+            m = monitor_of(self.xdo._geometry_of(active) if self.xdo else None)
+            if m >= 0:
+                return m
+        # Rank 3: any viewable match.
+        for wid in ids:
+            if self._window_viewable(wid):
+                m = monitor_of(self.xdo._geometry_of(wid) if self.xdo else None)
+                if m >= 0:
+                    return m
+        # Rank 4: the focused window, name match or not -- right after the
+        # user ran this, focus is on the prompt that ran it.
+        if active:
+            m = monitor_of(self.xdo._geometry_of(active) if self.xdo else None)
+            if m >= 0:
+                return m
         return 0
 
     def _try_move_to_monitor(self, mx: int, my: int, mw: int, mh: int) -> bool:
@@ -211,6 +290,22 @@ class ScenarioContext:
         complied. Returns whether the window ended up convincingly on
         that monitor at a reasonable size."""
         env = {**os.environ, "DISPLAY": self.display}
+        # xfwm4 silently ignores windowmove/windowsize on a maximized
+        # window -- QET launches maximized, and this must run BEFORE the
+        # move, not after: it was missing here entirely until a real
+        # tremie_folio1 run (14 elements, much slower to reach this point
+        # than the earlier 3-4 element scenarios) exposed it. The earlier
+        # scenarios only "worked" because their runs happened to reach
+        # this code before QET's own auto-maximize won a startup race --
+        # not because this was actually handled. wmstate is the same
+        # minimal libX11 EWMH _NET_WM_STATE sender built for the host
+        # session's guiauto.sh (xdotool 3.2016 in this image has no
+        # `windowstate` subcommand, and wmctrl isn't installed).
+        subprocess.run(
+            ["wmstate", self.xdo.window_id, "remove", "maximized_vert", "maximized_horz"],
+            env=env, timeout=5,
+        )
+        time.sleep(0.3)
         subprocess.run(
             ["xdotool", "windowmove", self.xdo.window_id, str(mx + 8), str(my + 38)],
             env=env, timeout=5,

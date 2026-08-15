@@ -211,14 +211,38 @@ mon_of_window() {
     echo 0
 }
 
-# term_monitor — index of the monitor showing the Claude CLI terminal
+# term_monitor — index of the monitor showing the Claude CLI terminal.
+#
+# DISAMBIGUATION (real bug, 2026-08-15): `xdotool search --name claude` is
+# a substring match across ALL clients, so it also returns BROWSER TABS
+# whose page title contains "Claude Code" (observed: an unviewable Google
+# Chrome tab on the wrong monitor -- placement then parked the test window
+# on the terminal's own monitor instead of the opposite one). Ranked match:
+# (1) viewable + terminal-emulator WM_CLASS, (2) the focused window if it
+# matches, (3) any viewable match, (4) the focused window regardless,
+# (5) monitor 0. Keep in sync with scenarios/base.py's _terminal_monitor().
 term_monitor() {
-    local id
+    local id cls
+    for id in $(xdotool search --name "claude" 2>/dev/null); do
+        xwininfo -id "$id" 2>/dev/null | grep -q IsViewable || continue
+        cls=$(xprop -id "$id" WM_CLASS 2>/dev/null | sed -E 's/.*"([^"]+)"[^"]*$/\1/' | tr '[:upper:]' '[:lower:]')
+        case " $cls " in
+            *"ptyxis"*|*"xfce4-terminal"*|*"xterm"*|*"gnome-terminal"*|*"konsole"*|\
+            *"kitty"*|*"alacritty"*|*"wezterm"*|*"tilix"*|*"rxvt"*|*"urxvt"*|\
+            *"lxterminal"*|*"qterminal"*|*"foot"*|*"terminator"*|*"tabby"*)
+                mon_of_window "$id"; return 0 ;;
+        esac
+    done
+    local active; active=$(xdotool getactivewindow 2>/dev/null)
+    for id in $(xdotool search --name "claude" 2>/dev/null); do
+        [ "$id" = "$active" ] && { mon_of_window "$id"; return 0; }
+    done
     for id in $(xdotool search --name "claude" 2>/dev/null); do
         xwininfo -id "$id" 2>/dev/null | grep -q IsViewable || continue
         mon_of_window "$id"; return 0
     done
-    echo 0   # assume terminal is on monitor 0 if not found
+    [ -n "$active" ] && { mon_of_window "$active"; return 0; }
+    echo 0
 }
 
 # win_unmaximize <win>
