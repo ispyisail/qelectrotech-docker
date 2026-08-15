@@ -77,6 +77,22 @@ _MIN_ELEMENT_GAP = 25
 # contain deeply-indented, widely-spaced rows that otherwise look exactly
 # like element rows.
 _TREE_EXIT_INDENT = 10
+# The primary element signal: an element's label starts this much further
+# right than the previous row's. Category rows nest in ~20px steps; an
+# element row adds a thumbnail column on top, so its label jumps >=27px
+# (measured: 38, 44, 43, 93 across two runs; category steps 20). The old
+# vertical-gap heuristic is NOT reliable -- element gaps measure 18-48px
+# and category gaps 13-21px, overlapping ("Digidrive sk" sits 18px below
+# its parent and a 25px gap threshold misses it by design).
+_ELEMENT_INDENT_JUMP = 25
+# Dock-panel title bars below the tree are full-width tinted bars ~11px
+# tall; they mark "scanned past the tree" when no element matched.
+_PANEL_TITLE_MAX_HEIGHT = 20
+# Backgrounds brighter than this read as plain white; panel title bars are
+# visibly tinted and read below it. (The tree's own header row can be
+# grey-tinted in some styles, so this rule also requires the band to not
+# be the first one -- the header is always the first band.)
+_NEAR_WHITE = 250
 # A SELECTED row renders as a full-width highlight band: the highlight
 # background (~134 grey) counts as dark, so the band spans the whole row
 # width and has neither the element indent (~116+) nor the element gap
@@ -129,28 +145,64 @@ def find_bands(image_path: str | Path, x0: int, y0: int, x1: int, y1: int) -> li
     return bands
 
 
-def first_element_row(bands: list[Band]) -> Band | None:
+def _band_bg(reg: Image.Image, b: Band, y0: int) -> int:
+    """Grayscale of the pixel just right of the band's left edge."""
+    px = reg.load()
+    x = b.left + 5
+    y = b.cy - y0
+    w, h = reg.size
+    if not (0 <= x < w and 0 <= y < h):
+        return 255
+    return px[x, y]
+
+
+def first_element_row(
+    bands: list[Band], reg: Image.Image | None = None, y0: int = 0
+) -> Band | None:
     """
     The first band that looks like an element rather than a category.
 
-    Stops at the bottom of the tree widget: once any indented content has
-    been seen, a row back at the far-left margin means we have run into
-    the docks below the tree, and anything past that point must not be
-    treated as a candidate no matter how element-like it looks.
+    Signals, strongest first:
+      - a selected row's full-width, thumbnail-height highlight band,
+      - an indent jump: the label starts >= _ELEMENT_INDENT_JUMP further
+        right than the previous row's (category rows nest in ~20px steps;
+        an element row adds a thumbnail column on top),
+      - (fallback) the original indent + vertical-gap heuristics.
+
+    Stops at the bottom of the tree widget: a tinted full-width bar no
+    taller than a title (the docks below the tree) means the scan has run
+    past the tree, and anything past that point must not be treated as a
+    candidate no matter how element-like it looks. This also covers the
+    "filter matched nothing" case, where the tree body is empty and the
+    first content rows belong to the panels below.
     """
     seen_indented = False
     for i, b in enumerate(bands):
+        span = b.right - b.left
+        height = b.y1 - b.y0
+        # Selected element row: full-width highlight band, tall enough to
+        # carry a thumbnail. Check before every other rule -- its left edge
+        # is the highlight background (which can reach the region's very
+        # left edge, left=0, in the Docker geometry), not the text, so the
+        # indent and tree-exit signals are gone. A selected *category* row
+        # fails the height test and falls through.
+        if span >= _FULL_ROW_SPAN and height >= _MIN_ELEMENT_ROW_HEIGHT:
+            return b
         if b.left <= _TREE_EXIT_INDENT and seen_indented:
             return None          # scanned past the tree; no element found
         if b.left > _TREE_EXIT_INDENT:
             seen_indented = True
-        # Selected element row: full-width highlight band, tall enough to
-        # carry a thumbnail. Check before the indent rules -- its left edge
-        # is the highlight background, not the text, so the indent signal
-        # is gone. A selected *category* row fails the height test and
-        # falls through to be skipped as indented category content.
-        if (b.right - b.left >= _FULL_ROW_SPAN
-                and b.y1 - b.y0 >= _MIN_ELEMENT_ROW_HEIGHT):
+        # Dock-panel title bar below the tree: full-width, tinted, short,
+        # not the first band (the tree header is also grey-tinted in some
+        # styles, but it is always the first band).
+        if (i > 0 and span >= _FULL_ROW_SPAN and b.left < _MIN_ELEMENT_INDENT
+                and height < _PANEL_TITLE_MAX_HEIGHT
+                and reg is not None and _band_bg(reg, b, y0) < _NEAR_WHITE):
+            return None
+        # Indent jump: the element signal proper. Checked after the
+        # panel-title rule so that, with an empty filter result, the
+        # panels below the tree read as "no match" instead of an element.
+        if i > 0 and b.left - bands[i - 1].left >= _ELEMENT_INDENT_JUMP:
             return b
         if b.left < _MIN_ELEMENT_INDENT:
             continue
@@ -182,7 +234,8 @@ def locate_first_element(
         timeout=10, capture_output=True,
     )
     bands = find_bands(tmp, x0, y0, x1, y1)
-    row = first_element_row(bands)
+    reg = Image.open(tmp).convert("L").crop((x0, y0, x1, y1))
+    row = first_element_row(bands, reg, y0)
     if row is None:
         return None
     # Click into the label, to the right of the thumbnail. For a normal
@@ -205,7 +258,8 @@ if __name__ == "__main__":
     ok = True
     for shot in sorted(shots_dir.glob("*filter_*.png")):
         bands = find_bands(shot, *REGION)
-        row = first_element_row(bands)
+        reg = Image.open(shot).convert("L").crop(REGION)
+        row = first_element_row(bands, reg, REGION[1])
         if row is None:
             print(f"FAIL  {shot.name}: no element row found ({len(bands)} bands)")
             ok = False
