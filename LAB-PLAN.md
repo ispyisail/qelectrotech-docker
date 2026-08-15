@@ -68,7 +68,8 @@ session → you check the proof fixture → Claude reviews only if it fails.**
 | **L3** Gates in CI | `deepseek-v4-flash` | Wiring already-working commands into a runner. No design decisions remain |
 | **L4** In-flight visibility | `deepseek-v4-flash` | `gh` queries plus formatting. Pure data plumbing |
 | **L5** Coverage audit | **Claude Opus 5** | Naming what the tooling is *structurally blind to* is exactly the judgment a fixture can't check. Wrong here → a wasted build |
-| **L6** Verification audit | **Claude Opus 5** | Judging 45 PRs claim-by-claim for inferred-vs-observed. High false-positive cost; the value *is* the judgment |
+| **L6** phase 1 — evidence inventory | `deepseek-v4-pro` | **Revised 2026-08-16.** Classifying 136 PRs as observed/inferred/unstated turns out to be mechanically separable — a crude evidence-marker count already splits the calibration set (#707 scores 0, #682 and #737 score 6). That makes it delegable data collection, and 136 PR bodies is expensive Claude context for pattern-matching |
+| **L6** phase 2 — rank the inferred | **Claude Opus 5** | Deciding which inferred claims are worth re-testing is risk judgment with a high false-positive cost. Runs on phase 1's inventory |
 
 L5 and L6 are also the two cheapest items in Claude tokens — they produce a
 document, not a codebase, and involve no build loop. Keeping them on Claude
