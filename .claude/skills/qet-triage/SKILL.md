@@ -37,16 +37,31 @@ merge upstream faster than any other category — do not sit on one.
 
 ## "This behaves wrong" (nothing crashes)
 
+**First, translate the words.** The user names things the way the UI and the
+trade do; the codebase usually uses something else ("wire" → conductor, "page"
+→ folio/diagram, "symbol" → element). Load **`qet-glossary`** before grepping,
+or you will conclude the feature does not exist.
+
 1. **Is it already known?** Check <https://qelectrotech.org/bugtracker/> and
    GitHub discussions before anything else.
 2. **Is it already fixed?** Reproduce on current master *first*. Three
    hand-picked bugtracker entries in a row (#256, #278, #288) turned out to be
    already fixed. This step has the best time-saved-per-minute in the project.
-3. Does the symptom involve **saving, loading, or exporting**?
-   - **Yes** → no build needed. `tests/determinism/check.py` answers "did a save
-     lose or reorder data", `simulator/canon.py` `diff()` answers "what exactly
-     changed". → **Load `qet-repro`.**
-   - **No** → native build, reproduce in the GUI. → **Load `qet-repro`.**
+3. **Ask *when* it is wrong.** This is the question that localises the bug —
+   not "which subsystem do you think it is", which the user cannot answer.
+
+   | When it goes wrong | Where the bug is | Reach for |
+   |---|---|---|
+   | Wrong the moment it is created | the creating code | native build, GUI repro |
+   | Right, then wrong after save + reload | serialization | `qet-determinism`, then `canon.diff()` — **no build needed** |
+   | Wrong only after copy / paste / duplicate | the paste path | known bug family; check open PRs first |
+   | Right in the app, wrong in a PDF/BOM/DXF export | export only | the relevant `--export-*` verb, headless |
+   | Wrong only on some folios / some projects | data-dependent | get the file; it is the reproduction |
+
+   The reload and export rows are answerable in minutes with no build at all.
+   Ask the question before choosing a tool.
+
+4. → **Load `qet-repro`.**
 
 ---
 

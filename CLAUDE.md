@@ -15,6 +15,7 @@ request; it routes to the right tool *and* carries the traps that apply.
 | reproducing a report or a bugtracker entry | `qet-repro` |
 | implementing a fix or feature, or preparing a PR | `qet-fix-and-ship` |
 | "find me bugs" / run the sweeps | `qet-bughunt` |
+| a request naming a QET concept in user words (wire, page, symbol, tag) | `qet-glossary` |
 
 `DECISION-TREE.md` is the same routing written for a human to read.
 
