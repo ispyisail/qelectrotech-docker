@@ -2,6 +2,52 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Start here
+
+**Do not pick a tool from this file's tables.** Load the skill that matches the
+request; it routes to the right tool *and* carries the traps that apply.
+
+| The user says | Load |
+|---|---|
+| anything about a QET problem, fix, feature, or "what should I work on" | **`qet-triage`** — the router, start here |
+| about to build, run, or launch QET | `qet-env` |
+| "it crashed" / "it froze" / "it hung" | `qet-crash` |
+| reproducing a report or a bugtracker entry | `qet-repro` |
+| implementing a fix or feature, or preparing a PR | `qet-fix-and-ship` |
+| "find me bugs" / run the sweeps | `qet-bughunt` |
+
+`DECISION-TREE.md` is the same routing written for a human to read.
+
+**Three environments, and picking the wrong one is the most common mistake:**
+changing C++ → native `/home/user/qet-fix` + `scripts/qet-fastbuild.sh` (1.7 s
+edit loop); need a sanitizer or a clean build → Docker service; only reading or
+mutating `.qet`/`.elmt` files → no build at all. Developing inside Docker is
+~100× slower per iteration than the native loop.
+
+**Two traps worth knowing before anything else.** QET uses SingleApplication,
+so a running container with `network_mode: host` (`qet-scenarios`,
+`qet-reportlink`, `qet-megatest`) silently steals native launches and returns
+*its* answers — check `docker ps` first. And `docker compose run` does not
+rebuild the image, so a fix can silently fail to reach the container.
+
+## Documents
+
+| Want to… | Read |
+|---|---|
+| know which tool to use for a task | `DECISION-TREE.md` |
+| know what tooling to build next | `TOOLING-PLAN.md` |
+| build faster | `QET-BUILD-SPEED.md` |
+| understand the testing/oracle thesis | `SIMULATOR-DESIGN.md` |
+| see how a scope doc is written before a big feature | `QUICK-INSERT-SCOPE.md`, `LINK-ID-SCOPE.md` |
+| work on IEC 81346 labelling | `IEC81346-PLAN.md` |
+| work on icons | `ICONS-DOMAIN-SET.md`, `ICONS-HIDPI-PR1.md` |
+| understand auto-wiring on element placement | `AUTO-CONNECT-SHIFT-RESEARCH.md` |
+| propose a scripting API | `SCRIPTING-RFC.md` |
+
+Verified findings go in `FINDINGS.md` at the repo root — repro command, binary
+sha, input, expected vs actual. A finding that lives only in a JSONL report has
+not been reported.
+
 ## Overview
 
 This repository is a Docker harness for building, testing, and fuzzing [QElectroTech](https://github.com/qelectrotech/qelectrotech-source-mirror) — a Qt5/C++ electrical diagram editor. It does **not** contain QET source code; the source is cloned from GitHub during each Docker build. What lives here are:
@@ -102,6 +148,35 @@ scripts/asan-compare.sh -r /path/to/qet-repo -b master -p 519 -f /path/to/projec
 ```
 
 Critical detail baked into the script: LeakSanitizer only reports on a **clean exit**, so the app must be closed via WM_DELETE_WINDOW, never SIGTERM — a SIGTERM kill yields empty reports for both refs and a meaningless diff.
+
+### All compose services
+
+18 services (the four `*-home` entries in `docker-compose.yml` are named
+volumes, not services).
+
+| Service | Image | Purpose |
+|---|---|---|
+| `qet` | `:release` | Release build, GUI via X11 |
+| `qet-debug` | `:debug` | GDB-attached debug build |
+| `qet-valgrind` | `:debug` | Valgrind memcheck → `valgrind-logs/` |
+| `qet-asan` | `:asan` | AddressSanitizer → `asan-logs/` |
+| `qet-tsan` | `:tsan` | ThreadSanitizer → `tsan-logs/` |
+| `qet-test` | `:test` | `ctest` under Xvfb, parallel 4 |
+| `qet-determinism` | `:test` | Save idempotence + data-preservation gate (`tests/determinism/`) |
+| `qet-asan-regression` | `:test` | PR #519 leak-fix regression suite (`tests/asan-regression/`) |
+| `qet-fuzz` | `:fuzzer` | GUI fuzzer, plain debug binary |
+| `qet-fuzz-asan` | `:fuzzer-asan` | GUI fuzzer + AddressSanitizer |
+| `qet-fuzz-tsan` | `:fuzzer-tsan` | GUI fuzzer + ThreadSanitizer |
+| `qet-edz` | `:edz` | `feature/edz-import` branch build |
+| `qet-edz-fuzz` | `:edz-fuzzer` | EDZ importer fuzzer, clang + ASAN/UBSan |
+| `qet-scenarios` | `:scenarios` | Scripted GUI scenario runner — **fixtures, do not extend** |
+| `qet-testbuild` | `:testbuild` | Combined multi-PR build for manual review |
+| `qet-megatest` | `:megatest` | Larger multi-PR combined build (2026-08-11) |
+| `qet-reportlink` | `:reportlink` | Folio report-link feature build |
+| `qet-elements-10-electric` | `:elements-10-electric` | Fetches the `10_electric` element collection |
+
+`qet-scenarios`, `qet-reportlink` and `qet-megatest` use `network_mode: host` —
+see the SingleApplication warning in **Start here**.
 
 ## Architecture
 
