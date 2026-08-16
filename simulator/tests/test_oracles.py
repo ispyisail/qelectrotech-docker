@@ -89,6 +89,27 @@ class TestO3SemanticPreservation(unittest.TestCase):
         messages = [f.message for f in findings]
         self.assertTrue(any("element count changed" in m for m in messages))
 
+    def test_conductor_count_change_is_reported(self):
+        # Criterion 2's second half: a conductor removed from the file must
+        # still be noticed by O3, even though the projection now keys
+        # conductors by content rather than by the churny terminal refs.
+        text = SAMPLE.read_text()
+        mutated, n = re.subn(r"<conductor\b[^>]*>.*?</conductor>", "", text, count=1, flags=re.S)
+        self.assertEqual(n, 1, "test setup: expected a conductor block")
+        p = _write(mutated, "o3_conductor.qet")
+        findings = oracles.o3_semantic_preservation(SAMPLE, p)
+        messages = [f.message for f in findings]
+        self.assertTrue(any("conductor count changed" in m for m in messages), messages)
+
+    def test_terminal_count_change_is_reported(self):
+        text = SAMPLE.read_text()
+        mutated, n = re.subn(r"<terminal\b[^>]*/>", "", text, count=1)
+        self.assertEqual(n, 1, "test setup: expected a self-closing terminal")
+        p = _write(mutated, "o3_terminal.qet")
+        findings = oracles.o3_semantic_preservation(SAMPLE, p)
+        messages = [f.message for f in findings]
+        self.assertTrue(any("terminal count changed" in m for m in messages), messages)
+
 
 class TestO6NanInf(unittest.TestCase):
     def test_clean_file_passes(self):

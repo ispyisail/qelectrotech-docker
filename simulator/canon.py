@@ -14,35 +14,41 @@ What counts as identity-bearing here, and why:
   - element:    uuid, type, x, y, z, orientation, prefix, freezeLabel.
                 NOT colour/font/label-rendering attributes -- those are
                 display config, not content.
-  - conductor:  identity is the SORTED (terminal1, terminal2) pair within
-                its diagram. Sorted because a conductor is electrically
-                symmetric; if a resave ever swapped which terminal is "1"
-                and which is "2" that would be a cosmetic difference, not
-                a semantic one, and should not fail O2/O3.
-                CORRECTION (2026-08-16): an earlier version of this note
-                claimed "modern QET DOES write a uuid attribute on every
-                <conductor>", and that the churn seen on 741.qet was a
-                one-off first-save migration that stabilised from the
-                second save on. Both halves are wrong, and code built on
-                them (a "warm the corpus once" fix for O9) cannot work.
-                What Conductor::toXml() actually writes
-                (sources/qetgraphicsitem/conductor.cpp:1040) is no
-                conductor uuid at all -- only terminal1/terminal2, which
-                is the terminal's own uuid when it has one, and otherwise
-                a LEGACY INTEGER from table_adr_id. That table is a
-                QHash<Terminal*, int> rebuilt from scratch on every save
-                (diagram.cpp:1039), keyed by pointer and filled in
-                QGraphicsScene::items() order. Pointer-keyed iteration
-                depends on heap layout, so the integers differ BETWEEN
-                PROCESSES: three resaves of one warmed file produced
-                terminal1="30", "11" and "25" for the same conductor.
-                So the churn is not a migration -- it recurs on every
-                save and is non-deterministic run-to-run. No projection
-                keyed on terminal1/terminal2 can ever be stable. Any fix
-                must derive conductor identity from element1/element2
-                uuids plus terminalname1/terminalname2, which the same
-                function writes whenever the terminals carry uuids.
-                See FINDINGS.md F004/F003 and briefs/W5-prereq-deepseek.md.
+  - conductor:  identity is the SORTED pair of the two terminals it
+                connects, where each terminal is expressed as a
+                CONTENT-DERIVED key -- never the terminal1/terminal2
+                attribute written by Conductor::toXml()
+                (sources/qetgraphicsitem/conductor.cpp:1040). That
+                attribute is either the terminal's own uuid (when the
+                terminal has one) or a LEGACY INTEGER from table_adr_id
+                (sources/diagram.cpp:1039) -- a QHash<Terminal*, int>
+                rebuilt from scratch on every save, keyed by pointer and
+                filled in QGraphicsScene::items() order. Pointer-keyed
+                iteration depends on heap layout, so the integers differ
+                BETWEEN PROCESSES: three resaves of one warmed file wrote
+                terminal1="30", "11" and "25" for the same conductor. No
+                projection keyed on terminal1/terminal2 can ever be
+                stable (FINDINGS.md F004). So identity is resolved
+                through the <terminal> children of the diagram's elements:
+                  - a terminal carrying a uuid is keyed by that uuid
+                    (globally unique and stable);
+                  - a legacy terminal (no uuid) is keyed by its parent
+                    element's uuid plus its (x, y, orientation), looked up
+                    by the conductor's integer terminal ref.
+                A conductor ref that resolves to no terminal is kept as a
+                raw fallback ("?", ref) so a rewired/dangling reference is
+                still detected rather than silently dropped. The pair is
+                SORTED because a conductor is electrically symmetric --
+                swapping which terminal QET calls "1" vs "2" is cosmetic
+                (test_tolerates_conductor_terminal_order_swap).
+                Known limitation: a few legacy elements (industrial.qet,
+                perceuse.qet, weneedpolonez-*.qet) contain two terminals
+                with the exact same (x, y, orientation) -- content-identical
+                twins distinguishable only by their churny table_adr_id.
+                Those collapse to one key; no content-derived identity can
+                tell them apart, and a rewire between the twins is
+                undetectable in principle. See FINDINGS.md F004/F003 and
+                briefs/W5-prereq-deepseek.md.
   - diagram:    QET's schema has no diagram uuid either -- identity is
                 the `order` attribute (folios are explicitly ordered;
                 see moveDiagramUp/Down in qetdiagrameditor.cpp). Title is
@@ -61,6 +67,7 @@ every save by design and are not content.
 """
 from __future__ import annotations
 
+import json
 import math
 import re
 from dataclasses import dataclass, field
@@ -115,6 +122,7 @@ def canonicalize(path: Path) -> Canon:
     root = tree.getroot()
     uuid_universe: dict[str, str] = {}
     diagrams = []
+    total_terminals = 0
 
     for el in root.iter():
         u = el.get("uuid")
@@ -124,28 +132,52 @@ def canonicalize(path: Path) -> Canon:
     for d_idx, d in enumerate(root.iter("diagram")):
         order = d.get("order", str(d_idx))
         elements = {}
+        terminal_refs = {}
         conductors = {}
         dtexts = {}
 
+        # First pass: elements and their terminals, so a conductor's
+        # terminal ref can be resolved to a content-derived identity. The
+        # <terminal> children are reached via e.iter(), not by trusting
+        # document order -- their serialization order is itself scrambled by
+        # Diagram::toXml (F003), so only their (x, y, orientation) / uuid,
+        # never their position in the file, is identity-bearing.
         for e in d.iter("element"):
             u = e.get("uuid")
             if not u:
                 continue
             elements[u] = {k: _num(e.get(k)) if k in ("x", "y", "z", "orientation") else e.get(k)
                            for k in _ELEMENT_KEYS}
+            for t in e.iter("terminal"):
+                total_terminals += 1
+                tuuid = t.get("uuid")
+                tid = t.get("id")
+                if tuuid is not None:
+                    # Terminal with a uuid: the uuid is its stable identity.
+                    terminal_refs[tuuid] = ("u", tuuid)
+                elif tid is not None:
+                    # Legacy terminal (no uuid): identity is the parent
+                    # element's uuid plus the terminal's own position --
+                    # content-derived, immune to the table_adr_id churn.
+                    terminal_refs[tid] = ("l", u, t.get("x"), t.get("y"),
+                                          t.get("orientation"))
 
         for c in d.iter("conductor"):
             t1, t2 = c.get("terminal1"), c.get("terminal2")
             if t1 is None or t2 is None:
                 continue
-            lo, hi = sorted([t1, t2])
-            key = f"{lo}-{hi}"
-            # Store the SORTED pair, not the raw terminal1/terminal2, so a
-            # cosmetic swap of which terminal QET calls "1" vs "2" (the
-            # conductor is electrically symmetric) does not register as a
-            # semantic difference. Caught by
-            # test_tolerates_conductor_terminal_order_swap.
-            conductors.setdefault(key, []).append({
+            # Resolve each terminal ref to a content-derived identity; an
+            # unresolvable ref keeps its raw value under a "?" tag so a
+            # rewired/dangling conductor is still a visible change.
+            id1 = terminal_refs.get(t1, ("?", t1))
+            id2 = terminal_refs.get(t2, ("?", t2))
+            lo, hi = sorted([id1, id2])
+            # Sorted pair, JSON-canonicalised into a string key so the
+            # projection stays hashable, comparable and json-safe. Sorted
+            # because a conductor is electrically symmetric -- swapping which
+            # terminal QET calls "1" vs "2" is cosmetic
+            # (test_tolerates_conductor_terminal_order_swap).
+            conductors.setdefault(json.dumps([lo, hi]), []).append({
                 "terminals": [lo, hi],
                 "type": c.get("type"),
             })
@@ -179,6 +211,7 @@ def canonicalize(path: Path) -> Canon:
         "diagrams": len(diagrams),
         "elements": sum(len(d["elements"]) for d in diagrams),
         "conductors": sum(len(v) for d in diagrams for v in d["conductors"].values()),
+        "terminals": total_terminals,
         "uuids": len(uuid_universe),
     }
 
