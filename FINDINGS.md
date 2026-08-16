@@ -468,3 +468,73 @@ Needs GUI verification before proposing upstream.
    between consecutive resaves (a `UserText` at `(10.0, 20.0)` → `(5.33, 26.53)`),
    on roughly 2 of 8 trials. Pre-existing and unrelated to the projection
    change, but relevant to O4.
+
+## F006 — `canon.py` collides duplicate dynamic-text uuids, producing phantom diffs (resolves the F005 side-note)
+
+**Status:** tool defect in this repo, not a QET defect. Found by W3's refdiff
+sweep on its first clean run.
+
+### Repro
+
+```
+cd <repo> && python3 -m tools.refdiff --base master --head master
+  -> 114 same, 0 regression, 0 improvement, 1 change (115 comparisons), exit 0
+  photovoltaique --resave: CHANGE
+    diagram order=1 dynamic_texts value differs for ['{93c0008c-...}']
+```
+
+Same binary, same input, both variants exit 0 in 0.4s — yet the projection
+reports a semantic difference.
+
+### Cause
+
+`dynamic_elmt_text` uuids are **not unique within a project**. Element-embedded
+texts inherit their uuid from the element *definition* in the library, so every
+placement of that element carries the same text uuid. In
+`examples/photovoltaique.qet` one uuid appears twice and others appear up to
+**four** times.
+
+`simulator/canon.py:141` keys them in a flat dict at *diagram* scope:
+
+```python
+dtexts[u] = {k: ... for k in _DTEXT_KEYS}      # last writer wins
+```
+
+`d.iter()` walks document order, which follows element serialization order —
+and that order is unstable run-to-run (F003). So which duplicate wins the key
+changes between runs, and its `x`/`y`/value land in the projection.
+
+Confirmed by a second observation: across two runs `photovoltaique` reported
+**different uuids** as the differing one (`{93c0008c-...}` vs `{1a69228d-...}`).
+A stable difference would name the same uuid every time; a collision does not.
+
+### This resolves the open question in F005's side-note 2
+
+That note recorded `photovoltaique.qet` dynamic-text drift `(10.0, 20.0)` ->
+`(5.33, 26.53)` on ~2 of 8 trials, "pre-existing... relevant to O4". It is this
+bug. The two colliding texts sit at `x=-10,y=-20` and `x=10,y=-10`; whichever
+wins the key flips the recorded coordinates, which is exactly the drift seen.
+It is **not** a QET save-path defect and does not belong to O4.
+
+### Why it matters
+
+- It is a **false positive in the oracle itself** — the failure mode most likely
+  to train people to ignore the tool. It fired on run one of the first clean
+  sweep.
+- Every sweep will carry >=1 phantom `change` until fixed. Harmless for exit
+  codes (only `regression` is fatal) but it pollutes every report.
+
+### Fix
+
+Key dynamic texts by `(parent element uuid, text uuid)` rather than text uuid
+alone, or scope `dtexts` to its parent element. Out of W3's modify-scope
+(`simulator/` was off-limits), so left for a follow-up.
+
+### Cross-item warning: W2's P003
+
+W2 stage 1 defines **P003 = "duplicate `uuid` within one project" = error**,
+built on `canon.canonicalize()`'s `uuid_universe`. If that universe includes
+`dynamic_elmt_text`, P003 will fire on essentially every project with
+element-embedded texts — a false-positive flood in exactly the rule class W2's
+brief warned about. Check P003's scope against this finding before trusting its
+counts.
