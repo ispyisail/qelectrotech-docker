@@ -41,3 +41,6 @@ Thumbs.db
 simulator/reports/*.jsonl
 scripts/helpers/wmstate
 scenario-debug/
+
+# regenerable gh API cache (rebuild with pr_evidence.py --refresh)
+tools/pr-evidence/cache/
