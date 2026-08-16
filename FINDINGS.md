@@ -558,11 +558,31 @@ spot.
   equals the count in the file, which fails on the old keying by construction.
 - All 11 simulator test modules and the 10 refdiff classifier tests pass.
 
-### Cross-item warning: W2's P003
+### Cross-item check: W2's P003 — already handled, no action needed
 
-W2 stage 1 defines **P003 = "duplicate `uuid` within one project" = error**,
-built on `canon.canonicalize()`'s `uuid_universe`. If that universe includes
-`dynamic_elmt_text`, P003 will fire on essentially every project with
-element-embedded texts — a false-positive flood in exactly the rule class W2's
-brief warned about. Check P003's scope against this finding before trusting its
-counts.
+W2 stage 1 defines **P003 = duplicate uuid within one project = error**, and the
+brief pointed it at `canon.canonicalize()`'s `uuid_universe`. That universe
+contains every uuid attribute in the document, so the rule as briefed would have
+inherited exactly this collision.
+
+**It does not.** `tools/qet-lint/rules_project.py:63` scopes P003 to `<element>`
+uuids only, and its docstring records the reason: the same uuid legitimately
+recurs on `terminal` / `dynamic_elmt_text` / `link_uuid` because QET copies a
+sub-item's uuid when instantiating an element or duplicating a folio.
+
+Measured on the 23 example projects:
+
+| Scope | Duplicate uuids flagged |
+|---|---|
+| every `uuid` attribute (as briefed) | **912** |
+| `<element>` only (as implemented) | **0** |
+
+`python3 -m tools.qet-lint /home/user/qet-fix/examples/*.qet` reports no
+violations of any rule. So W2's session caught this independently and deviated
+from its brief for a documented, correct reason — the scoping is load-bearing,
+not incidental, and P003's counts can be trusted.
+
+The two findings share one root cause: **a uuid in a `.qet` file is only unique
+within its owning scope.** Only `<element>` uuids are project-unique. Any future
+rule or projection keyed on a bare uuid should state which scope makes it
+unique, or repeat this bug.
