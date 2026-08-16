@@ -52,11 +52,26 @@ TIMEOUT_SECONDS="${GATE_TIMEOUT_SECONDS:-1800}"   # per-gate; a timeout is an `e
 # ---------------------------------------------------------------------------
 GATE_NAMES=(determinism asan-regression test cli-sweep)
 
+_cli_sweep_cmd() {
+  local b
+  for b in /home/user/qet-fix/build-fast/qelectrotech \
+           /home/user/qet-fix/build-ab/*/build/qelectrotech; do
+    [ -x "$b" ] || continue
+    printf 'bash scripts/cli-sweep.sh --binary %s --timeout 120\n' "$b"
+    return 0
+  done
+  printf ''
+}
+
 declare -A GATE_CMD=(
   [determinism]="docker compose run -T --rm --name gate-determinism qet-determinism"
   [asan-regression]="docker compose run -T --rm --name gate-asan-regression qet-asan-regression"
   [test]="docker compose run -T --rm --name gate-test qet-test"
-  [cli-sweep]="bash scripts/cli-sweep.sh"
+  # cli-sweep.sh requires --binary; without it the gate exits 2 on a usage
+  # error in 1s and looks like a real failure. Sweep the master build tree
+  # if it is there, else leave the command empty so the gate probes as
+  # not-built rather than reporting a spurious fail.
+  [cli-sweep]="$(_cli_sweep_cmd)"
 )
 declare -A GATE_PROBE=(
   [cli-sweep]="[ -e scripts/cli-sweep.sh ]"
