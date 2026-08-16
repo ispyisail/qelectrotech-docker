@@ -277,7 +277,12 @@ this audit, so no orphan-row regression is visible today.
 **Date:** 2026-08-16
 **Binary:** `build-ab/7307a59c101a/build/qelectrotech` (`nightly-388-g7307a59c1`,
 current master)
-**Status:** confirmed, reproducible, not filed upstream
+**Status:** confirmed, reproducible, **filed upstream 2026-08-17 as issue
+[#754](https://github.com/qelectrotech/qelectrotech-source-mirror/issues/754)**
+— filed jointly with F004, since they are one root cause with two symptoms.
+Reported rather than PR'd: the ordering key is a design decision that touches
+file compatibility, and the issue offers to prepare the patch once maintainers
+indicate a preference.
 
 ### The measurement
 
@@ -351,6 +356,11 @@ them as the calibration pair.
 **Date:** 2026-08-16
 **Binary:** `/home/user/qet-fix/build-ab/7307a59c101a/build/qelectrotech`
 (`nightly-388-g7307a59c1` — current master)
+**Status:** confirmed, reproducible, **filed upstream 2026-08-17 as issue
+[#754](https://github.com/qelectrotech/qelectrotech-source-mirror/issues/754)**
+— the same issue as F003. The terminal-id churn documented here is the
+downstream symptom; the `items()` ordering in F003 is the cause, and one fix
+addresses both.
 
 ### The claim under test
 
@@ -405,7 +415,11 @@ merely non-idempotent.
 
 **Date:** 2026-08-16
 **Binary:** `build-lab/qelectrotech` (branch `lab/test-ops-extended`)
-**Status:** confirmed, reproducible, **not filed upstream**
+**Status:** confirmed, reproducible, **filed upstream 2026-08-17 as issue
+[#755](https://github.com/qelectrotech/qelectrotech-source-mirror/issues/755)**.
+The GUI question left open below has since been **answered — see the
+"GUI behaviour resolved" section at the end of this entry.** The headline
+"never applies" is true only without a running event loop; the GUI recovers.
 
 ### The symptom
 
@@ -456,7 +470,39 @@ whose `undo()` writes state directly. That is why only rotate fails.
 
 Mirror redo's guard in undo — `if (m_animate && m_first_time)` — or have the
 animation path fall back to a direct write when no event loop is running.
-Needs GUI verification before proposing upstream.
+
+~~Needs GUI verification before proposing upstream.~~ **Done — see below.**
+
+### GUI behaviour resolved (2026-08-17)
+
+The open question was whether a real session's event loop completes the
+animation, making this automation-only. Answered by compiling
+`qpropertyundocommand.cpp` **standalone** against Qt5 with a 40-line dummy
+`QObject` — no QElectroTech instance, no GUI, seconds to run
+(`scratchpad/f005test/`):
+
+```
+after redo (no event loop): 90    expect 90
+after undo (no event loop): 90    expect 0     <-- not restored
+after undo + 600ms event loop: 0  expect 0
+```
+
+**The GUI does recover.** The animation completes, so an interactive user sees
+the correct result. The original headline — "rotate+undo silently does nothing"
+— is therefore true *only* without a running event loop, and stating it
+unqualified upstream would have overstated the bug.
+
+But the test surfaced something this entry had missed: **`undo()` returns while
+the property still holds the pre-undo value**, event loop or not. Anything
+executing in the same call stack — a save triggered right after an undo, a later
+command in a macro, geometry recomputed immediately after — reads stale state.
+No user-visible instance of that has been found, and it may be harmless in
+practice; issue #755 says exactly that rather than claiming a GUI failure.
+
+Method worth reusing: isolating the class from the application answered in
+minutes what GUI automation would have taken a session to approach, and it gave
+maintainers a reproduction they can run without building QET. Same lesson as the
+icon-badge crash (PR #633).
 
 ### Two side-consequences flagged by the same session
 
