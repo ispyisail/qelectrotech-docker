@@ -628,8 +628,22 @@ the `common_tag_mismatch` value comparison was affected.
 
 ### Verification
 
-- Full corpus `master` vs `pr-721`: **115 same, 0 change** (was 114/1).
-- Full corpus `master` vs `master`: **115 same, 0 change**.
+Full corpus, 115 comparisons each (23 projects x 5 verbs), run 2026-08-16 after
+the fix:
+
+| Sweep | Before F007 | After F007 | Exit |
+|---|---|---|---|
+| `master` vs `master` | 115 same, 0 change | **115 same, 0 change** | 0 |
+| `master` vs `pr-721` | 114 same, **1 change** | **115 same, 0 change** | 0 |
+
+`affuteuse_250h` no longer appears in the `pr-721` report at all. Reports:
+`refdiff-reports/f007-mvm/`, `refdiff-reports/f007-pr721/`.
+
+That makes `master` vs `pr-721` the first fully clean cross-ref sweep: a UI-only
+PR (Information tab for Slave/Terminal basetypes) provably does not perturb
+saved output anywhere in the corpus. The projection now has **no known false
+positives**, which is what makes an unattended nightly run worth acting on.
+
 - 3 regression tests, including one that reverses element order within each
   folio — exactly what F003 does — and asserts the tag sets are unchanged.
 - Still detects a genuine tag change rather than merely being looser.
