@@ -398,3 +398,73 @@ not in the harness. `tests/determinism/check.py` documents the same root cause
 as its "I1 does not hold" note; the run-to-run non-determinism above is the
 additional fact that makes the sweep's findings uninterpretable rather than
 merely non-idempotent.
+
+---
+
+## F005 — `QPropertyUndoCommand::undo()` never applies without an event loop
+
+**Date:** 2026-08-16
+**Binary:** `build-lab/qelectrotech` (branch `lab/test-ops-extended`)
+**Status:** confirmed, reproducible, **not filed upstream**
+
+### The symptom
+
+With the F003/F004 canonical projection in place, three of four op
+round-trips are clean and one is not:
+
+| op sequence | canon diffs |
+|---|---|
+| `select_all` (no-op) | 0 |
+| `select_all, delete, undo` | 0 |
+| `select_all, move, undo` | 0 |
+| **`select_all, rotate(90), undo`** | **2** |
+
+After the undo, all 65 elements keep `orientation` = original+1 (mod 4) and all
+53 dynamic texts keep `rotation` = 270. The rotation is applied and never
+reversed.
+
+### Root cause — an asymmetry between redo and undo
+
+`sources/undocommand/qpropertyundocommand.cpp`:
+
+```cpp
+redo():   if (m_animate && m_first_time)   // after the first time, writes directly
+undo():   if (m_animate)                   // no m_first_time guard -- ALWAYS animates
+```
+
+`RotateSelectionCommand` builds per-item `QPropertyUndoCommand`s with
+`setAnimated(true, false)`. `redo()` writes the property directly once
+`m_first_time` is false, so the rotation lands. `undo()` has no equivalent
+guard and always defers to a `QPropertyAnimation` — which never runs in a
+synchronous headless CLI, because nothing pumps an event loop.
+
+`delete` and `move` use `DeleteQGraphicsItemCommand` / `MoveGraphicsItemCommand`,
+whose `undo()` writes state directly. That is why only rotate fails.
+
+### Why it matters
+
+- **For the GUI:** unproven either way. A real session pumps an event loop, so
+  the animation probably completes. This has not been tested interactively and
+  should not be assumed benign.
+- **For automation:** any headless caller — `--test-ops`, a future scripting
+  API, W5's O4 oracle — sees rotate-undo silently do nothing. No error, no
+  warning, wrong state.
+- It is the same class as the `RotateTextsCommand` modal (PR #752): a command
+  that only works inside an interactive session, with nothing saying so.
+
+### Suggested fix
+
+Mirror redo's guard in undo — `if (m_animate && m_first_time)` — or have the
+animation path fall back to a direct write when no event loop is running.
+Needs GUI verification before proposing upstream.
+
+### Two side-consequences flagged by the same session
+
+1. `simulator/fixtures/fixture_determinism.py` now reports **UNEXPECTED PASS**.
+   Its premise was "O2 rediscovers the byte-level I1 bug", but O2 is now
+   content-level by design. The fixture's expectation needs updating; it was
+   outside that task's modify-scope.
+2. `photovoltaique.qet` shows an intermittent dynamic-text position drift
+   between consecutive resaves (a `UserText` at `(10.0, 20.0)` → `(5.33, 26.53)`),
+   on roughly 2 of 8 trials. Pre-existing and unrelated to the projection
+   change, but relevant to O4.
