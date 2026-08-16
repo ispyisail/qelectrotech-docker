@@ -67,6 +67,16 @@ def build_parser() -> argparse.ArgumentParser:
                     help="per-variant build trees (default <repo>/build-ab)")
     ap.add_argument("--timeout", type=float, default=120.0,
                     help="per-variant run timeout in seconds (default 120)")
+    ap.add_argument("--no-fail-fast", action="store_true",
+                    help="run every verb even for a project that is unloadable "
+                         "on both refs. By default, if the first verb times out "
+                         "on BOTH refs the project's remaining verbs are skipped: "
+                         "they would each burn 2 x --timeout to re-learn that it "
+                         "cannot be loaded. examples/schema_indus.qet is version "
+                         "0.3 and raises a modal during load that no offscreen "
+                         "process can dismiss, which cost ~20 of every sweep's "
+                         "~23 minutes. A timeout on only ONE ref is never skipped "
+                         "-- that is a regression, the most valuable signal here.")
     ap.add_argument("--out", type=Path, default=None,
                     help="report dir (default refdiff-reports/<timestamp> under the repo root)")
     ap.add_argument("--limit", type=int, default=0,
@@ -118,6 +128,19 @@ def _run_variant_retry(binary, command, *, timeout, produced_dir):
                 time.sleep(_SANDBOX_RETRY_WAIT)
     assert last is not None
     raise last
+
+
+def is_unloadable(verb_index: int, timed_out_base: bool, timed_out_head: bool,
+                  *, fail_fast: bool = True) -> bool:
+    """Should the rest of this project's verbs be skipped?
+
+    Only when the FIRST verb timed out on BOTH refs. A timeout on exactly one
+    ref is the most valuable signal the sweep produces (head hangs where base
+    did not = regression), so it must never trigger a skip.
+    """
+    if not fail_fast:
+        return False
+    return verb_index == 0 and timed_out_base and timed_out_head
 
 
 def _skipped_finding(project: str, verb: str, reason: str) -> dict:
@@ -189,7 +212,22 @@ def main(argv: list[str]) -> int:
     try:
         for idx, project in enumerate(projects, 1):
             stem = project.stem
-            for verb, out_name, kind in VERBS:
+            # Set when the FIRST verb times out on BOTH refs: the project
+            # cannot be loaded by either binary, so the remaining verbs would
+            # each burn 2 x timeout to re-learn the same fact. See the
+            # fail-fast note in build_parser().
+            unloadable = False
+
+            for vi, (verb, out_name, kind) in enumerate(VERBS):
+                if unloadable:
+                    counts["skipped"] += 1
+                    findings.append(_skipped_finding(
+                        stem, verb,
+                        f"skipped: {VERBS[0][0]} timed out on BOTH refs after "
+                        f"{args.timeout:g}s, so the project is unloadable and this "
+                        f"verb cannot add signal (--no-fail-fast to run anyway)"))
+                    continue
+
                 command = [verb, str(project), out_name]
                 produced_a = scratch / "a" / str(idx) / verb.lstrip("-")
                 produced_b = scratch / "b" / str(idx) / verb.lstrip("-")
@@ -206,6 +244,16 @@ def main(argv: list[str]) -> int:
                     findings.append(_skipped_finding(stem, verb, str(e)))
                     _log(f"{stem} {verb}: SKIPPED ({e})")
                     continue
+
+                # Only a timeout on BOTH refs means "unloadable". A timeout on
+                # exactly one ref is the single most valuable signal the sweep
+                # produces (head hangs where base did not = regression), so it
+                # must never trigger the skip.
+                if is_unloadable(vi, outcome_a.timed_out, outcome_b.timed_out,
+                                 fail_fast=not args.no_fail_fast):
+                    unloadable = True
+                    _log(f"{stem}: unloadable on both refs ({verb} timed out) "
+                         f"-- skipping its remaining {len(VERBS) - 1} verb(s)")
 
                 _normalize_produced(verb, kind, produced_a, out_name)
                 _normalize_produced(verb, kind, produced_b, out_name)
@@ -257,6 +305,7 @@ def main(argv: list[str]) -> int:
         "corpus": str(args.corpus),
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "timeout": args.timeout,
+        "fail_fast": not args.no_fail_fast,
         "verbs": [v for v, _, _ in VERBS],
         "build": {"base": _build_summary(build_base), "head": _build_summary(build_head)},
         "summary": {
@@ -274,9 +323,13 @@ def main(argv: list[str]) -> int:
     md, js = reportmod.write(sweep, out_dir)
 
     print(f"refdiff: {sweep['base_ref']} vs {sweep['head_ref']}")
+    # Include skipped, else the categories silently fail to add up to the
+    # comparison count ("1 same ... (5 comparisons)") and a reader is left
+    # wondering where the other four went. The markdown report already does this.
+    skipped = f", {counts['skipped']} skipped" if counts["skipped"] else ""
     print(f"  {counts['same']} same, {counts['regression']} regression, "
-          f"{counts['improvement']} improvement, {counts['change']} change "
-          f"({len(findings)} comparisons)")
+          f"{counts['improvement']} improvement, {counts['change']} change"
+          f"{skipped} ({len(findings)} comparisons)")
     print(f"  report: {md}")
     print(f"  json:   {js}")
 
