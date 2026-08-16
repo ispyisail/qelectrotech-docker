@@ -62,6 +62,39 @@ So the deliverable that actually serves the request is:
 > **Register every user-triggerable action** so anything can be bound, and
 > **assign defaults only where they are earned** by frequency and convention.
 
+### Verified viable against the existing code (2026-08-17)
+
+The approach — *register everything, leave most bindings blank, predefine only
+the important ones* — was checked against `ShortcutManager` and the config page
+rather than assumed. All four links hold, with **no changes needed** to the
+existing system:
+
+| Link | Evidence |
+|---|---|
+| A blank default can be registered | `registerAction` (`shortcutmanager.cpp:65`) never inspects `default_sequence`; it stores it and calls `setProperty("shortcut", …)`, which with an empty sequence simply sets no shortcut |
+| Blank entries still reach the UI | `allShortcuts()` iterates `m_order` unconditionally — no empty-filter |
+| They render as bindable rows | `shortcutsconfigpage.cpp:115` builds a `QKeySequenceEdit` per row regardless of whether the sequence is empty; the user types into it |
+| **Blank entries do not collide** | `checkConflicts()` guards both the index build and the flag with `!sequence_text.isEmpty()` — so N blank rows produce **zero** false conflicts |
+
+That last one was the real risk: had conflict detection compared sequences
+naively, registering ~130 blank actions would have painted the whole config page
+red. It does not.
+
+The page also already has a category grouping and a search filter
+(`filterRows`), which is what makes a ~230-row table usable — so scale is
+handled too.
+
+**One ergonomic change is worth making (S5a):** give `default_sequence` a
+default argument of `QKeySequence()` in `shortcutmanager.h:64`, so the ~130 new
+call sites read
+
+```cpp
+ShortcutManager::instance().registerAction(action, "id", tr("Catégorie"));
+```
+
+instead of passing an explicit empty sequence every time. One line in a header,
+and it makes the bulk patch markedly easier to review.
+
 That splits cleanly along the model rule in `LAB-PLAN.md`:
 
 > Construction with a mechanical proof fixture → DeepSeek.
@@ -142,10 +175,15 @@ never caught a conflict is unproven.
 
 Take S3's gap list and decide, per action:
 
-- register with **no** default (bindable, no key taken) — expected to be the
-  majority;
+- register with **no** default (bindable, no key taken) — **the default answer,
+  and expected to be the large majority**;
 - register **with** a default, where the action is frequent and a conventional
   key exists.
+
+The bar for a default is deliberately high: a predefined key is one the user
+cannot get back without going to the config page, so it must earn its place.
+Anything where the honest answer is "someone might want this" gets a blank
+registration, not a guessed binding.
 
 Rules: never collide with the existing 97 or with platform standards; prefer
 `QKeySequence::StandardKey` where one applies; French is the `tr()` source
