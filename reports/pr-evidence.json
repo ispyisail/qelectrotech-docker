@@ -1,0 +1,1683 @@
+{
+  "repo": "qelectrotech/qelectrotech-source-mirror",
+  "author": "ispyisail",
+  "corpus_size": 136,
+  "distribution": {
+    "observed": 22,
+    "inferred": 108,
+    "unstated": 6
+  },
+  "prs": [
+    {
+      "number": 483,
+      "title": "Add headless command-line export (PDF / PNG / SVG / cable-list / wire-list)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "### Testing",
+        "- PDF/PNG/SVG verified against native example projects (e",
+        "- `--export-cables` / `--export-wires` verified end-to-end: both exit 0 and"
+      ],
+      "claim": "Add headless command-line export (PDF / PNG / SVG / cable-list / wire-list)"
+    },
+    {
+      "number": 485,
+      "title": "CLI export: don't draw the editor grid in PDF/PNG/SVG output",
+      "state": "MERGED",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "CLI export: don't draw the editor grid in PDF/PNG/SVG output"
+    },
+    {
+      "number": 489,
+      "title": "CLI: add verification & data-export tools (info, BOM, nets, links, check-elements, resave)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Built and verified on Qt5 + KF5 (Ubuntu)",
+        "`--check-elements` validated against the full bundled element collection (0 false failures, agreeing with QET's own loader)",
+        "CLI: add --info, --export-bom and --check-elements verification tools"
+      ],
+      "claim": "CLI: add verification & data-export tools (info, BOM, nets, links, check-elements, resave)"
+    },
+    {
+      "number": 490,
+      "title": "CLI: clickable cross-reference hyperlinks in PDF export",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "The scene\u2192page mapping is passed in as a `PageGeometry` (transform + `devToPdf` + source-rect lookup) so each caller supplies its own correct geometry \u2014 the helper never assumes a `QPrinter`",
+        "**Verified** on `examples/industrial",
+        "Builds clean on Qt5 + KF5 (Ubuntu)"
+      ],
+      "claim": "CLI: clickable cross-reference hyperlinks in PDF export"
+    },
+    {
+      "number": 493,
+      "title": "CLI: add --set-titleblock, and fix headless backup crash",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "Built and verified on Qt5 + KF5 (Ubuntu): 0 crashes in 40 runs (was ~1/6), stamped fields persist, dates stored correctly, malformed input rejected"
+      ],
+      "claim": "CLI: add --set-titleblock, and fix headless backup crash"
+    },
+    {
+      "number": 494,
+      "title": "Element editor Save As: label the field as a file name, not 'element name'",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Verified** on Qt5 build (Ubuntu): compiles clean, and the compiled `qet_en",
+        "qm` carries the new 'Element file name' string (confirmed via lconvert)"
+      ],
+      "claim": "Element editor Save As: label the field as a file name, not 'element name'"
+    },
+    {
+      "number": 495,
+      "title": "Folio properties: auto-add a title block's custom variables",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "Built clean on Qt5 + KF5 (Ubuntu)"
+      ],
+      "claim": "Folio properties: auto-add a title block's custom variables"
+    },
+    {
+      "number": 496,
+      "title": "Fix regional system locale loading the wrong translation (pt_BR/nl_BE/nl_NL)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Verified** on Qt5 (Ubuntu) \u2014 built clean, and a small harness exercising `QTranslator::load()` exactly as `setLanguage()` does confirms the behaviour:"
+      ],
+      "claim": "Fix regional system locale loading the wrong translation (pt_BR/nl_BE/nl_NL)"
+    },
+    {
+      "number": 497,
+      "title": "Clear read-only state when a project is saved to a writable file",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "(Confirmed with a small harness: `isWritable()` is `false` for a non-existent file but `true` for its directory",
+        "**Testing:** built clean on Qt5 + KF5 (Ubuntu)",
+        "verified the `isWritable()` directory-vs-file behaviour the guard relies on"
+      ],
+      "claim": "Clear read-only state when a project is saved to a writable file"
+    },
+    {
+      "number": 498,
+      "title": "Find translations when lang/ is beside bin/, not inside it (fixes #86)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "bat` (which passes `--lang-dir=lang/`) works around it, while a normal Start-Menu/desktop/file-association launch does not",
+        "**Verified** on Qt5 (Ubuntu): built clean, and a small harness exercising the exact resolution logic against both layouts:",
+        "bat' (which passes"
+      ],
+      "claim": "Find translations when lang/ is beside bin/, not inside it (fixes #86)"
+    },
+    {
+      "number": 499,
+      "title": "Make the 'Shift to move element text' hint discoverable",
+      "state": "CLOSED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "verified on a Qt5 build (Ubuntu) that the new string is present in the compiled `qet_en"
+      ],
+      "claim": "Make the 'Shift to move element text' hint discoverable"
+    },
+    {
+      "number": 501,
+      "title": "PartText: keep text position stable across save/reopen on font-size change (#158)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Verified with a probe in `toXml`: at size 4 the applied transform was `dy = -13` (from the original ~20 pt font) while the correct value is `-6` \u2014 a 7 px stale offset that vanishes on reload"
+      ],
+      "claim": "PartText: keep text position stable across save/reopen on font-size change (#158)"
+    },
+    {
+      "number": 502,
+      "title": "Add conductor properties to the selection-properties dock (#500)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- Tested on the dev build (Qt5/KF5): selecting a conductor shows its properties in the dock",
+        "Addresses the testing feedback on the conductor selection-properties"
+      ],
+      "claim": "Add conductor properties to the selection-properties dock (#500)"
+    },
+    {
+      "number": 504,
+      "title": "[Draft / PoC] Database-driven from-to wiring list + \"Add a wiring list\" (RFC for #503)",
+      "state": "CLOSED",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "[Draft / PoC] Database-driven from-to wiring list + \"Add a wiring list\" (RFC for #503)"
+    },
+    {
+      "number": 505,
+      "title": "Fix Qt6 build: cmake KF6 support + C++ source compatibility",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Tested on **Ubuntu 25.04 / Qt 6.8.3 / KDE Frameworks 6** inside Docker",
+        "Clean build, binary confirmed Qt6-linked via `ldd`, startup confirmed via `QT_QPA_PLATFORM=offscreen --version` and `--help`",
+        "Tested: cmake + ninja build to completion with Qt 6.8.3 + KF6 on"
+      ],
+      "claim": "Fix Qt6 build: cmake KF6 support + C++ source compatibility"
+    },
+    {
+      "number": 506,
+      "title": "snap: pin qet-tb-generator source to tag v1.31",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing"
+      ],
+      "claim": "snap: pin qet-tb-generator source to tag v1.31"
+    },
+    {
+      "number": 507,
+      "title": "snap: migrate to core24, kde-neon-6 (Qt6), cmake build",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Tested: cmake + ninja build to completion with Qt 6.8.3 + KF6 on",
+        "manual verification",
+        "Build verified: cmake + ninja on Ubuntu 25.04 / Qt 6.8.3 / KF6"
+      ],
+      "claim": "snap: migrate to core24, kde-neon-6 (Qt6), cmake build"
+    },
+    {
+      "number": 508,
+      "title": "Drop dead ~/Application Data/qet fallback for qet_tb_generator (Windows)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Verified on Windows that `pip install qet_tb_generator` puts the wrapper in the Python `Scripts\\` dir (`"
+      ],
+      "claim": "Drop dead ~/Application Data/qet fallback for qet_tb_generator (Windows)"
+    },
+    {
+      "number": 510,
+      "title": "ci: add Flatpak build workflow (x86_64 + aarch64) \u2014 rebase of #396",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "| x86_64 (`ubuntu-24.04`) | \u2705 | 15m 45s | `qelectrotech-x86_64",
+        "| aarch64 (`ubuntu-24.04-arm`) | \u2705 | 11m 35s | `qelectrotech-aarch64"
+      ],
+      "claim": "ci: add Flatpak build workflow (x86_64 + aarch64) \u2014 rebase of #396"
+    },
+    {
+      "number": 511,
+      "title": "Fix #159: reset unused-element highlight when elements become used again",
+      "state": "MERGED",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "Fix #159: reset unused-element highlight when elements become used again"
+    },
+    {
+      "number": 512,
+      "title": "Fix #492: wait for async backup before destroying QETProject (use-after-free)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification (Qt5 + KF5, Linux)",
+        "Compiles clean, no new warnings"
+      ],
+      "claim": "Fix #492: wait for async backup before destroying QETProject (use-after-free)"
+    },
+    {
+      "number": 513,
+      "title": "Import EPLAN Data Portal parts (.edz) into element collections",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "ema` macro geometry is **not** reproduced",
+        "## Testing",
+        "- Verified on three real ifm parts: **KG6000** (4-pin), **MFH200** (4-pin, pins"
+      ],
+      "claim": "Import EPLAN Data Portal parts (.edz) into element collections"
+    },
+    {
+      "number": 514,
+      "title": "Fix SIGSEGV: cache QStandardPaths results in dataDir/configDir for thread safety",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "FileElementCollectionItem::setUpData()",
+        "==1== Process terminating with default action of signal 11 (SIGSEGV)"
+      ],
+      "claim": "Fix SIGSEGV: cache QStandardPaths results in dataDir/configDir for thread safety"
+    },
+    {
+      "number": 515,
+      "title": "Fix three uninitialised-value bugs found by Valgrind",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "The crash was confirmed by Valgrind (address 0x0, inside"
+      ],
+      "claim": "Fix three uninitialised-value bugs found by Valgrind"
+    },
+    {
+      "number": 516,
+      "title": "Fix data race in setUpData() and duplicate static QString constants in header",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Background threads were still iterating model internals via `setUpData()` while the main thread modified the child list \u2014 a TSan-confirmed data race that can corrupt model state",
+        "- [x] Builds cleanly (Debug + all prior patches applied)",
+        "The crash was confirmed by Valgrind (address 0x0, inside"
+      ],
+      "claim": "Fix data race in setUpData() and duplicate static QString constants in header"
+    },
+    {
+      "number": 517,
+      "title": "snap: stage libxcb-cursor0 to fix xcb plugin crash on Ubuntu 24.04 (issue #373)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing"
+      ],
+      "claim": "snap: stage libxcb-cursor0 to fix xcb plugin crash on Ubuntu 24.04 (issue #373)"
+    },
+    {
+      "number": 518,
+      "title": "Fix TerminalData memory leak in Terminal destructor",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "- AddressSanitizer confirmed 112 leaked objects totalling 9856 bytes in a single short session"
+      ],
+      "claim": "Fix TerminalData memory leak in Terminal destructor"
+    },
+    {
+      "number": 519,
+      "title": "Fix four memory leaks found by AddressSanitizer",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "| Before | Multiple (StyleEditor \u00d75, ExportDiagramLine, QTreeWidgetItem, m_paste_area) | 603,544 bytes |",
+        "| After | **0** | 67,448 bytes (libdbus + libfontconfig only) |"
+      ],
+      "claim": "Fix four memory leaks found by AddressSanitizer"
+    },
+    {
+      "number": 520,
+      "title": "fix(editor): suppress spurious first-click element moves",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [ ] Existing catch2 unit tests: `All tests passed (19 assertions in 2 test cases)` \u2713"
+      ],
+      "claim": "fix(editor): suppress spurious first-click element moves"
+    },
+    {
+      "number": 521,
+      "title": "fix(collection): isCustomCollection() false-positive on company path",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [ ] Existing catch2 unit tests: `All tests passed (19 assertions in 2 test cases)` \u2713",
+        "- [ ] Path logic verified with automated test: company root/items \u2192 `false`, user root/items \u2192 `true` \u2713"
+      ],
+      "claim": "fix(collection): isCustomCollection() false-positive on company path"
+    },
+    {
+      "number": 522,
+      "title": "fix(#283): restore center alignment when loading table config",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Verified with a standalone Qt test: QMetaEnum::keyToValue(\"AlignHCenter\")"
+      ],
+      "claim": "fix(#283): restore center alignment when loading table config"
+    },
+    {
+      "number": 523,
+      "title": "Fix #413: paste no longer adds '_' label to conductors that had no label",
+      "state": "OPEN",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "Fix #413: paste no longer adds '_' label to conductors that had no label"
+    },
+    {
+      "number": 524,
+      "title": "Fix #391: collection panel blank when path contains accented chars or is too long (Windows)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "`C:\\Utilisateurs\\R\u00e9seau\\\u00e9l\u00e9ments\\`) \u2014 element names and illustrations should now appear in the Collection panel",
+        "This is confirmed directly from pugixml 1.15 source (`pugixml"
+      ],
+      "claim": "Fix #391: collection panel blank when path contains accented chars or is too long (Windows)"
+    },
+    {
+      "number": 525,
+      "title": "macOS: set CFBundleShortVersionString in Info.plist",
+      "state": "CLOSED",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "macOS: set CFBundleShortVersionString in Info.plist"
+    },
+    {
+      "number": 526,
+      "title": "fix(terminal-strip): free-terminal move button disabled and unresponsive (#409)",
+      "state": "OPEN",
+      "evidence_class": "unstated",
+      "evidence_markers": 0,
+      "quotes": [],
+      "claim": "fix(terminal-strip): free-terminal move button disabled and unresponsive (#409)"
+    },
+    {
+      "number": 528,
+      "title": "Fix #527: use ApplicationModal for Project Properties and app config dialogs",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "Discovered by the QET GUI fuzzer after an 8-hour run",
+        "- [ ] Run 8-hour fuzzer with no SIGSEGV regression"
+      ],
+      "claim": "Fix #527: use ApplicationModal for Project Properties and app config dialogs"
+    },
+    {
+      "number": 555,
+      "title": "edz: make EdzArchive error strings translatable (+ German and French)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "cpp` compiles clean (`g++ -fsyntax-only -std=c++17`), no new warnings"
+      ],
+      "claim": "edz: make EdzArchive error strings translatable (+ German and French)"
+    },
+    {
+      "number": 557,
+      "title": "qmake: allow building without KDE Frameworks 5 (CONFIG+=no_kf5)",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "Project ERROR: Unknown module(s) in QT: KWidgetsAddons KCoreAddons"
+      ],
+      "claim": "qmake: allow building without KDE Frameworks 5 (CONFIG+=no_kf5)"
+    },
+    {
+      "number": 558,
+      "title": "Clear the application stylesheet when using system colors",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "cpp` compiles clean, no new warnings",
+        "Verified on Linux / Qt 5.15.18 / GCC"
+      ],
+      "claim": "Clear the application stylesheet when using system colors"
+    },
+    {
+      "number": 559,
+      "title": "Fix language (and data paths) when opening a .qet by double-click on Windows",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "The shortcuts hide this by passing the three paths explicitly",
+        "** Immediate fix, matches the reporter's verified workaround",
+        "## Testing"
+      ],
+      "claim": "Fix language (and data paths) when opening a .qet by double-click on Windows"
+    },
+    {
+      "number": 560,
+      "title": "Log project load times, split by phase",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "QET already reports how long the *elements collection* takes to load (`ElementsCollectionWidget::reload`, the line that produces the \"1.3s to load 9000 elements\" figure)"
+      ],
+      "claim": "Log project load times, split by phase"
+    },
+    {
+      "number": 572,
+      "title": "Fix #531: page-level empty title block variable no longer shadows project-level value",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "cpp` compiles clean (`-fsyntax-only` against Qt5) with the change"
+      ],
+      "claim": "Fix #531: page-level empty title block variable no longer shadows project-level value"
+    },
+    {
+      "number": 573,
+      "title": "Fix #487: drag-selecting dynamic text fields silently converts their text source",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "Built QET from source (cmake) and reproduced this headlessly (Xvfb + xdotool) against a minimal test element with one `ElementInfo` and one `UserText` dynamic text field:",
+        "h` compile clean"
+      ],
+      "claim": "Fix #487: drag-selecting dynamic text fields silently converts their text source"
+    },
+    {
+      "number": 583,
+      "title": "Add a local, per-project time-spent tracker",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "- Created a project, let it accumulate time, saved, and confirmed the actual XML: `<usage enabled=\"true\" time_spent=\"179\"/>`",
+        "- Reset button verified to zero the display instantly"
+      ],
+      "claim": "Add a local, per-project time-spent tracker"
+    },
+    {
+      "number": 584,
+      "title": "Fix: potential-selector dialog can't actually be cancelled (#581)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Escape / the window-close button already trigger `QDialog::reject()` on a plain `QDialog` \u2014 but since the result was never checked, dismissing the dialog without picking anything just silently return\u2026",
+        "**Testing**",
+        "Built and compiled clean (CMake, full build, zero new warnings)"
+      ],
+      "claim": "Fix: potential-selector dialog can't actually be cancelled (#581)"
+    },
+    {
+      "number": 585,
+      "title": "Diagram: Tab/Shift+Tab item-selection cycling + select-all-conductors/text-fields",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Both were found by testing, not assumption \u2014 the feature silently did nothing on the first build, and I dug into *why* rather than guessing:",
+        "`QGraphicsScene` (`Diagram`) has its own, *separate* item-focus-chain traversal, checked before `keyPressEvent()` is ever reached",
+        "**Testing**"
+      ],
+      "claim": "Diagram: Tab/Shift+Tab item-selection cycling + select-all-conductors/text-fields"
+    },
+    {
+      "number": 586,
+      "title": "Add Ctrl+G \"jump to element\" quick-open popup",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "Beyond compiling clean (full CMake build, zero new warnings), verified end-to-end in a real running session (Xvfb + xdotool) against a multi-transistor schematic:",
+        "Confirmed free: not used anywhere in qetdiagrameditor"
+      ],
+      "claim": "Add Ctrl+G \"jump to element\" quick-open popup"
+    },
+    {
+      "number": 587,
+      "title": "Add configurable shortcuts: Shortcuts preferences page + app-wide registry",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Testing**",
+        "Full CMake build (`qmake CONFIG+=no_kf5`, Qt 5.15) compiles clean with zero errors and zero new warnings",
+        "Verified end-to-end in a real running session (Xvfb + xdotool):"
+      ],
+      "claim": "Add configurable shortcuts: Shortcuts preferences page + app-wide registry"
+    },
+    {
+      "number": 589,
+      "title": "Add live cursor-coordinate readout to the element editor status bar",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean (no new warnings)",
+        "Verified headlessly (Xvfb + xdotool + scrot): opened an existing `"
+      ],
+      "claim": "Add live cursor-coordinate readout to the element editor status bar"
+    },
+    {
+      "number": 590,
+      "title": "Add undo/redo support for folio add, delete, and reorder",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean (no new warnings)",
+        "Verified headlessly (Xvfb + xdotool + scrot) against a 7-folio project:"
+      ],
+      "claim": "Add undo/redo support for folio add, delete, and reorder"
+    },
+    {
+      "number": 591,
+      "title": "Add drag-to-resize for dynamic element text width (#577 phase 1)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean (no new warnings)",
+        "Verified headlessly (Xvfb + xdotool + scrot):"
+      ],
+      "claim": "Add drag-to-resize for dynamic element text width (#577 phase 1)"
+    },
+    {
+      "number": 593,
+      "title": "Add wrap-and-carry (cyclic/modulo) auto-numbering",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**One design detail surfaced by testing, not called out in the original discussion**: for the leading part of a wrap-and-carry pair to actually stay fixed except when carried into (producing `e0.0",
+        "## Testing",
+        "Built clean (no new warnings)"
+      ],
+      "claim": "Add wrap-and-carry (cyclic/modulo) auto-numbering"
+    },
+    {
+      "number": 594,
+      "title": "Add alphabetical auto-numbering (a, b, ... z, aa, ab, ...)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "alpha`, passing the raw string through as-is (not the `",
+        "## Testing",
+        "Built clean (no new warnings)"
+      ],
+      "claim": "Add alphabetical auto-numbering (a, b, ... z, aa, ab, ...)"
+    },
+    {
+      "number": 619,
+      "title": "Make system pugixml (BUILD_PUGIXML=OFF) actually usable",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Checked pugixml's own upstream `CMakeLists",
+        "## Testing",
+        "Didn't have a system-installed pugixml package available in this environment to also exercise `BUILD_PUGIXML=OFF` end-to-end, but the fix is verified directly against pugixml's own exported target pr\u2026"
+      ],
+      "claim": "Make system pugixml (BUILD_PUGIXML=OFF) actually usable"
+    },
+    {
+      "number": 620,
+      "title": "Fix element library icons invisible on dark OS themes",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Confirmed via `git grep` that these are the only two occurrences of this palette-forcing pattern in the codebase (identical comment text in both)",
+        "Built the full `qelectrotech` target end-to-end (Qt6, `PACKAGE_TESTS=OFF`/`BUILD_WITH_KF5=OFF` to skip unrelated heavy fetches) \u2014 clean build, no warnings from the changed files"
+      ],
+      "claim": "Fix element library icons invisible on dark OS themes"
+    },
+    {
+      "number": 621,
+      "title": "Inherit text configuration from the last placed instance of the same element",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Discovered this while testing: initially only handled the grouped case and the fix did nothing for `con_simple",
+        "## Testing",
+        "Built clean, no new warnings"
+      ],
+      "claim": "Inherit text configuration from the last placed instance of the same element"
+    },
+    {
+      "number": 622,
+      "title": "Fix folders showing with no name in the elements panel",
+      "state": "CLOSED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built the full `qelectrotech` target end-to-end (Qt6, `PACKAGE_TESTS=OFF`/`BUILD_WITH_KF5=OFF` to skip unrelated heavy fetches) \u2014 clean build, no warnings from the changed file"
+      ],
+      "claim": "Fix folders showing with no name in the elements panel"
+    },
+    {
+      "number": 624,
+      "title": "Show unsaved-changes state in the main window title (macOS modified dot)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built the full \\`qelectrotech\\` target end-to-end (Qt6, \\`PACKAGE_TESTS=OFF\\`/\\`BUILD_WITH_KF5=OFF\\` to skip unrelated heavy fetches) \u2014 clean build, no warnings from the changed files",
+        "Rather than risk interfering with unrelated work, I stopped short of a live run and confirmed my own test process was cleanly isolated and terminated"
+      ],
+      "claim": "Show unsaved-changes state in the main window title (macOS modified dot)"
+    },
+    {
+      "number": 625,
+      "title": "Give Conductor its own persisted uuid (discussion #503, slice 1)",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "qet` (150 folios, 671 conductors) \u2014 a genuinely pre-uuid project using the legacy integer `terminal1`/`terminal2` positional scheme, no `uuid` attribute on any `<conductor>` at all",
+        "- Copy-pasted a selection containing 4 conductors: each pasted conductor got a distinct new uuid, none colliding with the originals or each other (verified via debug trace during development, since n\u2026"
+      ],
+      "claim": "Give Conductor its own persisted uuid (discussion #503, slice 1)"
+    },
+    {
+      "number": 626,
+      "title": "Add quick reset buttons to the auto-numbering dock",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "So this is verified by code review and successful build rather than a runtime screenshot, same caveat as a couple of my other recent PRs here",
+        "Verified with a full build (Qt6) after the change -- clean compile"
+      ],
+      "claim": "Add quick reset buttons to the auto-numbering dock"
+    },
+    {
+      "number": 628,
+      "title": "Add terminal and conductor tables to projectDataBase (discussion #503, slice 2)",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 3,
+      "quotes": [
+        "qet` has 1794 terminals and **zero** terminal uuids, so **all 671 of its conductors are omitted** \u2014 a from-to wiring list for that project would be completely empty today",
+        "| Incremental add (`Diagram::addItem`) | fresh project, two aligned contacts \u2192 autoconnect \u2192 **2 terminals, 1 conductor** |",
+        "qet`, 366 conductors \u2192 **478 terminals, 280 conductors**"
+      ],
+      "claim": "Add terminal and conductor tables to projectDataBase (discussion #503, slice 2)"
+    },
+    {
+      "number": 629,
+      "title": "Add wiring_list_view: from-to wiring list over the conductor tables (discussion #503, slice 3)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Testing only the live-editing path would have shown nothing wrong",
+        "Polonez happens to have no slave elements at conductor ends, so both agree there and the problem is invisible \u2014 that project alone would have \"confirmed\" the sketched view",
+        "Also verified the join produces real from-to rows with real element labels (e"
+      ],
+      "claim": "Add wiring_list_view: from-to wiring list over the conductor tables (discussion #503, slice 3)"
+    },
+    {
+      "number": 630,
+      "title": "Wiring list dialog + excluded-conductor count (discussion #503, slice 4)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "BOM contents are unchanged by construction: the same filter, applied one layer later",
+        "they now agree by construction",
+        "now agree by construction instead of by coincidence"
+      ],
+      "claim": "Wiring list dialog + excluded-conductor count (discussion #503, slice 4)"
+    },
+    {
+      "number": 631,
+      "title": "BOM: wire count per element (discussion #503, slice 5)",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "** `--export-bom` across all 22 examples, before vs after: 21 byte-identical",
+        "| `Polonez` (191 BOM rows, 280 conductors) | 1.30 s | 1.30 s |"
+      ],
+      "claim": "BOM: wire count per element (discussion #503, slice 5)"
+    },
+    {
+      "number": 632,
+      "title": "Fix Cyclique (modulo) parts defaulting to modulus 0 (follow-up to #593)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Built clean, no new warnings"
+      ],
+      "claim": "Fix Cyclique (modulo) parts defaulting to modulus 0 (follow-up to #593)"
+    },
+    {
+      "number": 633,
+      "title": "Never leave a collection folder without a name (replaces #622)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**The fallback is applied after `NamesList::name()`, not passed into it",
+        "So passing `m_path` in would replace a perfectly good name in another language with the raw directory name",
+        "Two files, +45/-3, builds clean"
+      ],
+      "claim": "Never leave a collection folder without a name (replaces #622)"
+    },
+    {
+      "number": 634,
+      "title": "Numbering parts: user-settable display format (zero mask)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Built clean, no new warnings"
+      ],
+      "claim": "Numbering parts: user-settable display format (zero mask)"
+    },
+    {
+      "number": 635,
+      "title": "3D mouse (SpaceMouse/SpacePilot) pan/zoom via libspnav \u2014 Linux phase (discussion #599)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Safe by construction even when compiled in",
+        "Verified from two clean configures in separate build directories:",
+        "forced a rebuild of just that file and confirmed zero new warnings, zero new object code shape"
+      ],
+      "claim": "3D mouse (SpaceMouse/SpacePilot) pan/zoom via libspnav \u2014 Linux phase (discussion #599)"
+    },
+    {
+      "number": 637,
+      "title": "Add \"Export to SVG\" to the element editor (discussion #605)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Confirmed before starting by grepping its header for \"export\": nothing there",
+        "Before building on it, I checked how that cache actually gets invalidated: **nothing does",
+        "## Verified end-to-end via a real Xvfb session"
+      ],
+      "claim": "Add \"Export to SVG\" to the element editor (discussion #605)"
+    },
+    {
+      "number": 638,
+      "title": "Color management for conductor auto-numbering (discussion #606)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Checked before touching anything: it's called exactly once in the whole codebase, from `numerateNewConductor()`",
+        "ui` already uses for conductor color), a bicolor checkbox, and a second `KColorButton` enabled only when bicolor is checked",
+        "## Verified"
+      ],
+      "claim": "Color management for conductor auto-numbering (discussion #606)"
+    },
+    {
+      "number": 640,
+      "title": "Configuration export/import for switching QET config profiles (discussion #610)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Checked before writing anything: `QETApp::configDir()` (overridable via `--config-dir`) is only consulted for a handful of specific paths \u2014 element text patterns, the custom stylesheet, directory cre\u2026",
+        "Checked `SingleApplication`'s construction in `main",
+        "## Verified end-to-end via a real Xvfb session, not just a build"
+      ],
+      "claim": "Configuration export/import for switching QET config profiles (discussion #610)"
+    },
+    {
+      "number": 641,
+      "title": "Generate cabinet placement thumbnails from manufacturer/reference info (discussion #602)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- Dedups by `manufacturer + \" \" + manufacturer_reference` against what's already filed in that folder (checked via `elementsNames()`), so placing the same device on several schematic elements doesn't\u2026",
+        "## Testing",
+        "Built clean, no new warnings"
+      ],
+      "claim": "Generate cabinet placement thumbnails from manufacturer/reference info (discussion #602)"
+    },
+    {
+      "number": 642,
+      "title": "Add user-defined custom properties on elements (discussion #611)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- The typed key is validated live against the already-public `DiagramContext::isKeyAcceptable()` and the field gets a red border the moment it doesn't match, instead of the key silently failing to sa\u2026",
+        "## Testing",
+        "Built clean, no new warnings"
+      ],
+      "claim": "Add user-defined custom properties on elements (discussion #611)"
+    },
+    {
+      "number": 643,
+      "title": "Add adjustable background frame in the element editor (discussion #604)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean, no new warnings",
+        "Verified end-to-end in a real GUI session (Xvfb):"
+      ],
+      "claim": "Add adjustable background frame in the element editor (discussion #604)"
+    },
+    {
+      "number": 645,
+      "title": "Cover auto-numbering counter changes with undo/redo (discussion #608)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- `Diagram::loadElmtFolioSeq()`/`loadCndFolioSeq()` and the bulk folio-renumbering passes in `QETProject` \u2014 these run as load-time/bulk bookkeeping, not as part of any undoable user gesture, so wrapp\u2026",
+        "## Testing",
+        "Built clean, no new warnings"
+      ],
+      "claim": "Cover auto-numbering counter changes with undo/redo (discussion #608)"
+    },
+    {
+      "number": 646,
+      "title": "Rework diagnostic logging: fix file writer, add rotation and a ring buffer (discussion #644, steps 1-3)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean, no new warnings",
+        "Verified with real runs (`QT_QPA_PLATFORM=offscreen`, isolated `HOME`):"
+      ],
+      "claim": "Rework diagnostic logging: fix file writer, add rotation and a ring buffer (discussion #644, steps 1-3)"
+    },
+    {
+      "number": 647,
+      "title": "Add crash-time ring flush and diagnostics export UI (discussion #644, steps 4-5)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**The Windows path is implemented per the discussion's guidance but is untested \u2014 no Windows build available in this sandbox",
+        "untested -- no Windows build available in this sandbox",
+        "**Tested in this environment: POSIX/Linux only**, all five signals"
+      ],
+      "claim": "Add crash-time ring flush and diagnostics export UI (discussion #644, steps 4-5)"
+    },
+    {
+      "number": 648,
+      "title": "IEC 81346 plant/location fallback and composite structure-id token (discussion #613)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "I checked the discussion's claims against the current codebase, since it makes specific claims about what's wired up",
+        "All 9 call sites of `replaceVariable()` were checked individually",
+        "## Testing"
+      ],
+      "claim": "IEC 81346 plant/location fallback and composite structure-id token (discussion #613)"
+    },
+    {
+      "number": 650,
+      "title": "Page-match abbreviation for %{structure_id} + %{structure_id_full} token (discussion #649)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built clean (0 errors/warnings in the 2 changed files)",
+        "Verified live via Xvfb against `examples/grafcet"
+      ],
+      "claim": "Page-match abbreviation for %{structure_id} + %{structure_id_full} token (discussion #649)"
+    },
+    {
+      "number": 652,
+      "title": "Structure box: a labeling frame carrying its own IEC 81346 identity (discussion #649)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "**Also verified at runtime** on an isolated Xvfb display, driving the real GUI:",
+        "The plumbing either side of it is verified, but not that end-to-end behaviour"
+      ],
+      "claim": "Structure box: a labeling frame carrying its own IEC 81346 identity (discussion #649)"
+    },
+    {
+      "number": 654,
+      "title": "Rotate crash-recovery backups instead of overwriting a single snapshot",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [x] New/existing Catch2 unit tests pass (`tests/catch`, both the",
+        "- [x] Full app builds and links cleanly (`cmake --build`, default"
+      ],
+      "claim": "Rotate crash-recovery backups instead of overwriting a single snapshot"
+    },
+    {
+      "number": 655,
+      "title": "Add configurable conductor end-cap style (square/round/flat)",
+      "state": "CLOSED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [x] Verified by construction: default properties (`Qt::SolidLine` + `Qt::SquareCap`) produce an empty `writeStyle()`, so pre-existing `",
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings in the touched files"
+      ],
+      "claim": "Add configurable conductor end-cap style (square/round/flat)"
+    },
+    {
+      "number": 656,
+      "title": "Remember last-used shape/text style for new items this session",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings in any touched/new file"
+      ],
+      "claim": "Remember last-used shape/text style for new items this session"
+    },
+    {
+      "number": 657,
+      "title": "Consolidate QETDiagramEditor's ~60 QActions into a DiagramEditorActions pool",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [ ] Could not complete in this environment: a live click-through window close (this sandbox has no window manager, so X11 focus/`_NET_ACTIVE_WINDOW` requests fail) \u2014 the destructor fix is verified \u2026",
+        "` in the destructor (verified this is the sole destruction pathway: every `QETDiagramEditor` construction site in the codebase relies solely on `WA_DeleteOnClose`, set in `closeEvent()`, for cleanup)",
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings"
+      ],
+      "claim": "Consolidate QETDiagramEditor's ~60 QActions into a DiagramEditorActions pool"
+    },
+    {
+      "number": 658,
+      "title": "Add \"Insert folio above/below\" to the elements panel's folio menu",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "cpp` already uses \u2014 and passed straight through to the existing `addNewDiagram(pos)`",
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings",
+        "- [x] Existing Catch2 test suite passes (general regression check"
+      ],
+      "claim": "Add \"Insert folio above/below\" to the elements panel's folio menu"
+    },
+    {
+      "number": 659,
+      "title": "Preserve master/slave links when pasting or duplicating a folio",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings",
+        "- [x] Existing Catch2 test suite passes (general regression check",
+        "Verified: builds clean, CMake/Ninja Release, Qt 5.15, 813/813"
+      ],
+      "claim": "Preserve master/slave links when pasting or duplicating a folio"
+    },
+    {
+      "number": 660,
+      "title": "Add \"rotate group\" to actually rotate a selection as a whole",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Standard rotate-a-point-around-a-center math, verified to match `QGraphicsItem::setRotation()`'s clockwise-positive convention so a group rotation turns the same direction as each item's own spin",
+        "`ConductorTextItem`, `DynamicElementTextItem`, and `ElementTextItemGroup` are all parent-relative children (confirmed by reading their constructors \u2014 `DynamicElementTextItem::setParentItem(parent_ele\u2026",
+        "- [x] Full project builds and links clean (`cmake --build`, default `BUILD_WITH_KF5=ON` config), zero new warnings"
+      ],
+      "claim": "Add \"rotate group\" to actually rotate a selection as a whole"
+    },
+    {
+      "number": 661,
+      "title": "Fix command-line tools hanging forever on a modal message box",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "Ten minutes of wall clock consumed **0.16 seconds of CPU** \u2014 it's blocked, not working",
+        "qet`: **hangs indefinitely \u2192 resaves in 0.3s**, exit 0, valid output"
+      ],
+      "claim": "Fix command-line tools hanging forever on a modal message box"
+    },
+    {
+      "number": 664,
+      "title": "Fix element_info orphan row causing UNIQUE constraint errors on undo",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "six times over a ~17-minute session \u2014 not a one-off"
+      ],
+      "claim": "Fix element_info orphan row causing UNIQUE constraint errors on undo"
+    },
+    {
+      "number": 665,
+      "title": "Add an event-loop responsiveness watchdog (discussion #644 follow-up)",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "Qt does not queue up missed fires for a normal repeating timer, so if the main thread blocks for 600ms, the timer fires once as soon as the loop frees up, with ~600ms measured since the last tick \u2014 t\u2026",
+        "Only logs when a tick is late by more than 200ms (`kStallThresholdMs`), through the existing `qWarning()` path \u2014 so it reuses `QetLogger`'s file/ring/rotation with no new plumbing, and a healthy sess\u2026"
+      ],
+      "claim": "Add an event-loop responsiveness watchdog (discussion #644 follow-up)"
+    },
+    {
+      "number": 668,
+      "title": "Show a live IEC 81346-2 placeholder label when nothing else is configured",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "That system isn't broken \u2014 verified live on current master, a coil with formula `%prefix` correctly renders its `qet_labels",
+        "Live-verified (Xvfb, real `10_electric` + `qet_labels",
+        "`, and `elementInformations` stays empty for them \u2014 confirmed both by direct XML inspection of the saved file and by the live Informations panel showing empty Label/Formule fields after reload"
+      ],
+      "claim": "Show a live IEC 81346-2 placeholder label when nothing else is configured"
+    },
+    {
+      "number": 672,
+      "title": "Fix element prefix lookup: relocated collections, non-10_electric trees, unbounded array",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Not reproduced, fixed by construction: the `path[10]` overflow (would need a custom collection nested >9 deep) \u2014 see #671 item 3",
+        "Verified against the real collection with A/B runs of the same binary before and after, reading the `prefix` attribute out of the saved `",
+        "Verified against the real collection, with A/B runs of the same binary"
+      ],
+      "claim": "Fix element prefix lookup: relocated collections, non-10_electric trees, unbounded array"
+    },
+    {
+      "number": 678,
+      "title": "Add two orphaned actions to the menus, drop two dead members",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "$ grep -rn \"conductor_default\\|m_project_folio_list\" sources/"
+      ],
+      "claim": "Add two orphaned actions to the menus, drop two dead members"
+    },
+    {
+      "number": 680,
+      "title": "Add optional precompiled headers behind QET_ENABLE_PCH (default OFF)",
+      "state": "MERGED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "qnamespace.h:64:1: error: unknown type name 'namespace'"
+      ],
+      "claim": "Add optional precompiled headers behind QET_ENABLE_PCH (default OFF)"
+    },
+    {
+      "number": 682,
+      "title": "Reject non-finite element positions and illegal XML control bytes",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 5,
+      "quotes": [
+        "gdb on the hung process shows it stuck at 100% CPU \u2014 not a blocked wait, confirmed via `/proc/<pid>/stat`: 2.98 of 3.00 wall-clock seconds were user CPU time:",
+        "- A 150-iteration adversarial sweep with all 8 mutation strategies active against the fixed build found **zero crashes**"
+      ],
+      "claim": "Reject non-finite element positions and illegal XML control bytes"
+    },
+    {
+      "number": 683,
+      "title": "Add --test-ops: headless scripted editing for automated regression testing",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 1,
+      "quotes": [
+        "Adds a new CLI verb so the load-edit-save cycle QET's undo commands drive can be exercised headlessly, for automated regression testing",
+        "## Verified against a real project, not just written and hoped",
+        "- **select (2 elements) + rotate**: verified with the docker repo's `simulator/canon"
+      ],
+      "claim": "Add --test-ops: headless scripted editing for automated regression testing"
+    },
+    {
+      "number": 690,
+      "title": "Draft/preview: SVG icons for the concepts no icon theme provides (88 icons)",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verified",
+        "- Builds clean, CMake/Ninja Release, Qt 5.15 \u2014 820/820, links",
+        "Verified: builds clean with CMake/Ninja Release against Qt 5.15 (820/820), runs"
+      ],
+      "claim": "Draft/preview: SVG icons for the concepts no icon theme provides (88 icons)"
+    },
+    {
+      "number": 691,
+      "title": "Dialogs remember their size/position; drop a hardcoded light-mode color",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "**Verification**: full Release build (504/504, no new warnings)",
+        "Also verified the restore/save round-trip directly against `qet",
+        "cpp` in a small standalone Qt program outside the main build \u2014 saved a 600\u00d7400 geometry, then confirmed a fresh dialog defaulting to 200\u00d7150 picked up the saved 600\u00d7400 after the tracking call, in th\u2026"
+      ],
+      "claim": "Dialogs remember their size/position; drop a hardcoded light-mode color"
+    },
+    {
+      "number": 692,
+      "title": "Draft: fast element insertion \u2014 all four phases from #676",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verified live",
+        "Builds clean, CMake/Ninja Release, Qt 5.15, no new warnings in the touched files",
+        "Verified live under Xvfb against examples/741"
+      ],
+      "claim": "Draft: fast element insertion \u2014 all four phases from #676"
+    },
+    {
+      "number": 693,
+      "title": "Fix crash changing dynamic text color and confirming with Enter (bugtracker #323)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Confirmed the *old* code's `QColorDialog` editor is a **child widget of the view's viewport**, not a top-level window (a search of `QApplication::topLevelWidgets()` never found it",
+        "Clicked its real OK button, confirmed the picked color landed on the placeholder widget's stashed properties, sent the editor a synthetic Enter keypress (the exact trigger from the bug report), and c\u2026"
+      ],
+      "claim": "Fix crash changing dynamic text color and confirming with Enter (bugtracker #323)"
+    },
+    {
+      "number": 695,
+      "title": "Fix invisible element icons on dark themes in two dialogs missed by the earlier fix (bugtracker #335)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Full Release build (504/504, CMake/Ninja, Qt 5.15.18) \u2014 no new warnings",
+        "Verified with a full Release build (504/504, no new warnings) and a"
+      ],
+      "claim": "Fix invisible element icons on dark themes in two dialogs missed by the earlier fix (bugtracker #335)"
+    },
+    {
+      "number": 696,
+      "title": "Fix \"use current date\" preset lost unless the Folio tab is active on save (bugtracker #308)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        ") before clicking OK/Apply, and this radio button's `isVisible()` goes false \u2014 even though it's still checked underneath \u2014 so all three `if`/`else if` branches fall through",
+        "## Verification",
+        "with the fix, under the identical scenario and identical tab switch, it saves `date=\"now\"` \u2014 confirmed both ways by building and running the test against each version of the file in turn"
+      ],
+      "claim": "Fix \"use current date\" preset lost unless the Folio tab is active on save (bugtracker #308)"
+    },
+    {
+      "number": 697,
+      "title": "Edit increment and preview the next number in the auto-numbering dock (bugtracker #331)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verified live (Xvfb)",
+        "- Reopened the full configuration dialog and confirmed it read back the same `value_field=10` / `increase_spinBox=3` \u2014 the round trip through `replaceIncrease()`/`storeContext()` doesn't disturb type\u2026",
+        "Builds clean, CMake/Ninja Release, Qt 5.15, 820/820, no new warnings"
+      ],
+      "claim": "Edit increment and preview the next number in the auto-numbering dock (bugtracker #331)"
+    },
+    {
+      "number": 701,
+      "title": "Make folio-referencing arrows clickable and show link state",
+      "state": "CLOSED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Verified live under Xvfb with a hand-built two-folio project containing a linked coming/going arrow pair:",
+        "- Double-clicking a still-unlinked arrow opens the properties dialog unchanged (checked twice, no regression from the new override)"
+      ],
+      "claim": "Make folio-referencing arrows clickable and show link state"
+    },
+    {
+      "number": 702,
+      "title": "Add auto-numbering for folio-reference (report) arrow labels",
+      "state": "CLOSED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Verified live under Xvfb:",
+        "confirmed the dock widget's Renvoi row shows the live value/increment/next-value preview"
+      ],
+      "claim": "Add auto-numbering for folio-reference (report) arrow labels"
+    },
+    {
+      "number": 706,
+      "title": "Scroll the diagram view to the selected search hit (bugtracker #309)",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Full Release build, no new warnings",
+        "Verified live: built and ran the app under Xvfb, zoomed into one"
+      ],
+      "claim": "Scroll the diagram view to the selected search hit (bugtracker #309)"
+    },
+    {
+      "number": 707,
+      "title": "Fix bugtracker #312: wire text rotation not preserved on reload",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- A full save/close/reopen round-trip on a from-scratch two-element wire was attempted but not completed \u2014 synthetic-mouse-event terminal-to-terminal wire drawing proved unreliable in a window-manage\u2026",
+        "Confidence in the fix instead rests on tracing the exact save-gate code path: `Conductor::toXml()` gates purely on `wasRotatedByUser()`, and this change makes `undo()`/`redo()` set that flag correctl\u2026",
+        "on tracing the exact save-gate code path (Conductor::toXml() gates"
+      ],
+      "claim": "Fix bugtracker #312: wire text rotation not preserved on reload"
+    },
+    {
+      "number": 710,
+      "title": "Fix bugtracker #307: QET file type description bad encoding",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Verified: compiled with makensis (NSIS 3.10) - the compiler log now"
+      ],
+      "claim": "Fix bugtracker #307: QET file type description bad encoding"
+    },
+    {
+      "number": 711,
+      "title": "Fix bugtracker #306: crash when restoring backup files on startup",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Add the missing `continue` so a failed project is skipped instead of being passed use-after-free into `addProject()`",
+        "## Verification",
+        "However, this local build links against real KDE Frameworks (`BUILD_WITH_KF5=ON`, confirmed via `CMakeCache"
+      ],
+      "claim": "Fix bugtracker #306: crash when restoring backup files on startup"
+    },
+    {
+      "number": 712,
+      "title": "Fix bugtracker #296: cross-reference text overlaps element label by default",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: a live before/after visual comparison of rendered cross-reference text position on an actual magneto-thermal/thermal-relay diagram \u2014 that would require constructing a multi-folio \u2026",
+        "Not verified: a live before/after visual comparison of the rendered",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #296: cross-reference text overlaps element label by default"
+    },
+    {
+      "number": 713,
+      "title": "Fix bugtracker #291: crash on fast cancel at open element dialog",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Verification",
+        "Verified: clean rebuild, only the intended files recompiled and linked"
+      ],
+      "claim": "Fix bugtracker #291: crash on fast cancel at open element dialog"
+    },
+    {
+      "number": 714,
+      "title": "Fix bugtracker #281: new-part wizard's element editor opens behind main window",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: the actual reported symptom is macOS-specific window-manager behavior (key/frontmost window handling, Dock registration), which can't be reproduced or confirmed in this Linux/Xvfb\u2026",
+        "Not verified: the actual reported symptom is macOS-specific window-manager",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #281: new-part wizard's element editor opens behind main window"
+    },
+    {
+      "number": 715,
+      "title": "Fix bugtracker #275: element properties window stuck centered on macOS",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: the actual reported symptom is macOS/Cocoa-specific window presentation, which can't be reproduced or confirmed in this Linux/Xvfb sandbox \u2014 no macOS environment is available here",
+        "Not verified: the actual reported symptom is macOS/Cocoa-specific",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #275: element properties window stuck centered on macOS"
+    },
+    {
+      "number": 716,
+      "title": "Fix bugtracker #270: Save As on Snap produces file with no .qet extension",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: the actual Snap-sandboxed portal dialog behavior itself \u2014 building and running the Snap package under a real portal environment is outside what's practical to set up in this sandb\u2026",
+        "Not verified: the actual Snap-sandboxed portal dialog behavior itself,",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #270: Save As on Snap produces file with no .qet extension"
+    },
+    {
+      "number": 717,
+      "title": "Fix bugtracker #251: title block template with slash in name fails silently",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- `TitleBlockTemplateLocation::isValid()` only checked for an empty name, so an invalid name still counted as \"valid\" and got passed through to save",
+        "## Verification",
+        "- Live-tested under Xvfb:"
+      ],
+      "claim": "Fix bugtracker #251: title block template with slash in name fails silently"
+    },
+    {
+      "number": 718,
+      "title": "Fix bugtracker #247: XRef slave reference hidden with dark themes",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: a live visual confirmation of the slave-Xref text picking up a non-default color",
+        "Not verified: a live visual confirmation of the slave-Xref text",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #247: XRef slave reference hidden with dark themes"
+    },
+    {
+      "number": 719,
+      "title": "Fix bugtracker #245: bare %name custom variables not detected in title blocks",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "- **Not verified**: the actual Project Properties \"Custom\" tab UI auto-populating live end-to-end, since exercising the full Xvfb GUI flow was out of scope given the extraction logic itself was alrea\u2026",
+        "Not verified: the actual Project Properties \"Custom\" tab UI",
+        "## Verification"
+      ],
+      "claim": "Fix bugtracker #245: bare %name custom variables not detected in title blocks"
+    },
+    {
+      "number": 721,
+      "title": "Enable Information tab in element editor for Slave and Terminal basetypes",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Interactive GUI verification of the element editor dialog was not performed in this sandbox - not verified live",
+        "Not verified: interactive element-editor GUI testing wasn't performed",
+        "## Testing"
+      ],
+      "claim": "Enable Information tab in element editor for Slave and Terminal basetypes"
+    },
+    {
+      "number": 724,
+      "title": "Fix wire-name export doubling every conductor's count",
+      "state": "CLOSED",
+      "evidence_class": "observed",
+      "evidence_markers": 2,
+      "quotes": [
+        "- **Before fix:** 2 named conductors \u2192 4 lines exported (exact doubling from the report)",
+        "- **After fix:** 2 named conductors \u2192 2 lines exported (correct)"
+      ],
+      "claim": "Fix wire-name export doubling every conductor's count"
+    },
+    {
+      "number": 725,
+      "title": "Fix PDF export truncating project filenames at the first dot",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Verified the exact before/after behavior with a standalone `QFileInfo` test:",
+        "Clean incremental build, no new warnings/errors"
+      ],
+      "claim": "Fix PDF export truncating project filenames at the first dot"
+    },
+    {
+      "number": 726,
+      "title": "Fix bugtracker #333: selecting several dynamic texts overwrites their colours",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Reproduced on screen",
+        "Built against Qt 5.15, Release, no new warnings"
+      ],
+      "claim": "Fix bugtracker #333: selecting several dynamic texts overwrites their colours"
+    },
+    {
+      "number": 728,
+      "title": "Fix bugtracker #248: files passed to a running instance are never opened",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "#1 QIODevice::channelReadyRead(int)"
+      ],
+      "claim": "Fix bugtracker #248: files passed to a running instance are never opened"
+    },
+    {
+      "number": 729,
+      "title": "Don't drop files handed to a starting instance while the backup prompts are up",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built against Qt 5.15, Release, no new warnings",
+        "This is only *observable* once #728 is in \u2014 before that, no file passed to a running instance was opened under any circumstances, so the window described here was invisible"
+      ],
+      "claim": "Don't drop files handed to a starting instance while the backup prompts are up"
+    },
+    {
+      "number": 732,
+      "title": "Fix bugtracker #238: summary lists folios in the wrong order",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built against Qt 5.15, Release, no new warnings",
+        "Verified with a two-folio project whose titles sort the opposite way to"
+      ],
+      "claim": "Fix bugtracker #238: summary lists folios in the wrong order"
+    },
+    {
+      "number": 733,
+      "title": "Fix bugtracker #243: allow copying out of a read-only element",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Built against Qt 5.15, Release, no new warnings",
+        "Verified with a chmod 444 element: Select All then Copy now work, the"
+      ],
+      "claim": "Fix bugtracker #243: allow copying out of a read-only element"
+    },
+    {
+      "number": 736,
+      "title": "Fix folio report link picker showing candidates as blank rows",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "`buildTree()` found the candidate correctly (confirmed with temporary instrumentation: `buildTree got 1 candidates` while the UI showed nothing)",
+        "### Testing"
+      ],
+      "claim": "Fix folio report link picker showing candidates as blank rows"
+    },
+    {
+      "number": 737,
+      "title": "Fix headless CLI hanging forever on version-incompatible projects",
+      "state": "CLOSED",
+      "evidence_class": "observed",
+      "evidence_markers": 4,
+      "quotes": [
+        "I found this by running every example project through every CLI mode with a 120s timeout \u2014 that one project accounted for 8 timeouts, the only hangs in 185 runs",
+        "qet`, all eight modes went from hitting the 120s timeout to completing in under a second, with valid output (`--info` reports 48 elements / 69 conductors, `--export-pdf` writes a 21 KB PDF)"
+      ],
+      "claim": "Fix headless CLI hanging forever on version-incompatible projects"
+    },
+    {
+      "number": 738,
+      "title": "Fix nameless \"false\" row in the element Informations panel",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Both ingredients are present in master before that merge \u2014 verified against `14ef848c4`, the merge's first parent: `exclude_from_bom` was already in `elementInfoKeys()`, and the unconditional write w\u2026",
+        "### Testing",
+        "Built clean"
+      ],
+      "claim": "Fix nameless \"false\" row in the element Informations panel"
+    },
+    {
+      "number": 740,
+      "title": "Export slave cross-reference labels to DXF",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "** I checked before changing anything \u2014 the 317 folio/position strings present in the unmodified DXF are the folio-report texts"
+      ],
+      "claim": "Export slave cross-reference labels to DXF"
+    },
+    {
+      "number": 743,
+      "title": "Fix bugtracker #291: crash on cancelling open-element dialog before collection load finishes",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing",
+        "Clean rebuild, no new warnings",
+        "The fix is a direct, well-understood correction of a QtConcurrent-lifetime hazard (background workers outliving the objects they operate on), confirmed by reading the exact call path from `loadCollec\u2026"
+      ],
+      "claim": "Fix bugtracker #291: crash on cancelling open-element dialog before collection load finishes"
+    },
+    {
+      "number": 744,
+      "title": "Fix bugtracker #335: element icons invisible on dark themes",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "## Testing"
+      ],
+      "claim": "Fix bugtracker #335: element icons invisible on dark themes"
+    },
+    {
+      "number": 746,
+      "title": "Fix pasted conductors getting an unwanted \"_\" label",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "Confidence rests on tracing the exact code path (confirmed `defaultConductorProperties",
+        "Confidence rests on tracing the exact code path",
+        "### Verification"
+      ],
+      "claim": "Fix pasted conductors getting an unwanted \"_\" label"
+    },
+    {
+      "number": 747,
+      "title": "Fix real_font_size_ desyncing from the actual font in PartText",
+      "state": "OPEN",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "### Verification",
+        "Verified with a temporary instrumented build: typed a size into the"
+      ],
+      "claim": "Fix real_font_size_ desyncing from the actual font in PartText"
+    },
+    {
+      "number": 750,
+      "title": "Export the master-side cross-reference table to DXF",
+      "state": "MERGED",
+      "evidence_class": "inferred",
+      "evidence_markers": 0,
+      "quotes": [
+        "### Testing",
+        "Built clean on Qt5/Linux",
+        "Verified via the GUI export dialog (Fichier > Exporter > DXF) against `examples/industrial"
+      ],
+      "claim": "Export the master-side cross-reference table to DXF"
+    },
+    {
+      "number": 752,
+      "title": "Take the modal dialog out of RotateTextsCommand's constructor",
+      "state": "OPEN",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "qet` \u2014 67 conductors, single folio, `rotation` attributes stripped first \u2014 and counted what got written on save:"
+      ],
+      "claim": "Take the modal dialog out of RotateTextsCommand's constructor"
+    },
+    {
+      "number": 753,
+      "title": "Add a non-interactive mode so headless runs cannot block on a modal",
+      "state": "CLOSED",
+      "evidence_class": "observed",
+      "evidence_markers": 1,
+      "quotes": [
+        "| `--info` | HUNG (60 s timeout) | ok |"
+      ],
+      "claim": "Add a non-interactive mode so headless runs cannot block on a modal"
+    }
+  ]
+}
