@@ -92,6 +92,23 @@ class TestCanonDetectsCorruption(unittest.TestCase):
         d = canon.diff(canon.canonicalize(SAMPLE), canon.canonicalize(p))
         self.assertTrue(d, "rewiring a conductor's terminal must produce a canon diff")
 
+    def test_detects_rewire_to_real_terminal(self):
+        # Rewire one conductor between two DIFFERENT real terminals (not an
+        # out-of-range integer that falls back to the raw "?" key). This is
+        # the anti-blindness half of option A: the content-derived identity
+        # -- not just the "?" fallback -- must notice the change.
+        m = re.search(r'<conductor [^>]*\bterminal1="(\d+)"[^>]*\bterminal2="(\d+)"', self.text)
+        self.assertIsNotNone(m, "test setup: expected a conductor with integer terminals")
+        a, b = m.group(1), m.group(2)
+        all_ids = set(re.findall(r'<terminal [^>]*\bid="(\d+)"', self.text))
+        c = next((i for i in sorted(all_ids, key=int) if i not in (a, b)), None)
+        self.assertIsNotNone(c, "test setup: expected a third distinct terminal id")
+        mutated, n = re.subn(f'terminal2="{b}"', f'terminal2="{c}"', self.text, count=1)
+        self.assertEqual(n, 1, "test setup: expected to find the conductor's terminal2 ref")
+        p = _write_variant(self.tmp, mutated, "rewired_real_terminal.qet")
+        d = canon.diff(canon.canonicalize(SAMPLE), canon.canonicalize(p))
+        self.assertTrue(d, "rewiring between two real terminals must produce a canon diff")
+
 
 class TestCanonTolerance(unittest.TestCase):
     """canon() must not be too strict -- cosmetic-only edits must NOT diff."""
@@ -115,6 +132,23 @@ class TestCanonTolerance(unittest.TestCase):
         p = _write_variant(self.tmp, mutated, "recolored.qet")
         d = canon.diff(canon.canonicalize(SAMPLE), canon.canonicalize(p))
         self.assertEqual(d, [], f"a colour-only change should be cosmetic, got: {d}")
+
+    def test_tolerates_terminal_id_churn(self):
+        # table_adr_id is a QHash<Terminal*, int> rebuilt from scratch on
+        # every save, so the integer in a terminal's `id` -- and in the
+        # conductor terminal1/terminal2 refs that point at it -- churns
+        # between processes (FINDINGS.md F004). Renumber every legacy
+        # terminal id and its refs by +1000: the wiring is unchanged, so
+        # the content-derived identity must report no difference.
+        def bump(match):
+            return f"{match.group(1)}{int(match.group(2)) + 1000}{match.group(3)}"
+
+        mutated = re.sub(r'(<terminal [^>]*\bid=")(\d+)(")', bump, self.text)
+        mutated = re.sub(r'(<conductor [^>]*\bterminal1=")(\d+)(")', bump, mutated)
+        mutated = re.sub(r'(<conductor [^>]*\bterminal2=")(\d+)(")', bump, mutated)
+        p = _write_variant(self.tmp, mutated, "renumbered_terminals.qet")
+        d = canon.diff(canon.canonicalize(SAMPLE), canon.canonicalize(p))
+        self.assertEqual(d, [], f"renumbering legacy terminal ids must be cosmetic, got: {d}")
 
     def test_tolerates_conductor_terminal_order_swap(self):
         # A conductor is electrically symmetric: swapping which terminal is

@@ -61,7 +61,7 @@ def o2_idempotence(resave1: Path, resave2: Path) -> list[Finding]:
 
 def o3_semantic_preservation(before: Path, after: Path) -> list[Finding]:
     """
-    O3: element/conductor/uuid counts and the full uuid set survive a
+    O3: element/conductor/terminal counts and the full uuid set survive a
     resave. Unlike O2, a failure here is data loss regardless of any
     roadmap -- it must never regress.
     """
@@ -87,12 +87,19 @@ def o3_semantic_preservation(before: Path, after: Path) -> list[Finding]:
             f"{len(gained)} uuid(s) appeared that were not present before (data invented)",
             {"gained_uuids": sorted(gained)[:20], "before": str(before), "after": str(after)},
         ))
-    if ca.counts["elements"] != cb.counts["elements"]:
-        findings.append(Finding(
-            "O3", "corruption",
-            f"element count changed: {ca.counts['elements']} -> {cb.counts['elements']}",
-            {"before": str(before), "after": str(after)},
-        ))
+    # Design doc §3 names O3 as "element / conductor / terminal counts and
+    # the full UUID set". Counting every category -- not just elements -- is
+    # what makes O3 the anti-blindness backstop for criterion 2: a projection
+    # that keyed conductors by content but dropped a conductor from the count
+    # would pass a no-op round-trip and still miss a genuine deletion.
+    for key, label in (("elements", "element"), ("conductors", "conductor"),
+                       ("terminals", "terminal")):
+        if ca.counts[key] != cb.counts[key]:
+            findings.append(Finding(
+                "O3", "corruption",
+                f"{label} count changed: {ca.counts[key]} -> {cb.counts[key]}",
+                {"before": str(before), "after": str(after)},
+            ))
     return findings
 
 
