@@ -49,6 +49,13 @@ What counts as identity-bearing here, and why:
                 tell them apart, and a rewire between the twins is
                 undetectable in principle. See FINDINGS.md F004/F003 and
                 briefs/W5-prereq-deepseek.md.
+  - dyn. text:  identity is the PAIR (parent element uuid, text uuid), never
+                the text uuid alone. Element-embedded texts inherit their
+                uuid from the element definition in the library, so one text
+                uuid recurs once per placement (4x in photovoltaique.qet).
+                Keying by text uuid alone silently collided and made
+                master-vs-master report a phantom difference -- FINDINGS.md
+                F006.
   - diagram:    QET's schema has no diagram uuid either -- identity is
                 the `order` attribute (folios are explicitly ordered;
                 see moveDiagramUp/Down in qetdiagrameditor.cpp). Title is
@@ -81,6 +88,33 @@ _ELEMENT_KEYS = ("type", "x", "y", "z", "orientation", "prefix", "freezeLabel")
 _DTEXT_KEYS = ("text_from", "x", "y", "rotation")
 
 _FLOAT_RE = re.compile(r"^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$")
+
+
+def _put_dtext(dtexts: dict, parent_uuid: str | None, dt) -> None:
+    """Record one <dynamic_elmt_text> under a (parent element, text) key.
+
+    See FINDINGS.md F006 for why the parent uuid is part of the key.
+    """
+    tu = dt.get("uuid")
+    if not tu:
+        return
+    value = {k: _num(dt.get(k)) if k in ("x", "y", "rotation") else dt.get(k)
+             for k in _DTEXT_KEYS}
+    info_name = dt.find("info_name")
+    value["info_name"] = info_name.text if info_name is not None else None
+
+    key = f"{parent_uuid or '-'}/{tu}"
+    prev = dtexts.get(key)
+    if prev is None:
+        dtexts[key] = value
+        return
+    # Two texts sharing a uuid inside ONE element: not present anywhere in the
+    # 23-file corpus (verified max 1), but if it ever occurs, keep both in a
+    # content-sorted list rather than letting document order pick a winner --
+    # that is precisely the F006 bug, one level down.
+    bucket = list(prev) if isinstance(prev, list) else [prev]
+    bucket.append(value)
+    dtexts[key] = sorted(bucket, key=lambda v: json.dumps(v, sort_keys=True, default=str))
 
 
 def _num(s: str | None):
@@ -142,8 +176,26 @@ def canonicalize(path: Path) -> Canon:
         # document order -- their serialization order is itself scrambled by
         # Diagram::toXml (F003), so only their (x, y, orientation) / uuid,
         # never their position in the file, is identity-bearing.
+        # Dynamic texts are keyed by (parent element uuid, text uuid), NOT by
+        # text uuid alone. Element-embedded texts inherit their uuid from the
+        # element DEFINITION in the library, so the same text uuid recurs once
+        # per placement -- up to 4x in examples/photovoltaique.qet. Keying by
+        # text uuid alone collided, and since d.iter() walks document order,
+        # which follows unstable element serialisation order (F003), the winner
+        # flipped between runs: master-vs-master reported a phantom difference,
+        # and 21 of 51 texts on one folio were never compared at all. They are
+        # gathered here, walking down from the element, because ElementTree has
+        # no parent pointers and that is the only way to know the owner.
+        # See FINDINGS.md F006.
+        seen_dtexts: set[int] = set()
+
         for e in d.iter("element"):
             u = e.get("uuid")
+            # Before the uuid check, so a uuid-less element's texts are still
+            # recorded (under "-") rather than silently dropped.
+            for dt in e.iter("dynamic_elmt_text"):
+                seen_dtexts.add(id(dt))
+                _put_dtext(dtexts, u, dt)
             if not u:
                 continue
             elements[u] = {k: _num(e.get(k)) if k in ("x", "y", "z", "orientation") else e.get(k)
@@ -182,14 +234,12 @@ def canonicalize(path: Path) -> Canon:
                 "type": c.get("type"),
             })
 
+        # Any dynamic text NOT owned by an <element> (none in the 23-file
+        # corpus, but the schema does not forbid it) is still recorded, so a
+        # future diagram-level text cannot vanish from the projection unnoticed.
         for dt in d.iter("dynamic_elmt_text"):
-            u = dt.get("uuid")
-            if not u:
-                continue
-            dtexts[u] = {k: _num(dt.get(k)) if k in ("x", "y", "rotation") else dt.get(k)
-                         for k in _DTEXT_KEYS}
-            info_name = dt.find("info_name")
-            dtexts[u]["info_name"] = info_name.text if info_name is not None else None
+            if id(dt) not in seen_dtexts:
+                _put_dtext(dtexts, None, dt)
 
         diagrams.append({
             "order": order,

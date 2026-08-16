@@ -524,11 +524,39 @@ It is **not** a QET save-path defect and does not belong to O4.
 - Every sweep will carry >=1 phantom `change` until fixed. Harmless for exit
   codes (only `regression` is fatal) but it pollutes every report.
 
-### Fix
+### Fix — DONE
 
-Key dynamic texts by `(parent element uuid, text uuid)` rather than text uuid
-alone, or scope `dtexts` to its parent element. Out of W3's modify-scope
-(`simulator/` was off-limits), so left for a follow-up.
+Dynamic texts are now keyed by `(parent element uuid, text uuid)`, gathered by
+walking down from each `<element>` (ElementTree has no parent pointers, so the
+owner is only knowable top-down). Texts belonging to a uuid-less element, or to
+no element at all, are still recorded rather than dropped. A same-uuid collision
+*within one element* — not present anywhere in the corpus, max observed 1 — is
+kept as a content-sorted list instead of letting document order pick a winner,
+which would be this same bug one level down.
+
+### It was worse than a phantom diff: 41% of dynamic texts were never compared
+
+The phantom `change` was the visible symptom. The real damage was silent: on
+`photovoltaique.qet` folio 1 the file holds **51** dynamic texts but only **30**
+distinct text uuids, so the old flat dict kept 30 and **21 were overwritten and
+never compared at all**. Any real corruption to those 21 was invisible to every
+oracle built on this projection. A false positive is annoying; this was a blind
+spot.
+
+### Verification
+
+- `photovoltaique --resave`, master vs master: `5 same, 0 change` on **6
+  consecutive runs** (the bug was intermittent — ~2 of 8 trials — so a single
+  clean run would not have been evidence).
+- Still detects real change, i.e. the fix is not merely looser: moving one of
+  the two previously-colliding texts to `x="-999"` is reported as
+  `dynamic_texts value differs for
+  ['{635a6585-...}/{93c0008c-...}']` — and the key now names the owning element,
+  which the old projection could not do.
+- 4 regression tests in `simulator/tests/test_canon.py`
+  (`TestDynamicTextUuidCollision`), including one asserting projected text count
+  equals the count in the file, which fails on the old keying by construction.
+- All 11 simulator test modules and the 10 refdiff classifier tests pass.
 
 ### Cross-item warning: W2's P003
 

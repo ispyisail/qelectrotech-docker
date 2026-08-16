@@ -275,3 +275,56 @@ class TestGridRegressions(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestDynamicTextUuidCollision(unittest.TestCase):
+    """FINDINGS.md F006.
+
+    Element-embedded dynamic texts inherit their uuid from the element
+    DEFINITION, so one text uuid recurs once per placement. Keying the
+    projection by text uuid alone collapsed them, and because document order
+    follows unstable element serialisation order (F003), which duplicate won
+    changed between runs -- master-vs-master reported a phantom difference.
+    """
+
+    PROJECT = EXAMPLES / "photovoltaique.qet"
+    # The uuid that actually collided in the refdiff sweep that found this.
+    COLLIDING = "{93c0008c-8287-4e74-90d7-96c4730ca579}"
+
+    def setUp(self):
+        if not self.PROJECT.exists():
+            self.skipTest(f"fixture missing: {self.PROJECT}")
+
+    def test_duplicate_text_uuid_is_not_collapsed(self):
+        c = canon.canonicalize(self.PROJECT)
+        hits = [k for d in c.diagrams for k in d["dynamic_texts"]
+                if k.endswith("/" + self.COLLIDING)]
+        # Two placements carry this text uuid; both must survive as separate
+        # entries. Keying by text uuid alone yielded exactly 1.
+        self.assertEqual(len(hits), 2, f"expected both placements, got {hits}")
+
+    def test_colliding_entries_keep_their_own_geometry(self):
+        c = canon.canonicalize(self.PROJECT)
+        vals = [v for d in c.diagrams for k, v in d["dynamic_texts"].items()
+                if k.endswith("/" + self.COLLIDING)]
+        coords = sorted((v["x"], v["y"]) for v in vals)
+        # The two texts sit at distinct positions; a collapse silently kept one
+        # and reported the other's coordinates as "drift" (F005 side-note 2).
+        self.assertEqual(coords, [(-10.0, -20.0), (10.0, -10.0)])
+
+    def test_every_dtext_key_is_parent_scoped(self):
+        c = canon.canonicalize(self.PROJECT)
+        for d in c.diagrams:
+            for k in d["dynamic_texts"]:
+                self.assertIn("/", k, f"unscoped dynamic-text key: {k}")
+
+    def test_no_dynamic_texts_lost_to_collapsing(self):
+        """Key count must equal the number of texts in the file, not the
+        number of distinct text uuids."""
+        import xml.etree.ElementTree as ET
+        root = ET.parse(self.PROJECT).getroot()
+        in_file = sum(1 for d in root.iter("diagram")
+                      for dt in d.iter("dynamic_elmt_text") if dt.get("uuid"))
+        c = canon.canonicalize(self.PROJECT)
+        projected = sum(len(d["dynamic_texts"]) for d in c.diagrams)
+        self.assertEqual(projected, in_file)
