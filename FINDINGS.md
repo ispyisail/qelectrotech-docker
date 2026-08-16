@@ -180,3 +180,92 @@ is set and the attribute is written, but the value stays at its pre-animation
 figure (`rotation="0"` rather than `45`). Fine for testing the save gate, which
 is what #312 was about; a scripted caller wanting the actual angle applied
 would need the animation to complete or be bypassed. Not filed.
+
+---
+
+## F002 — L6 phase 2: audit of inferred claims across 136 PRs
+
+**Date:** 2026-08-16
+**Input:** `reports/pr-evidence.json` (phase 1, calibration verified:
+#707 `inferred`, #682/#737 `observed`)
+
+### Headline: no second #707 found
+
+**136 PRs audited — 22 observed, 108 inferred, 6 unstated. No further
+#707-class defect identified.** That is the honest result, and it is worth as
+much as a list of suspects would have been.
+
+The base rate matters: an inferred claim is *unverified*, not *wrong*. Most of
+the 108 are small, self-contained bugtracker fixes whose mechanism is short
+enough to read correctly. Elevating them wholesale would produce a worklist
+nobody would action.
+
+### Investigated and cleared: the dark-theme icon family
+
+The strongest a-priori signal was **three PRs for one bug** — #620, #695
+("two dialogs missed by the earlier fix"), #744 — the same shape as #707, where
+parallel call sites got fixed inconsistently.
+
+**It is resolved.** #620 and #695 patched individual consumers; #744 fixed the
+*production* point in `elementpicturefactory.cpp`:
+
+```cpp
+-  pix.fill(QColor(255, 255, 255, 0));   // transparent
++  pix.fill(Qt::white);                  // opaque
+```
+
+Every consumer of that pixmap inherits the fix, including the untouched sites
+in `elementslocation.cpp:862` and `fileelementcollectionitem.cpp:53`. The
+progression is per-consumer patches converging on a root-cause fix — a good
+outcome, not an open risk.
+
+### The real finding: O4 cannot be evaluated on master yet
+
+Attempting to test a *class* of merged undo/redo claims (#590, #645, #660 and
+others) with the L2 lab binary produced this, on `examples/741.qet`:
+
+| op sequence | result |
+|---|---|
+| `select_all` (no-op) | **FAIL** |
+| `select_all, delete, undo` | FAIL |
+| `select_all, move, undo` | FAIL |
+| `select_all, rotate, undo` | FAIL |
+| `select_all, rotate_texts, undo` | FAIL |
+
+**The no-op baseline fails**, so this measures the harness, not the commands.
+Two mistakes on the way there, both worth recording:
+
+1. **First attempt compared un-warmed inputs** — two independent first-saves of
+   a legacy project assign different conductor UUIDs (`TOOLING-PLAN.md` §2
+   trap 2). Warming the corpus first removed that.
+2. **Warming was not enough.** The residual diff is
+   `conductors key-set differs`. Conductor identity in `canon.py` is the sorted
+   `(terminal1, terminal2)` pair, and terminal indices are assigned by
+   `Diagram::toXml`'s iteration over `QGraphicsScene::items()` — *stacking
+   order, not content order*. This is the known non-idempotence documented in
+   `tests/determinism/check.py`, and it shuffles conductor keys between saves
+   of identical content.
+
+**Consequence for `TOOLING-PLAN.md` W5:** the O4 undo/redo metamorphic oracle
+is **blocked on save determinism**, not on op vocabulary. W5 assumed the lab
+binary was the missing piece; it is necessary but not sufficient. Either fix
+the `Diagram::toXml` ordering first, or give `canon.py` a conductor projection
+that does not derive identity from terminal indices. **This should be settled
+before W5 is scheduled** — otherwise every O4 result will be noise.
+
+### Candidates that remain worth a check (not yet suspect)
+
+Listed with the specific check, not elevated to suspect:
+
+| PR | Claim | Check once O4 is unblocked |
+|---|---|---|
+| #645 | auto-numbering counter changes covered by undo/redo | O4 on a numbering op |
+| #660 | rotate group rotates a selection as a whole | O4 + grid check; `as_group` is still rejected by `--test-ops` |
+| #642 | user-defined custom properties on elements | `set_property` then O5 — `element_info` is PR #664's bug family |
+
+`element_count == element_info_count` held at 65/65 across every op run during
+this audit, so no orphan-row regression is visible today.
+
+### Not re-flagged
+
+**#707 is resolved** (F001, F001-b) and is the calibration case, not a finding.
