@@ -1,0 +1,7 @@
+# Ephemeral run artifacts — regenerated on every `scripts/gates.sh` run.
+# Only baseline.json is a tracked deliverable (the expected-state store that
+# transition detection compares against). Dated reports, per-run logs,
+# ALERT.md, and the cron log all regenerate and are intentionally untracked.
+*
+!.gitignore
+!baseline.json

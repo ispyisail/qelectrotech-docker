@@ -1,0 +1,6 @@
+{
+  "asan-regression": "pass",
+  "cli-sweep": "not-built",
+  "determinism": "fail",
+  "test": "fail"
+}
