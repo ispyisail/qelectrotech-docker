@@ -51,18 +51,23 @@ transition, not on every run.
 
 ## 3. Traps
 
-1. **Expect terminal-id noise on every comparison, and do not try to warm it
-   away.** Conductor `terminal1`/`terminal2` values are legacy integers rebuilt
-   in pointer order on every save, so they differ between processes — measured
-   at `"30"`, `"11"`, `"25"` across three resaves of one file. Warming does not
-   help. Until the `canon.py` projection change lands
-   (`briefs/W5-prereq-deepseek.md`), treat conductor key-set differences as
-   known noise, report the volume, and do not tune the classifier to hide it.
-2. **`Diagram::toXml` is not idempotent on master.** Conductor identity in
-   `canon.py` derives from terminal indices, which are assigned in
-   `QGraphicsScene` stacking order. Expect conductor key-set noise on *every*
-   comparison until that is fixed (see `briefs/W5-prereq-deepseek.md`). **Report
-   it as known noise; do not tune the classifier to hide it.**
+1. **The terminal-id noise is GONE — updated 2026-08-16.** An earlier version of
+   this brief told you to expect conductor key-set noise on every comparison and
+   not to warm it away. That was true when written; the `canon.py` projection
+   change (W5 prereq) has since landed and made conductor identity content-derived
+   and every collection order-independent. **Verified after the merge: two
+   consecutive resaves of `741.qet`, `perceuse.qet` and `ShellyParts.qet` now give
+   0 canon diffs each.**
+
+   So `canon.diff()` is a trustworthy comparison now. If you *do* see conductor or
+   element churn between two runs of the same ref, that is a real finding — report
+   it, do not write it off as known noise.
+2. **Byte-level output is still non-deterministic; content-level is not.**
+   `Diagram::toXml` still emits elements in `QGraphicsScene` stacking order, so
+   raw file bytes differ between runs (F003/F004) and `tests/determinism`'s I1
+   still fails. That is why `.qet` comparison must go through `canon.diff()` and
+   **never** through a byte or line diff. Text *exports* can be byte-compared
+   after normalisation; saved projects cannot.
 3. **`--export-wires` / `--export-cables` exit 1 on an empty result** —
    indistinguishable from real failure by exit code alone. Do not let that
    produce a false `regression`.
