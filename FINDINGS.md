@@ -656,3 +656,85 @@ only within its owning scope**, and a flat dict keyed on a bare uuid silently
 resolves collisions by document order — which is unstable. Only `<element>`
 uuids are project-unique. Any future projection or rule keyed on a bare uuid
 must state the scope that makes it unique, or it will reproduce this.
+
+## F008 — a legacy-version project hangs every CLI verb forever on an undismissable modal
+
+**Status:** real QET defect. **Already proposed upstream as PR #661**
+("Fix command-line tools hanging forever on a modal message box"), open and
+unmerged as of 2026-08-17. This entry records the concrete instance and its
+measured cost; it is not a new bug report.
+
+### Repro
+
+```
+binary: /home/user/qet-fix/build-ab/7307a59c101a/build/qelectrotech
+        sha256 def8b1f8fb959a47...   (master 7307a59c1)
+
+HOME=$(mktemp -d) XDG_CONFIG_HOME=$(mktemp -d) XDG_DATA_HOME=$(mktemp -d) \
+  timeout 30 qelectrotech -platform offscreen \
+    --resave examples/schema_indus.qet /tmp/out.qet
+```
+
+**Expected:** resave completes, or exits non-zero with a diagnostic.
+**Actual:** hangs until killed externally — `exit=124` at the timeout, no output,
+no error. Not slow: it never terminates on its own.
+
+Control, same binary and flags:
+
+| Project | Declared version | Result |
+|---|---|---|
+| `741.qet` | `0.90` | **exit 0, <1s** |
+| `schema_indus.qet` | `0.3` | **exit 124, hangs** |
+
+So it is the version gate, not file size or content.
+
+### Mechanism
+
+`QETProject::readProjectXml()` (`sources/qetproject.cpp:1494`) raises a modal for
+any project at version <= 0.6:
+
+```cpp
+if (m_project_qet_version <= QetVersion::versionZeroDotSix()) {
+    auto ret = QET::QetMessageBox::warning(nullptr, tr("Avertissement "), ...,
+                                           QMessageBox::Open | QMessageBox::Cancel);
+```
+
+`QET::QetMessageBox` (`sources/qetmessagebox.h`) is a thin wrapper over
+`QMessageBox` whose only added behaviour is MacOS window-modality — it has **no
+non-interactive path**. Under `-platform offscreen` there is no one to click
+Open or Cancel, so `exec()` blocks forever.
+
+A **second** modal at `sources/qetproject.cpp:1476` is the same trap in the
+other direction: a project saved by a *newer* QET than the running one. Nothing
+in the corpus triggers it today, but any file from a future release will.
+
+### Why it matters
+
+- Every CLI verb is affected, not just `--resave`: the modal is in the shared
+  load path, so `--info`, `--export-bom`, `--export-nets` and `--export-links`
+  all hang on the same file.
+- It fails in the worst possible way for automation — no error, no exit, no
+  output. Only an external timeout ends it, so any caller without one hangs
+  indefinitely.
+- Legacy files are exactly what a compatibility sweep most wants to test, and
+  they are precisely the ones that cannot be tested.
+- Measured cost before mitigation: **1202s** for this single project (5 verbs x
+  2 refs x 120s), roughly 20 of every 23-minute corpus sweep.
+
+Corpus scope: **1 of 23** example projects (`schema_indus.qet`). Small today,
+but it is the only pre-0.6 file available — the blind spot is the whole legacy
+class, not one file.
+
+### Relationship to the refdiff mitigation
+
+`48ff4e2` makes the sweep skip a project's remaining verbs once the first times
+out on both refs, cutting that 1202s to 240s. That is a **harness mitigation,
+not a fix** — the project still cannot be swept at all, and the 240s is still
+two dead timeouts. PR #661 is the actual fix.
+
+### Fix
+
+PR #661. Any `QetMessageBox` call reachable from a CLI verb needs a
+non-interactive path that picks the safe default (here: `Open`, matching what a
+user pressing the obvious button gets) and reports the choice on stderr rather
+than blocking.
