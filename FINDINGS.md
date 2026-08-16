@@ -303,7 +303,7 @@ the binary or the environment.
 
 ### Why it matters
 
-F002 established that conductor `terminal1`/`terminal2` values are legacy
+F004 established that conductor `terminal1`/`terminal2` values are legacy
 integers from a pointer-keyed `QHash` rebuilt each save, and therefore vary
 between processes. **F003 shows that was the symptom, not the disease.**
 `Diagram::toXml` iterates `QGraphicsScene::items()`, and that iteration
@@ -340,3 +340,61 @@ warming cannot fix it, and the fix belongs in QET rather than the harness.
 
 A projection that reports both as stable has gone blind and is worthless. Use
 them as the calibration pair.
+
+## F004 — `Diagram::toXml` terminal-id churn is non-deterministic run-to-run, so warming cannot fix it (W1 brief premise wrong)
+
+> **Renumbered on merge** (was F002 on the W1 branch; that number was already
+> taken). Chronologically this is the *root* finding — F003 later showed the
+> same `items()` iteration also scrambles element order, of which terminal-id
+> churn is a symptom. Read F004 then F003.
+
+**Date:** 2026-08-16
+**Binary:** `/home/user/qet-fix/build-ab/7307a59c101a/build/qelectrotech`
+(`nightly-388-g7307a59c1` — current master)
+
+### The claim under test
+
+W1 brief §1: the simulator's O9 self-check fails because *"QET assigns a fresh
+`uuid` to every `<conductor>` when loading a legacy project that lacks them"* —
+67 of them on `741.qet` — *"and is stable only from the second save on."* The
+prescribed fix is to warm the corpus once (`--resave` every seed) so the
+migration is absorbed before the sweep runs, after which O9 should pass.
+
+### What was actually observed
+
+- `Conductor::toXml()` (`sources/qetgraphicsitem/conductor.cpp:1040`) has **no
+  conductor-uuid code at all**. The only identifier it writes is `terminal1` /
+  `terminal2`, which is either the terminal's *stable* uuid (when the terminal
+  has one) or a **legacy integer id** looked up in `table_adr_id`.
+- `Diagram::toXml()` (`sources/diagram.cpp:1039`) rebuilds
+  `QHash<Terminal *, int> table_adr_id` **from scratch on every save**, assigning
+  ids sequentially in `QGraphicsScene::items()` order (stacking order, not a
+  content-derived order) via `Element::toXml()` (`element.cpp:953`).
+- The churn is therefore **not a first-save migration**: it recurs on every save
+  and is **non-deterministic run-to-run** (the pointer-keyed `QHash` + stacking
+  order depend on ASLR). Measured with `simulator/oracles.py` O9:
+
+```bash
+python3 -m simulator warm-corpus --binary "$BIN" --corpus /home/user/qet-fix/examples --out /tmp/warm
+python3 -m simulator sweep --binary "$BIN" --corpus /tmp/warm --iterations 50
+#   "o9_deterministic": false
+#   O9: "identical input produced different canonical output"
+#       diagram order=1 conductors key-set differs: only_a=['0-97','1-10','10-8'] only_b=['0-48','1-5','10-19']
+```
+
+- A 5-probe idempotence sweep over the warmed corpus classifies the 22
+  resavable seeds as: **0** uuid-migration artifacts, **19** persistently
+  non-idempotent, **1** probabilistic (small file, coin-flip), **2** clean
+  (`ShellyParts.qet`, `pinball_williams_em.qet`); `schema_indus.qet` hangs (PR
+  #737).
+
+### Conclusion
+
+The brief's artifact does not exist in these binaries, and warming cannot make
+O9 pass — the defect makes identical input produce different output across two
+separate runs, which is exactly what O9 exists to detect. The fix is in QET
+(`Diagram::toXml` must derive terminal ids from content, not `items()` order),
+not in the harness. `tests/determinism/check.py` documents the same root cause
+as its "I1 does not hold" note; the run-to-run non-determinism above is the
+additional fact that makes the sweep's findings uninterpretable rather than
+merely non-idempotent.

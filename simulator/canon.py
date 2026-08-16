@@ -42,7 +42,7 @@ What counts as identity-bearing here, and why:
                 must derive conductor identity from element1/element2
                 uuids plus terminalname1/terminalname2, which the same
                 function writes whenever the terminals carry uuids.
-                See FINDINGS.md F002/F003 and briefs/W5-prereq-deepseek.md.
+                See FINDINGS.md F004/F003 and briefs/W5-prereq-deepseek.md.
   - diagram:    QET's schema has no diagram uuid either -- identity is
                 the `order` attribute (folios are explicitly ordered;
                 see moveDiagramUp/Down in qetdiagrameditor.cpp). Title is
