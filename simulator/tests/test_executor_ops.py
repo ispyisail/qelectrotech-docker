@@ -4,6 +4,7 @@ writing) using a fake stand-in binary -- does not need a --test-ops-capable
 qelectrotech build. The real thing is exercised by
 fixtures/fixture_element_info_orphan.py, which does need one.
 """
+import json
 import shutil
 import sys
 import tempfile
@@ -14,7 +15,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from simulator import env
-from simulator.executor_ops import first_element_uuid, run_ops
+from simulator.executor_ops import (
+    diagram_op,
+    first_element_uuid,
+    move_op,
+    rotate_texts_op,
+    run_ops,
+    select_all_op,
+    set_property_op,
+)
 
 SAMPLE = Path("/home/user/qet-fix/examples/741.qet")
 
@@ -80,6 +89,53 @@ class TestFirstElementUuid(unittest.TestCase):
         empty = tmp / "empty.qet"
         empty.write_text('<project version="0.90"><newdiagrams/></project>')
         self.assertIsNone(first_element_uuid(empty))
+
+
+class TestOpHelpers(unittest.TestCase):
+    """Each op helper must produce the exact JSON object the C++ verb expects."""
+
+    def test_select_all_op(self):
+        self.assertEqual(select_all_op(), {"op": "select_all"})
+        self.assertEqual(json.dumps(select_all_op()), '{"op": "select_all"}')
+
+    def test_move_op(self):
+        self.assertEqual(move_op(10, -5), {"op": "move", "dx": 10, "dy": -5})
+        self.assertEqual(json.dumps(move_op(10, -5)), '{"op": "move", "dx": 10, "dy": -5}')
+
+    def test_diagram_op(self):
+        self.assertEqual(diagram_op(1), {"op": "diagram", "index": 1})
+        self.assertEqual(json.dumps(diagram_op(1)), '{"op": "diagram", "index": 1}')
+
+    def test_set_property_op(self):
+        op = set_property_op("{abc}", "label", "K1")
+        self.assertEqual(op, {"op": "set_property", "uuid": "{abc}", "key": "label", "value": "K1"})
+        self.assertEqual(json.dumps(op),
+                         '{"op": "set_property", "uuid": "{abc}", "key": "label", "value": "K1"}')
+
+    def test_rotate_texts_op(self):
+        self.assertEqual(rotate_texts_op(45), {"op": "rotate_texts", "angle": 45})
+        self.assertEqual(json.dumps(rotate_texts_op(45)), '{"op": "rotate_texts", "angle": 45}')
+
+
+class TestOpsJsonWritten(unittest.TestCase):
+    """run_ops() writes the ops list verbatim as the ops.json the binary reads."""
+
+    def setUp(self):
+        self.fake_binary = _make_fake_binary()
+        self.addCleanup(shutil.rmtree, self.fake_binary.parent, ignore_errors=True)
+
+    def test_writes_every_new_op_verbatim(self):
+        ops = [
+            select_all_op(),
+            move_op(10, -5),
+            diagram_op(1),
+            set_property_op("{abc}", "label", "K1"),
+            rotate_texts_op(45),
+        ]
+        with env.sandbox_context() as sb:
+            run_ops(str(self.fake_binary), SAMPLE, ops, sb)
+            written = json.loads((sb.work / "ops.json").read_text())
+        self.assertEqual(written, ops)
 
 
 if __name__ == "__main__":

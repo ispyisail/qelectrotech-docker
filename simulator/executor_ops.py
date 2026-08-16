@@ -68,3 +68,35 @@ def first_element_uuid(project_path: Path) -> str | None:
     if not c.diagrams or not c.diagrams[0]["elements"]:
         return None
     return next(iter(c.diagrams[0]["elements"]))
+
+
+# ---------------------------------------------------------------------
+# One helper per --test-ops op. Each returns the exact JSON object the
+# binary expects, so a caller never hand-writes the op dict (and a typo
+# in a key shows up here, in a unit test, rather than as a silent no-op
+# inside the C++ verb). Kept deliberately tiny: these are data, not logic.
+# ---------------------------------------------------------------------
+
+def select_all_op() -> dict[str, Any]:
+    """Select every item in the current diagram."""
+    return {"op": "select_all"}
+
+
+def move_op(dx: float, dy: float) -> dict[str, Any]:
+    """Translate the current selection by (dx, dy)."""
+    return {"op": "move", "dx": dx, "dy": dy}
+
+
+def diagram_op(index: int) -> dict[str, Any]:
+    """Switch the target diagram (0-based) for all subsequent ops."""
+    return {"op": "diagram", "index": index}
+
+
+def set_property_op(uuid: str, key: str, value: str) -> dict[str, Any]:
+    """Set one element-information key on the element with the given uuid."""
+    return {"op": "set_property", "uuid": uuid, "key": key, "value": value}
+
+
+def rotate_texts_op(angle: float) -> dict[str, Any]:
+    """Rotate every conductor text in the current diagram by `angle`."""
+    return {"op": "rotate_texts", "angle": angle}
