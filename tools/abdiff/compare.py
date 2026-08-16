@@ -43,6 +43,13 @@ _PATH_LIKE = re.compile(r"/(?:tmp|home)/\S+")
 _TIMESTAMP = re.compile(
     r"\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?\b"
 )
+# QDebug prints live QObject pointers as `ClassName(0x55e51b6a15a0)`; the
+# address is an ASLR heap address that differs on every run. Found by a
+# master-vs-master --resave reporting DIFFERS solely because
+#   "exporting diagram \"...\"" [ Diagram(0x55e51b6a15a0) ]
+# changed address between the two runs. Content-level equality must not
+# depend on where malloc happened to put an object this time.
+_PTR = re.compile(r"\b0x[0-9a-fA-F]+\b")
 
 # QET's qInfo() load timers (sources/qetproject.cpp) write per-run
 # wall-clock timings to stderr for every CLI verb that opens a project:
@@ -115,6 +122,7 @@ def _normalize(s: str, *, extra_roots: list[str]) -> str:
     out = _strip_qet_timings(out)
     out = _PATH_LIKE.sub("<PATH>", out)
     out = _TIMESTAMP.sub("<TIMESTAMP>", out)
+    out = _PTR.sub("<PTR>", out)
     return out
 
 

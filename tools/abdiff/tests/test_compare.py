@@ -137,6 +137,36 @@ class TestSuccessComparison(unittest.TestCase):
             self.assertEqual(result.verdict, compare.VERDICT_SAME)
             self.assertEqual(result.reasons, [])
 
+    def test_qdebug_pointer_address_noise_is_normalized_away(self):
+        # qDebug() prints live QObject pointers as ClassName(0x...); the
+        # address is an ASLR heap address that differs every run. A
+        # master-vs-master --resave was reporting DIFFERS solely because
+        #   "exporting diagram \"...\"" [ Diagram(0x55e51b6a15a0) ]
+        # changed address between runs. It must not.
+        import tempfile
+        with tempfile.TemporaryDirectory() as da, tempfile.TemporaryDirectory() as db:
+            a = _outcome(returncode=0, stderr=(
+                'Export XML de 1 schemas\n'
+                '"exporting diagram \\"Operational amplifier uA741\\""'
+                ' [ Diagram(0x55e51b6a15a0) ]\n'
+            ))
+            b = _outcome(returncode=0, stderr=(
+                'Export XML de 1 schemas\n'
+                '"exporting diagram \\"Operational amplifier uA741\\""'
+                ' [ Diagram(0x61db43a1c6c0) ]\n'
+            ))
+            result = compare.compare(["--resave", "x.qet", "out.qet"], a, b, Path(da), Path(db))
+            self.assertEqual(result.verdict, compare.VERDICT_SAME)
+            self.assertEqual(result.reasons, [])
+
+    def test_qdebug_pointer_noise_does_not_mask_real_stderr_diff(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as da, tempfile.TemporaryDirectory() as db:
+            a = _outcome(returncode=0, stderr='[ Diagram(0x55e51b6a15a0) ]\n')
+            b = _outcome(returncode=0, stderr='[ Diagram(0x61db43a1c6c0) ]\nSomething actually different\n')
+            result = compare.compare(["--resave", "x.qet", "out.qet"], a, b, Path(da), Path(db))
+            self.assertEqual(result.verdict, compare.VERDICT_DIFFERS)
+
     def test_qet_load_timing_noise_does_not_mask_real_stderr_diff(self):
         import tempfile
         with tempfile.TemporaryDirectory() as da, tempfile.TemporaryDirectory() as db:
