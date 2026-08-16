@@ -18,6 +18,9 @@ from __future__ import annotations
 import hashlib
 import json
 import random
+import re
+import shutil
+import subprocess
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -61,6 +64,131 @@ def _sha256(data: bytes) -> str:
 
 def discover_corpus(corpus_dir: Path) -> list[Path]:
     return sorted(corpus_dir.glob("*.qet"))
+
+
+def _describe_binary(binary: str) -> str:
+    """
+    Best-effort provenance for a warm corpus: the git describe of the commit
+    a binary was built from. This is what lets a later reader detect a stale
+    warm corpus ("this warm output came from binary X at commit Y, but the
+    harness now points at Z").
+
+    The build-ab layout (<repo>/build-ab/<12-hex-sha>/build/qelectrotech) keys
+    its directory by commit sha, so that sha is the authoritative identity and
+    is described directly rather than describing whatever the repo happens to
+    have checked out now. Any other layout falls back to describing HEAD of
+    the nearest enclosing git repo. Returns a human string, never raises.
+    """
+    binary_path = Path(binary).resolve()
+    repo = None
+    p = binary_path.parent
+    while p != p.parent:
+        if (p / ".git").exists():
+            repo = p
+            break
+        p = p.parent
+
+    if repo is None:
+        return f"unknown (no .git found above {binary_path})"
+
+    def _git(*args: str) -> str | None:
+        try:
+            proc = subprocess.run(
+                ["git", "-C", str(repo), *args],
+                capture_output=True, text=True, timeout=10,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+        return proc.stdout.strip() if proc.returncode == 0 else None
+
+    # build-ab/<sha>/... -- describe that commit, not the current checkout.
+    try:
+        parts = binary_path.relative_to(repo).parts
+        if len(parts) >= 2 and parts[0] == "build-ab" \
+                and re.fullmatch(r"[0-9a-f]{6,40}", parts[1]):
+            desc = _git("describe", "--tags", "--always", parts[1])
+            if desc:
+                return desc
+    except ValueError:
+        pass  # binary not under the repo -- fall through to HEAD
+
+    desc = _git("describe", "--tags", "--always", "HEAD")
+    if desc:
+        return desc
+    return f"unknown (git describe failed in {repo})"
+
+
+def warm_corpus(
+    binary: str,
+    corpus_dir: Path,
+    out_dir: Path,
+    *,
+    timeout: float = 30.0,
+) -> dict[str, Any]:
+    """
+    Warm a corpus so the mutation sweep never sees the first-save migration
+    churn (W1 brief §2a): run --resave once per seed inside a sandbox and
+    write the *output* to out_dir/<same name>. A seed that crashes, times out,
+    or produces nothing is logged and skipped -- that is itself worth
+    reporting, not a reason to abort the warm-up. Writes out_dir/WARMED_FROM.txt
+    recording the source dir, binary path, and the binary's git describe so a
+    stale warm corpus is detectable.
+    """
+    env.assert_no_other_qet_running(binary)
+
+    corpus_dir = corpus_dir.resolve()
+    out_dir = out_dir.resolve()
+    if out_dir == corpus_dir:
+        raise RuntimeError(
+            f"refusing to warm a corpus in place: out_dir ({out_dir}) must not "
+            f"equal corpus_dir ({corpus_dir}) -- warming overwrites the original "
+            "corpus, which traces are byte-offset-recorded against"
+        )
+
+    seeds = discover_corpus(corpus_dir)
+    if not seeds:
+        raise RuntimeError(f"no .qet files found in {corpus_dir}")
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    warmed: list[str] = []
+    skipped: dict[str, str] = {}
+    for seed in seeds:
+        with env.sandbox_context() as sb:
+            sandbox_out = sb.work / seed.name
+            outcome = run_cli(
+                binary, ["--resave", str(seed), str(sandbox_out)], sb,
+                timeout=timeout,
+            )
+            if outcome.crashed or not sandbox_out.exists():
+                reason = outcome.crash_kind or "no output"
+                message = outcome.crash_message or ""
+                skipped[seed.name] = f"{reason}: {message}".rstrip(": ")
+                continue
+            shutil.copy2(sandbox_out, out_dir / seed.name)
+            warmed.append(seed.name)
+
+    describe = _describe_binary(binary)
+    warmed_from = out_dir / "WARMED_FROM.txt"
+    warmed_from.write_text(
+        "source_dir: {}\n"
+        "binary: {}\n"
+        "binary_describe: {}\n"
+        "warmed_at_epoch: {:.6f}\n"
+        "warmed: {}\n"
+        "skipped: {}\n".format(
+            corpus_dir, Path(binary).resolve(), describe, time.time(),
+            len(warmed), len(skipped),
+        )
+    )
+
+    return {
+        "warmed": warmed,
+        "skipped": skipped,
+        "warmed_from": str(warmed_from),
+        "binary_describe": describe,
+        "corpus_size": len(seeds),
+    }
 
 
 @dataclass

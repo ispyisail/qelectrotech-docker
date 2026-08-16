@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from simulator import env, mutate
-from simulator.runner import RunConfig, run_sweep, _apply_trace_to_bytes, _execute_and_check
+from simulator.runner import RunConfig, run_sweep, warm_corpus, _apply_trace_to_bytes, _execute_and_check
 from simulator.trace import Trace
 
 DEFAULT_CORPUS = Path("/home/user/qet-fix/examples")
@@ -79,6 +79,21 @@ def cmd_replay(args: argparse.Namespace) -> int:
     return 1
 
 
+def cmd_warm_corpus(args: argparse.Namespace) -> int:
+    summary = warm_corpus(
+        binary=args.binary,
+        corpus_dir=args.corpus,
+        out_dir=args.out,
+        timeout=args.timeout,
+    )
+    print(json.dumps(summary, indent=2))
+    # A warm-up with skipped seeds is a normal, reportable outcome (the skip
+    # list IS the finding) -- only a catastrophic failure (no corpus, an
+    # in-place warm, a live QET instance) raises. So this is always exit 0
+    # once warm_corpus() returns; the skipped map is the signal to read.
+    return 0
+
+
 def cmd_selftest(args: argparse.Namespace) -> int:
     import subprocess
     result = subprocess.run(
@@ -111,6 +126,14 @@ def main() -> int:
     rp.add_argument("--trace", type=Path, required=True)
     rp.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     rp.set_defaults(func=cmd_replay)
+
+    wp = sub.add_parser("warm-corpus", help="resave each .qet once into a warmed corpus "
+                                            "(absorbs first-save migration churn)")
+    wp.add_argument("--binary", required=True)
+    wp.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
+    wp.add_argument("--out", type=Path, required=True)
+    wp.add_argument("--timeout", type=float, default=30.0)
+    wp.set_defaults(func=cmd_warm_corpus)
 
     tp = sub.add_parser("selftest", help="run the simulator's own unit tests (no binary needed)")
     tp.set_defaults(func=cmd_selftest)
