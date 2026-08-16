@@ -62,11 +62,18 @@ What counts as identity-bearing here, and why:
                 kept as informational only, since renaming a folio is a
                 legitimate edit, not corruption.
   - uuid_universe: EVERY uuid attribute found anywhere in the document,
-                tagged by its element name. This is deliberately generic
-                rather than hand-enumerating every item type (dynamic
-                texts, terminal strips, independent texts, ...) so O3
-                (full uuid set preserved) covers item types this module
-                was never taught about by name.
+                mapped to the SORTED SET of tags carrying it. This is
+                deliberately generic rather than hand-enumerating every
+                item type (dynamic texts, terminal strips, independent
+                texts, ...) so O3 (full uuid set preserved) covers item
+                types this module was never taught about by name.
+                A set, not a single tag, because one uuid legitimately
+                appears under several tags -- a cross-folio link writes
+                the target element's uuid into a <link_uuid> node, so 66
+                uuids in affuteuse_250h.qet are carried by BOTH <element>
+                and <link_uuid>. Recording only the last tag seen made
+                the value depend on document order, which is unstable
+                (F003), so a resave could flip it -- FINDINGS.md F007.
 
 Explicitly stripped, never even parsed into canon: the <properties> block
 (saveddate*, savedtime, savedfilename, savedfilepath) -- these change on
@@ -131,7 +138,7 @@ def _num(s: str | None):
 @dataclass
 class Canon:
     diagrams: list[dict] = field(default_factory=list)   # sorted by order
-    uuid_universe: dict[str, str] = field(default_factory=dict)  # uuid -> tag name
+    uuid_universe: dict[str, tuple[str, ...]] = field(default_factory=dict)  # uuid -> sorted tags carrying it
     counts: dict[str, int] = field(default_factory=dict)
     raw_project_attrs: dict = field(default_factory=dict)
 
@@ -154,14 +161,26 @@ def canonicalize(path: Path) -> Canon:
         raise CanonError(f"not well-formed XML: {e}") from e
 
     root = tree.getroot()
-    uuid_universe: dict[str, str] = {}
+    uuid_universe: dict[str, tuple[str, ...]] = {}
     diagrams = []
     total_terminals = 0
 
+    # A uuid maps to the SET of tags carrying it, not to "the last tag seen".
+    # One uuid legitimately appears under several tags: a cross-folio link
+    # writes the target element's uuid into a <link_uuid> node, so 66 uuids in
+    # affuteuse_250h.qet are carried by both <element> and <link_uuid>. Storing
+    # a single tag made the recorded value depend on document order, which is
+    # unstable (F003), so a resave could flip it and diff() reported a phantom
+    # "uuid changed tag type". Same root cause as F006, one level up: a uuid is
+    # unique only within its owning scope. See FINDINGS.md F007.
+    _tags: dict[str, set[str]] = {}
     for el in root.iter():
         u = el.get("uuid")
         if u:
-            uuid_universe[u] = el.tag
+            _tags.setdefault(u, set()).add(el.tag)
+    # Sorted tuple, not a set: order-independent, JSON-serialisable via
+    # to_dict(), and comparable with == in diff().
+    uuid_universe = {u: tuple(sorted(t)) for u, t in _tags.items()}
 
     for d_idx, d in enumerate(root.iter("diagram")):
         order = d.get("order", str(d_idx))
@@ -289,7 +308,7 @@ def diff(a: Canon, b: Canon) -> list[str]:
 
     common_tag_mismatch = {u for u in (ua & ub) if a.uuid_universe[u] != b.uuid_universe[u]}
     if common_tag_mismatch:
-        diffs.append(f"{len(common_tag_mismatch)} uuid(s) changed tag type: {sorted(common_tag_mismatch)[:5]}")
+        diffs.append(f"{len(common_tag_mismatch)} uuid(s) changed tag set: {sorted(common_tag_mismatch)[:5]}")
 
     da = {d["order"]: d for d in a.diagrams}
     db = {d["order"]: d for d in b.diagrams}

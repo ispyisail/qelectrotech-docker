@@ -328,3 +328,53 @@ class TestDynamicTextUuidCollision(unittest.TestCase):
         c = canon.canonicalize(self.PROJECT)
         projected = sum(len(d["dynamic_texts"]) for d in c.diagrams)
         self.assertEqual(projected, in_file)
+
+
+class TestUuidUniverseTagSet(unittest.TestCase):
+    """FINDINGS.md F007.
+
+    One uuid legitimately appears under several tags: a cross-folio link writes
+    the target element's uuid into a <link_uuid> node. Recording only the last
+    tag seen made the value depend on document order, which Diagram::toXml
+    scrambles (F003), so a resave flipped it and diff() reported a phantom
+    "uuid changed tag type".
+    """
+
+    PROJECT = EXAMPLES / "affuteuse_250h.qet"
+    LINKED = "{110ddbed-e690-4e31-bfd3-14822f25ac37}"
+
+    def setUp(self):
+        if not self.PROJECT.exists():
+            self.skipTest(f"fixture missing: {self.PROJECT}")
+
+    def test_uuid_on_two_tags_records_both(self):
+        c = canon.canonicalize(self.PROJECT)
+        self.assertEqual(c.uuid_universe[self.LINKED], ("element", "link_uuid"))
+
+    def test_tag_sets_are_order_independent(self):
+        """Reordering the document must not change any recorded tag set."""
+        import xml.etree.ElementTree as ET
+        import tempfile
+        a = canon.canonicalize(self.PROJECT)
+        tree = ET.parse(self.PROJECT)
+        root = tree.getroot()
+        for d in root.iter("diagram"):        # reverse element order, as F003 does
+            els = list(d.findall("element"))
+            for e in els:
+                d.remove(e)
+            for e in reversed(els):
+                d.append(e)
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "reordered.qet"
+            tree.write(p)
+            b = canon.canonicalize(p)
+        self.assertEqual(a.uuid_universe, b.uuid_universe)
+
+    def test_still_detects_a_real_tag_change(self):
+        """Not merely looser: a uuid genuinely moving tags must still diff."""
+        c = canon.canonicalize(self.PROJECT)
+        tampered = canon.canonicalize(self.PROJECT)
+        tampered.uuid_universe = dict(tampered.uuid_universe)
+        tampered.uuid_universe[self.LINKED] = ("conductor",)
+        diffs = canon.diff(c, tampered)
+        self.assertTrue(any("tag set" in d for d in diffs), diffs)

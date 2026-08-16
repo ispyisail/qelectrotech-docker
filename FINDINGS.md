@@ -586,3 +586,59 @@ The two findings share one root cause: **a uuid in a `.qet` file is only unique
 within its owning scope.** Only `<element>` uuids are project-unique. Any future
 rule or projection keyed on a bare uuid should state which scope makes it
 unique, or repeat this bug.
+
+## F007 — `uuid_universe` recorded one tag per uuid, so cross-folio links flipped it
+
+**Status:** fixed. Same root cause as F006, one level up. Found by re-running
+the full sweep after the F006 fix — the fix worked, and uncovered this.
+
+### Repro
+
+```
+master vs pr-721, full corpus, AFTER the F006 fix:
+  114 same, 0 regression, 0 improvement, 1 change (115 comparisons), exit 0
+  affuteuse_250h --resave: CHANGE
+    1 uuid(s) changed tag type: ['{110ddbed-e690-4e31-bfd3-14822f25ac37}']
+```
+
+The tell was that the finding **moved projects**. Before the F006 fix the same
+sweep flagged `industrial` and `photovoltaique`; after it, neither — but
+`affuteuse_250h` appeared instead. A real PR effect does not wander between
+projects between runs; remaining non-determinism does.
+
+### Cause
+
+`canon.py` built the universe as `uuid_universe[u] = el.tag` — last writer wins.
+But a uuid is **not owned by one tag**: a cross-folio master/slave link writes
+the target element's uuid into a `<link_uuid>` node, so the same uuid appears on
+both `<element>` and `<link_uuid>`. In `affuteuse_250h.qet` **66 uuids** are
+carried by both tags.
+
+`root.iter()` walks document order, which `Diagram::toXml` scrambles (F003), so
+which tag was recorded last flipped between resaves and `diff()`'s
+`common_tag_mismatch` check reported a phantom difference.
+
+### Fix
+
+`uuid_universe` now maps each uuid to the **sorted tuple of every tag carrying
+it**. Order-independent, JSON-serialisable through `to_dict()`, and strictly
+more informative than the old single tag. Consumers were checked first:
+`oracles.py:75` and `diff()`'s uuid-set comparison use only the keys, so only
+the `common_tag_mismatch` value comparison was affected.
+
+### Verification
+
+- Full corpus `master` vs `pr-721`: **115 same, 0 change** (was 114/1).
+- Full corpus `master` vs `master`: **115 same, 0 change**.
+- 3 regression tests, including one that reverses element order within each
+  folio — exactly what F003 does — and asserts the tag sets are unchanged.
+- Still detects a genuine tag change rather than merely being looser.
+- All 11 simulator modules, 10 refdiff tests, and qet-lint pass.
+
+### The pattern, now twice
+
+F006 and F007 are the same mistake at two levels: **a uuid in a `.qet` is unique
+only within its owning scope**, and a flat dict keyed on a bare uuid silently
+resolves collisions by document order — which is unstable. Only `<element>`
+uuids are project-unique. Any future projection or rule keyed on a bare uuid
+must state the scope that makes it unique, or it will reproduce this.
