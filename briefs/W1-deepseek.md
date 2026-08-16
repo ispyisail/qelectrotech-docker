@@ -18,10 +18,17 @@ Its O9 self-check fails with *"identical input produced different canonical
 output"* and 67 UUIDs differing in each direction. `run_sweep()` then treats
 every other finding as suspect, so nothing it reports can be trusted.
 
-**Cause:** QET assigns a fresh `uuid` to every `<conductor>` when loading a
-legacy project that lacks them. So `resave(x)` differs from `resave(resave(x))`
-in UUIDs — 67 of them on `741.qet` — and is stable only from the *second* save
-on. A migration artifact, not corruption.
+**Cause — CORRECTED 2026-08-16, after this brief was first run:** the original
+text here said QET assigns fresh conductor UUIDs on first load and stabilises
+from the second save on, so warming the corpus would fix O9. **That is wrong.**
+`Conductor::toXml()` writes no conductor uuid at all — only
+`terminal1`/`terminal2`, which fall back to a legacy integer from a
+`QHash<Terminal*, int>` rebuilt every save and filled in pointer order
+(`diagram.cpp:1039`). The values differ **between processes**: three resaves of
+one warmed file gave `terminal1="30"`, `"11"`, `"25"` for the same conductor.
+
+Warming is still worth building — it removes a real confounder and the
+subcommand is useful — but **it will not make O9 pass.** See §4 criterion 1.
 
 Evidence: `simulator/reports/sweep_1786765847.jsonl`, line 1.
 
@@ -115,7 +122,10 @@ python3 -m simulator warm-corpus --binary <BIN> --corpus /home/user/qet-fix/exam
 python3 -m simulator sweep --binary <BIN> --corpus /tmp/warm --iterations 50
 ```
 
-**`o9_self_check` must pass.** Paste the summary.
+**`o9_self_check` will NOT pass, and that is the expected result.** Report
+`o9_deterministic` as measured and say why. Passing it is impossible without the
+`canon.py` projection change (`briefs/W5-prereq-deepseek.md`), which is a
+different task. **Do not weaken any oracle to make this green.**
 
 ### Criterion 2 — `cli-sweep.sh` discriminates
 

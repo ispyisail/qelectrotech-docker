@@ -51,10 +51,13 @@ transition, not on every run.
 
 ## 3. Traps
 
-1. **Warm the corpus first.** Two independent first-saves of a legacy project
-   assign different conductor UUIDs, which will show up as spurious `change`
-   findings on every file. `python3 -m simulator warm-corpus` does this if W1
-   has landed; otherwise resave once yourself before comparing.
+1. **Expect terminal-id noise on every comparison, and do not try to warm it
+   away.** Conductor `terminal1`/`terminal2` values are legacy integers rebuilt
+   in pointer order on every save, so they differ between processes — measured
+   at `"30"`, `"11"`, `"25"` across three resaves of one file. Warming does not
+   help. Until the `canon.py` projection change lands
+   (`briefs/W5-prereq-deepseek.md`), treat conductor key-set differences as
+   known noise, report the volume, and do not tune the classifier to hide it.
 2. **`Diagram::toXml` is not idempotent on master.** Conductor identity in
    `canon.py` derives from terminal indices, which are assigned in
    `QGraphicsScene` stacking order. Expect conductor key-set noise on *every*

@@ -47,11 +47,20 @@ branch `add-asan-compare-script`.
 
 ## 2. Two possible fixes — evaluate both, recommend one
 
-### Option A — content-derived conductor identity in `canon.py`
+### Option A — content-derived conductor identity in `canon.py` — **DO THIS**
 
-Stop deriving conductor identity from terminal *indices*. Candidate: the
-`(element_uuid, terminal_name_or_position)` pair at each end, or the conductor's
-own `uuid` where present.
+**Measured 2026-08-16: no projection keyed on `terminal1`/`terminal2` can ever
+be stable.** `Conductor::toXml()` writes no conductor uuid; `terminal1` is the
+terminal's uuid when it has one, else a legacy integer from `table_adr_id` — a
+`QHash<Terminal*, int>` rebuilt every save (`diagram.cpp:1039`), keyed by
+pointer, filled in `QGraphicsScene::items()` order. Pointer iteration depends on
+heap layout, so it differs **between processes**: three resaves of one warmed
+file gave `terminal1="30"`, `"11"`, `"25"` for the same conductor.
+
+So derive identity from `element1`/`element2` (element uuids) plus
+`terminalname1`/`terminalname2` — all written by the same function whenever
+terminals carry uuids. **There is no conductor `uuid` attribute to fall back
+on; do not look for one.**
 
 - Cheap, no C++, no upstream dependency.
 - Must not weaken oracle O3 (data loss detection) — if a conductor genuinely
@@ -65,9 +74,10 @@ stacking order.
 - Fixes the root cause and would make `tests/determinism` pass.
 - C++, larger blast radius, and it changes saved-file byte output for everyone.
 
-**Assess both, implement the one you recommend, and say why in the report.**
-Option A is likely correct for this task — it unblocks O4 without changing what
-QET writes to disk — but make the case rather than assuming it.
+**Implement option A.** Option B is recorded for context and as a possible
+upstream follow-up, but it is not this task: it changes saved-file output for
+every user, and option A unblocks O4 without touching what QET writes to disk.
+Say in your report if you found a reason A cannot work.
 
 ---
 
@@ -122,8 +132,10 @@ current baseline.
 | Corpus | `/home/user/qet-fix/examples/741.qet` (67 conductors, single folio) |
 | Python | 3.14, **stdlib only** |
 
-1. **Warm the corpus before any comparison.** One `--resave` first; compare from
-   the second save on. Skipping this reintroduces layer 1 and wastes the run.
+1. **Warming does NOT fix this.** An earlier version of this brief said one
+   `--resave` first would settle the ids. It does not — the churn recurs every
+   save and varies between processes (see option A). Warm if you like for other
+   reasons, but do not expect it to make anything deterministic.
 2. **SingleApplication**: always use `simulator/env.py`'s `sandbox_context()`;
    check `docker ps` first.
 3. **Animations**: some commands apply through `QPropertyAnimation`. Headless,

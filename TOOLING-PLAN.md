@@ -164,6 +164,17 @@ canonical output"* and 67 UUIDs differing in each direction. Cause is trap #2.
 `run_sweep()` treats that as "every other finding is suspect", so the sweep is
 effectively dead.
 
+> **CORRECTED 2026-08-16.** The diagnosis below is wrong and the prescribed fix
+> cannot work. `Conductor::toXml()` writes no conductor uuid; the churn is in
+> `terminal1`/`terminal2`, which fall back to legacy integers from a
+> `QHash<Terminal*, int>` rebuilt every save in pointer order
+> (`diagram.cpp:1039`). Those differ **between processes** — three resaves of one
+> warmed file gave `"30"`, `"11"`, `"25"` for the same conductor — so warming
+> cannot stabilise them and O9 cannot pass without changing `canon.py`'s
+> conductor projection. Build `warm-corpus` anyway (it removes a real
+> confounder), but expect O9 to stay red until the projection lands. See
+> `FINDINGS.md` F002/F003 and `briefs/W5-prereq-deepseek.md`.
+
 Fix by **warming the corpus**, not by weakening the oracle:
 
 - Add a `warm-corpus` subcommand to `simulator/__main__.py`:

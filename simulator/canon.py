@@ -19,14 +19,30 @@ What counts as identity-bearing here, and why:
                 symmetric; if a resave ever swapped which terminal is "1"
                 and which is "2" that would be a cosmetic difference, not
                 a semantic one, and should not fail O2/O3.
-                Note: modern QET DOES write a uuid attribute on every
-                <conductor> it saves, but assigns it fresh on first load
-                of a legacy file that lacks one (probed: 741.qet gains 67
-                new uuids on first save, stable from the second save on),
-                so the uuid is a migration artifact, not identity.
-                uuid_universe (below) records it regardless, which is
-                what lets the O9 cross-run self-check expose that
-                first-save churn instead of hiding it.
+                CORRECTION (2026-08-16): an earlier version of this note
+                claimed "modern QET DOES write a uuid attribute on every
+                <conductor>", and that the churn seen on 741.qet was a
+                one-off first-save migration that stabilised from the
+                second save on. Both halves are wrong, and code built on
+                them (a "warm the corpus once" fix for O9) cannot work.
+                What Conductor::toXml() actually writes
+                (sources/qetgraphicsitem/conductor.cpp:1040) is no
+                conductor uuid at all -- only terminal1/terminal2, which
+                is the terminal's own uuid when it has one, and otherwise
+                a LEGACY INTEGER from table_adr_id. That table is a
+                QHash<Terminal*, int> rebuilt from scratch on every save
+                (diagram.cpp:1039), keyed by pointer and filled in
+                QGraphicsScene::items() order. Pointer-keyed iteration
+                depends on heap layout, so the integers differ BETWEEN
+                PROCESSES: three resaves of one warmed file produced
+                terminal1="30", "11" and "25" for the same conductor.
+                So the churn is not a migration -- it recurs on every
+                save and is non-deterministic run-to-run. No projection
+                keyed on terminal1/terminal2 can ever be stable. Any fix
+                must derive conductor identity from element1/element2
+                uuids plus terminalname1/terminalname2, which the same
+                function writes whenever the terminals carry uuids.
+                See FINDINGS.md F002/F003 and briefs/W5-prereq-deepseek.md.
   - diagram:    QET's schema has no diagram uuid either -- identity is
                 the `order` attribute (folios are explicitly ordered;
                 see moveDiagramUp/Down in qetdiagrameditor.cpp). Title is
