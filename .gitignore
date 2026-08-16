@@ -44,3 +44,6 @@ scenario-debug/
 
 # regenerable gh API cache (rebuild with pr_evidence.py --refresh)
 tools/pr-evidence/cache/
+
+# bugtracker page cache (rebuild with build_corpus.py --refresh)
+tools/bugtracker/cache/
