@@ -1,0 +1,10 @@
+# Ephemeral run artifacts — regenerated on every `python3 -m tools.refdiff` run.
+# Dated report directories (report.md / report.json), per-run logs, and the
+# transition-detection state file (.last-run-state) are all run output.
+#
+# Unlike gate-reports/baseline.json there is no tracked deliverable here:
+# .last-run-state records what the *previous* run on *this machine* found, so
+# nightly.sh can alert on transition rather than on every run. It is local
+# state, not an expected-state store, and must not be shared across machines.
+*
+!.gitignore
