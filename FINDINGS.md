@@ -269,3 +269,74 @@ this audit, so no orphan-row regression is visible today.
 ### Not re-flagged
 
 **#707 is resolved** (F001, F001-b) and is the calibration case, not a finding.
+
+---
+
+## F003 — `Diagram::toXml` scrambles element *order*, not just terminal ids
+
+**Date:** 2026-08-16
+**Binary:** `build-ab/7307a59c101a/build/qelectrotech` (`nightly-388-g7307a59c1`,
+current master)
+**Status:** confirmed, reproducible, not filed upstream
+
+### The measurement
+
+`examples/ShellyParts.qet` contains **zero conductors**. Eight `--resave` runs of
+the same warmed input produced **eight distinct outputs**:
+
+```
+8 runs -> 8 distinct md5s
+```
+
+Diffing two of them shows whole `<element>` blocks emitted in a different
+sequence, with `<terminal id=...>` values shuffling along with them:
+
+```
+< <element type="...shelly_rgbw2.elmt" x="480" y="330" .../>
+> <element type="...shelly1pm.elmt"    x="330" y="160" .../>
+<     <terminal x="-13.5673" y="40.9602" id="12" orientation="2"/>
+```
+
+Control, same conditions: `examples/pinball_williams_em.qet` is **stable** —
+8 runs, 8 identical outputs. So this is a property of certain documents, not of
+the binary or the environment.
+
+### Why it matters
+
+F002 established that conductor `terminal1`/`terminal2` values are legacy
+integers from a pointer-keyed `QHash` rebuilt each save, and therefore vary
+between processes. **F003 shows that was the symptom, not the disease.**
+`Diagram::toXml` iterates `QGraphicsScene::items()`, and that iteration
+scrambles the *element serialization order itself*. Terminal ids shuffle
+because the elements they belong to shuffle.
+
+Consequences:
+
+- A canonical projection that fixes only conductor identity **will still fail**,
+  and will look like a conductor bug when it is not.
+- Any projection must **sort every collection by a content-derived key** before
+  comparing — elements by uuid, terminals by position or name — and never trust
+  document order.
+- `tests/determinism`'s I1 ("save is idempotent") cannot hold for affected
+  documents until `Diagram::toXml` derives an order from content.
+
+### Correction to W1's O2 split
+
+The W1 session classified the warmed corpus as *0 uuid artifacts, 19
+persistently non-idempotent, 1 probabilistic, 2 clean* — naming
+`ShellyParts.qet` and `pinball_williams_em.qet` as the clean pair.
+
+**`ShellyParts.qet` is not clean; it is the most non-deterministic file in the
+corpus** (8/8 distinct). The corrected split is **1 clean**, not 2. W1's
+*conclusion* is unaffected and in fact strengthened — the defect is real,
+warming cannot fix it, and the fix belongs in QET rather than the harness.
+
+### Known-good / known-bad pair for anyone building the projection
+
+| File | Behaviour |
+|---|---|
+| `examples/pinball_williams_em.qet` | stable — 8/8 identical resaves |
+| `examples/ShellyParts.qet` | unstable — 8/8 distinct resaves |
+
+A projection that reports both as stable has gone blind and is worthless. Use
+them as the calibration pair.

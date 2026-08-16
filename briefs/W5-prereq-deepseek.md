@@ -62,6 +62,24 @@ So derive identity from `element1`/`element2` (element uuids) plus
 terminals carry uuids. **There is no conductor `uuid` attribute to fall back
 on; do not look for one.**
 
+**And that is not sufficient on its own.** Measured 2026-08-16: element
+*serialization order* is itself unstable. `ShellyParts.qet` contains **zero
+conductors** and still produced **8 distinct outputs from 8 resaves** — the
+`<element>` blocks come out in a different sequence every run, with `<terminal
+id=...>` values shuffling along with them. Terminal-id churn is a symptom;
+`Diagram::toXml`'s `QGraphicsScene::items()` iteration scrambling element order
+is the disease.
+
+Therefore the projection must **sort every collection by a content-derived key
+before comparing** — elements by uuid, terminals by (x, y, orientation) or name,
+and so on — never trust document order for anything. A projection that fixes
+conductor identity but still reads elements in file order will keep failing, and
+will look like a conductor bug when it is not.
+
+Useful control: `pinball_williams_em.qet` **is** stable (8/8 identical resaves).
+Use it as your known-good and `ShellyParts.qet` as your known-bad — if your
+projection calls both stable, it has gone blind (criterion 2).
+
 - Cheap, no C++, no upstream dependency.
 - Must not weaken oracle O3 (data loss detection) — if a conductor genuinely
   disappears, the projection must still notice.
