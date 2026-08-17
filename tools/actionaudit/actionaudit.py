@@ -275,6 +275,28 @@ def collect_group_vars(text, spans=None):
     return names
 
 
+def collect_returned_groups(text, spans=None):
+    """QActionGroup variables `return`ed from a `QActionGroup *`-returning
+    function (e.g. QET::depthActionGroup). A returned group is wired by its
+    caller, so its member actions are connected even across files."""
+    groups = set()
+    for m in re.finditer(
+            r'\bQActionGroup\s*\*\s*(?:[A-Za-z_]\w*\s*::\s*)?([A-Za-z_~]\w*)\s*\(',
+            text):
+        if spans and in_spans(m.start(), spans):
+            continue
+        j = text.find('{', m.end())
+        if j == -1:
+            continue
+        end, _ = find_matching(text, j)
+        if end == -1:
+            continue
+        body = text[j:end]
+        for rm in re.finditer(r'\breturn\s+([A-Za-z_]\w*)\s*;', body):
+            groups.add(rm.group(1))
+    return groups
+
+
 def collect_connect_senders(text, spans):
     """Normalised sender expression (first arg) of every connect(...)."""
     senders = []
@@ -387,6 +409,13 @@ def collect_new_qactions(text, relpath, spans, owner):
             continue
 
         kind = classify_kind(args, label)
+        if label is None and kind != 'dynamic':
+            # textless `new QAction` pushed into a list and marked
+            # `setSeparator(true)` (diagramview) is a separator, not an action.
+            pre = text[max(0, m.start() - 60):m.start()]
+            post = text[end:end + 200]
+            if '<<' in pre or 'setSeparator(true)' in post:
+                kind = 'separator'
         out.append({
             'source': 'cpp',
             'id': None,
@@ -412,10 +441,14 @@ def classify_kind(args, label):
         return 'action'
     if args:
         first = args[0]
-        if re.fullmatch(r'[A-Za-z_]\w*', first) and first not in {
-                'this', 'nullptr', 'NULL', 'Q_NULLPTR', '0', 'parent'}:
-            return 'dynamic'
-    return 'separator'
+        if re.fullmatch(r'[A-Za-z_]\w*', first):
+            if first not in {'this', 'nullptr', 'NULL', 'Q_NULLPTR', '0', 'parent'}:
+                return 'dynamic'
+            return 'action'      # textless `new QAction(this)` — parent only
+        if ICONISH_RE.match(first):
+            return 'action'      # icon-only action
+        return 'dynamic'         # QString(...) / QLatin1String(...) / QStringLiteral(...) / runtime var
+    return 'action'
 
 
 def collect_factory_actions(text, relpath, spans, owner):
@@ -791,6 +824,7 @@ def analyze(root):
     auto_slots_by_stem = {}
     clicked_slots_by_stem = {}
     ui_connections = {}
+    returned_groups = set()
 
     # Pre-pass: read every non-.ui file once and collect the GLOBAL set of
     # QActionGroup variable names. Group members are often declared in a
@@ -807,7 +841,9 @@ def analyze(root):
         except OSError:
             continue
         texts[rp] = text
-        group_vars |= collect_group_vars(text, non_code_spans(text))
+        spans0 = non_code_spans(text)
+        group_vars |= collect_group_vars(text, spans0)
+        returned_groups |= collect_returned_groups(text, spans0)
 
     for path in files:
         rp = relpath(path, root)
@@ -903,6 +939,10 @@ def analyze(root):
                 a['id'] = r['id']
                 a['default_sequence'] = r['default_sequence']
                 a['category'] = r['category']
+                a['constructed_file'] = a['file']
+                a['constructed_line'] = a['line']
+                a['file'] = r['file']
+                a['line'] = r['line']
                 resolved.add(('ui', stem_of(a['file']), name))
         else:
             v = a['target']
@@ -920,6 +960,10 @@ def analyze(root):
                     a['id'] = r['id']
                     a['default_sequence'] = r['default_sequence']
                     a['category'] = r['category']
+                    a['constructed_file'] = a['file']
+                    a['constructed_line'] = a['line']
+                    a['file'] = r['file']
+                    a['line'] = r['line']
                     resolved.add(('var', a['file'], v))
 
     # ---- backfill: registered targets that are not plain QActions ---------
@@ -1002,7 +1046,7 @@ def analyze(root):
             a['connected'] = True
             continue
         grp = group_map.get(v)
-        if grp and grp in connected_groups:
+        if grp and (grp in connected_groups or grp in returned_groups):
             a['connected'] = True
 
     # ---- tidy records for output ------------------------------------------
@@ -1021,6 +1065,8 @@ def analyze(root):
             'category': a['category'],
             'source': a['source'],
             'constructor': a['constructor'],
+            'constructed_file': a.get('constructed_file'),
+            'constructed_line': a.get('constructed_line'),
         })
 
     return {
@@ -1041,7 +1087,8 @@ def summarize(result):
 
     n_registered = sum(1 for a in actions if a['registered'])
     n_connected = sum(1 for a in actions if a['connected'])
-    n_gap = sum(1 for a in actions if a['connected'] and not a['registered'])
+    n_gap = sum(1 for a in actions if a['connected'] and not a['registered']
+                and a['kind'] in ('action', 'checkable'))
     n_unconnected = sum(1 for a in actions if not a['connected'])
     n_unconnected_real = sum(
         1 for a in actions if not a['connected'] and not a['registered']
@@ -1057,7 +1104,8 @@ def summarize(result):
 
     owner_gap = {}
     for a in actions:
-        if a['connected'] and not a['registered']:
+        if a['connected'] and not a['registered'] \
+                and a['kind'] in ('action', 'checkable'):
             owner_gap[a['owner']] = owner_gap.get(a['owner'], 0) + 1
 
     owner_unconnected = {}
