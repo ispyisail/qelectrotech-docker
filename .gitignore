@@ -47,3 +47,8 @@ tools/pr-evidence/cache/
 
 # bugtracker page cache (rebuild with build_corpus.py --refresh)
 tools/bugtracker/cache/
+
+# exportleak sweep: intermediate per-folio SVG exports (regenerated each run)
+reports/exportleak-sweep-scratch/
+# compiled LD_PRELOAD palette shim (build from tools/exportleak/paletteset.cpp)
+tools/exportleak/*.so
