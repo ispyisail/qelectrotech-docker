@@ -19,408 +19,814 @@
     }
   },
   "criterion2": {
-    "project": "affuteuse_250h.qet",
-    "moved_folio": "Puissance",
-    "variants": {
-      "%f_default": {
-        "formula": "%f-%l%c",
-        "folio_labels": "default",
-        "arrows": 34,
-        "label_or_text_changed": 34,
-        "sample": [
-          {
-            "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "2-F12",
-              "has_link": true
+    "Projet_vierge.qet": {
+      "moved_folio": "ARRIVEE PUISSANCE",
+      "variants": {
+        "%f_default": {
+          "formula": "%f-%l%c",
+          "folio_labels": "default",
+          "arrows": 10,
+          "label_or_text_changed": 5,
+          "sample": [
+            {
+              "uuid": "{2da1fbf5-4177-45b5-b843-50d2403495ee}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "12-F12",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
-            "before": {
-              "title": "Commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "5-E7",
-              "has_link": true
+            {
+              "uuid": "{8262ce3f-f9bc-4db8-a793-664c2de5c162}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Commande",
-              "order": "4",
-              "folio": "%id/%total",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "4-E7",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "3-C6",
-              "has_link": true
+            {
+              "uuid": "{bd220ea4-1e08-4216-b846-d883917f9d4a}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "3-B1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "2-B1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "2-C6",
-              "has_link": true
+            {
+              "uuid": "{dcdc0539-6e99-49f1-b8c3-ec8985804f02}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             }
-          },
-          {
-            "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
-            "before": {
-              "title": "Puissance",
-              "order": "2",
-              "folio": "%id/%total",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "3-A0",
-              "has_link": true
+          ]
+        },
+        "%f_stable": {
+          "formula": "%f-%l%c",
+          "folio_labels": "stable",
+          "arrows": 10,
+          "label_or_text_changed": 5,
+          "sample": [
+            {
+              "uuid": "{2da1fbf5-4177-45b5-b843-50d2403495ee}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Puissance",
-              "order": "12",
-              "folio": "%id/%total",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "2-A0",
-              "has_link": true
-            }
-          }
-        ]
-      },
-      "%f_stable": {
-        "formula": "%f-%l%c",
-        "folio_labels": "stable",
-        "arrows": 34,
-        "label_or_text_changed": 34,
-        "sample": [
-          {
-            "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "2-F12",
-              "has_link": true
+            {
+              "uuid": "{8262ce3f-f9bc-4db8-a793-664c2de5c162}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "12-F12",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
-            "before": {
-              "title": "Commande",
-              "order": "5",
-              "folio": "COM",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "5-E7",
-              "has_link": true
+            {
+              "uuid": "{bd220ea4-1e08-4216-b846-d883917f9d4a}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "3-B1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "2-B1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Commande",
-              "order": "4",
-              "folio": "COM",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "4-E7",
-              "has_link": true
+            {
+              "uuid": "{dcdc0539-6e99-49f1-b8c3-ec8985804f02}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2-A1",
+                "has_link": true
+              }
             }
-          },
-          {
-            "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "3-C6",
-              "has_link": true
+          ]
+        },
+        "%F_default": {
+          "formula": "%F-%l%c",
+          "folio_labels": "default",
+          "arrows": 10,
+          "label_or_text_changed": 5,
+          "sample": [
+            {
+              "uuid": "{2da1fbf5-4177-45b5-b843-50d2403495ee}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3/4-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2/4-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "2-C6",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
-            "before": {
-              "title": "Puissance",
-              "order": "2",
-              "folio": "PWR",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "3-A0",
-              "has_link": true
+            {
+              "uuid": "{8262ce3f-f9bc-4db8-a793-664c2de5c162}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3/4-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2/4-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Puissance",
-              "order": "12",
-              "folio": "PWR",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "2-A0",
-              "has_link": true
-            }
-          }
-        ]
-      },
-      "%F_default": {
-        "formula": "%F-%l%c",
-        "folio_labels": "default",
-        "arrows": 34,
-        "label_or_text_changed": 34,
-        "sample": [
-          {
-            "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "2/12-F12",
-              "has_link": true
+            {
+              "uuid": "{bd220ea4-1e08-4216-b846-d883917f9d4a}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "3/4-B1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-B2",
+                "text": "2/4-B1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "12/12-F12",
-              "has_link": true
+            {
+              "uuid": "{dcdc0539-6e99-49f1-b8c3-ec8985804f02}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "3/4-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "2/4-A1",
+                "has_link": true
+              }
             }
-          },
-          {
-            "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
-            "before": {
-              "title": "Commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "5/12-E7",
-              "has_link": true
+          ]
+        },
+        "%F_stable": {
+          "formula": "%F-%l%c",
+          "folio_labels": "stable",
+          "arrows": 10,
+          "label_or_text_changed": 0,
+          "sample": [
+            {
+              "uuid": "{2da1fbf5-4177-45b5-b843-50d2403495ee}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "FL3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "FL3-A1",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Commande",
-              "order": "4",
-              "folio": "%id/%total",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "4/12-E7",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "3/12-C6",
-              "has_link": true
+            {
+              "uuid": "{7ae5846b-c39a-48d7-9e4b-4d081e183e28}",
+              "before": {
+                "title": "Dépats Moteurs",
+                "order": "3",
+                "folio": "FL3",
+                "type": "02next_folio.elmt",
+                "label": "/",
+                "text": "",
+                "has_link": false
+              },
+              "after": {
+                "title": "Dépats Moteurs",
+                "order": "2",
+                "folio": "FL3",
+                "type": "02next_folio.elmt",
+                "label": "/",
+                "text": "",
+                "has_link": false
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "%id/%total",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "2/12-C6",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
-            "before": {
-              "title": "Puissance",
-              "order": "2",
-              "folio": "%id/%total",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "3/12-A0",
-              "has_link": true
+            {
+              "uuid": "{8193428b-91f8-4cc9-80c7-5d9aef302730}",
+              "before": {
+                "title": "Dépats Moteurs",
+                "order": "3",
+                "folio": "FL3",
+                "type": "02next_folio.elmt",
+                "label": "/",
+                "text": "",
+                "has_link": false
+              },
+              "after": {
+                "title": "Dépats Moteurs",
+                "order": "2",
+                "folio": "FL3",
+                "type": "02next_folio.elmt",
+                "label": "/",
+                "text": "",
+                "has_link": false
+              }
             },
-            "after": {
-              "title": "Puissance",
-              "order": "12",
-              "folio": "%id/%total",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "2/12-A0",
-              "has_link": true
+            {
+              "uuid": "{8262ce3f-f9bc-4db8-a793-664c2de5c162}",
+              "before": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "FL3-A1",
+                "has_link": true
+              },
+              "after": {
+                "title": "ARRIVEE PUISSANCE",
+                "order": "4",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A2",
+                "text": "FL3-A1",
+                "has_link": true
+              }
             }
-          }
-        ]
-      },
-      "%F_stable": {
-        "formula": "%F-%l%c",
-        "folio_labels": "stable",
-        "arrows": 34,
-        "label_or_text_changed": 0,
-        "sample": [
-          {
-            "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "PWR-F12",
-              "has_link": true
+          ]
+        }
+      }
+    },
+    "affuteuse_250h.qet": {
+      "moved_folio": "Puissance",
+      "variants": {
+        "%f_default": {
+          "formula": "%f-%l%c",
+          "folio_labels": "default",
+          "arrows": 34,
+          "label_or_text_changed": 34,
+          "sample": [
+            {
+              "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "2-F12",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "12-F12",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "3-F13",
-              "text": "PWR-F12",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
-            "before": {
-              "title": "Commande",
-              "order": "5",
-              "folio": "COM",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "COM-E7",
-              "has_link": true
+            {
+              "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
+              "before": {
+                "title": "Commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "5-E7",
+                "has_link": true
+              },
+              "after": {
+                "title": "Commande",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "4-E7",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Commande",
-              "order": "4",
-              "folio": "COM",
-              "type": "02next_folio-20140521204700.elmt",
-              "label": "6-E8",
-              "text": "COM-E7",
-              "has_link": true
-            }
-          },
-          {
-            "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
-            "before": {
-              "title": "Coffret de commande",
-              "order": "6",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "CMD-C6",
-              "has_link": true
+            {
+              "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "3-C6",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "2-C6",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Coffret de commande",
-              "order": "5",
-              "folio": "COF",
-              "type": "01previous_folio.elmt",
-              "label": "4-C7",
-              "text": "CMD-C6",
-              "has_link": true
+            {
+              "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
+              "before": {
+                "title": "Puissance",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "3-A0",
+                "has_link": true
+              },
+              "after": {
+                "title": "Puissance",
+                "order": "12",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "2-A0",
+                "has_link": true
+              }
             }
-          },
-          {
-            "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
-            "before": {
-              "title": "Puissance",
-              "order": "2",
-              "folio": "PWR",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "CMD-A0",
-              "has_link": true
+          ]
+        },
+        "%f_stable": {
+          "formula": "%f-%l%c",
+          "folio_labels": "stable",
+          "arrows": 34,
+          "label_or_text_changed": 34,
+          "sample": [
+            {
+              "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "2-F12",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "12-F12",
+                "has_link": true
+              }
             },
-            "after": {
-              "title": "Puissance",
-              "order": "12",
-              "folio": "PWR",
-              "type": "02next_folio.elmt",
-              "label": "4-A1",
-              "text": "CMD-A0",
-              "has_link": true
+            {
+              "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
+              "before": {
+                "title": "Commande",
+                "order": "5",
+                "folio": "FL5",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "5-E7",
+                "has_link": true
+              },
+              "after": {
+                "title": "Commande",
+                "order": "4",
+                "folio": "FL5",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "4-E7",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "3-C6",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "2-C6",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
+              "before": {
+                "title": "Puissance",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "3-A0",
+                "has_link": true
+              },
+              "after": {
+                "title": "Puissance",
+                "order": "12",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "2-A0",
+                "has_link": true
+              }
             }
-          }
-        ]
+          ]
+        },
+        "%F_default": {
+          "formula": "%F-%l%c",
+          "folio_labels": "default",
+          "arrows": 34,
+          "label_or_text_changed": 34,
+          "sample": [
+            {
+              "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "2/12-F12",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "12/12-F12",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
+              "before": {
+                "title": "Commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "5/12-E7",
+                "has_link": true
+              },
+              "after": {
+                "title": "Commande",
+                "order": "4",
+                "folio": "%id/%total",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "4/12-E7",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "3/12-C6",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "%id/%total",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "2/12-C6",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
+              "before": {
+                "title": "Puissance",
+                "order": "2",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "3/12-A0",
+                "has_link": true
+              },
+              "after": {
+                "title": "Puissance",
+                "order": "12",
+                "folio": "%id/%total",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "2/12-A0",
+                "has_link": true
+              }
+            }
+          ]
+        },
+        "%F_stable": {
+          "formula": "%F-%l%c",
+          "folio_labels": "stable",
+          "arrows": 34,
+          "label_or_text_changed": 0,
+          "sample": [
+            {
+              "uuid": "{0d8ea98f-842b-4cec-9e47-6c99c15cdbf6}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "FL2-F12",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "3-F13",
+                "text": "FL2-F12",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{16716212-c92e-4483-b458-848ddb986ebc}",
+              "before": {
+                "title": "Commande",
+                "order": "5",
+                "folio": "FL5",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "FL5-E7",
+                "has_link": true
+              },
+              "after": {
+                "title": "Commande",
+                "order": "4",
+                "folio": "FL5",
+                "type": "02next_folio-20140521204700.elmt",
+                "label": "6-E8",
+                "text": "FL5-E7",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{25811f85-9609-4635-b495-37335b6945fa}",
+              "before": {
+                "title": "Coffret de commande",
+                "order": "6",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "FL3-C6",
+                "has_link": true
+              },
+              "after": {
+                "title": "Coffret de commande",
+                "order": "5",
+                "folio": "FL6",
+                "type": "01previous_folio.elmt",
+                "label": "4-C7",
+                "text": "FL3-C6",
+                "has_link": true
+              }
+            },
+            {
+              "uuid": "{2592f66a-f5a4-4e2f-bfe3-cb2278b3c43c}",
+              "before": {
+                "title": "Puissance",
+                "order": "2",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "FL3-A0",
+                "has_link": true
+              },
+              "after": {
+                "title": "Puissance",
+                "order": "12",
+                "folio": "FL2",
+                "type": "02next_folio.elmt",
+                "label": "4-A1",
+                "text": "FL3-A0",
+                "has_link": true
+              }
+            }
+          ]
+        }
       }
     }
   },
   "criterion3": {
-    "repeated_resave": {
-      "project": "affuteuse_250h.qet",
-      "arrows": 34,
-      "changed_vs_first_save": [
-        0,
-        0,
-        0
-      ]
-    },
-    "dangling_link": {
-      "removed_arrow": "{a7f7c228-ee6a-45cd-ac6c-8d8174736542}",
-      "before": {
-        "title": "Puissance",
-        "order": "2",
-        "folio": "%id/%total",
-        "type": "02next_folio.elmt",
-        "label": "7-A11",
-        "text": "6-A10",
-        "has_link": true
+    "Projet_vierge.qet": {
+      "repeated_resave": {
+        "arrows": 10,
+        "changed_vs_first_save": [
+          0,
+          0,
+          0
+        ]
       },
-      "after": {
-        "title": "Puissance",
-        "order": "2",
-        "folio": "%id/%total",
-        "type": "02next_folio.elmt",
-        "label": "7-A11",
-        "text": "",
-        "has_link": false
+      "dangling_link": {
+        "removed_arrow": "{2da1fbf5-4177-45b5-b843-50d2403495ee}",
+        "before": {
+          "title": "ARRIVEE PUISSANCE",
+          "order": "2",
+          "folio": "%id/%total",
+          "type": "02next_folio.elmt",
+          "label": "4-A2",
+          "text": "3-A1",
+          "has_link": true
+        },
+        "after": {
+          "title": "ARRIVEE PUISSANCE",
+          "order": "2",
+          "folio": "%id/%total",
+          "type": "02next_folio.elmt",
+          "label": "4-A2",
+          "text": "",
+          "has_link": false
+        }
+      }
+    },
+    "affuteuse_250h.qet": {
+      "repeated_resave": {
+        "arrows": 34,
+        "changed_vs_first_save": [
+          0,
+          0,
+          0
+        ]
+      },
+      "dangling_link": {
+        "removed_arrow": "{a7f7c228-ee6a-45cd-ac6c-8d8174736542}",
+        "before": {
+          "title": "Puissance",
+          "order": "2",
+          "folio": "%id/%total",
+          "type": "02next_folio.elmt",
+          "label": "7-A11",
+          "text": "6-A10",
+          "has_link": true
+        },
+        "after": {
+          "title": "Puissance",
+          "order": "2",
+          "folio": "%id/%total",
+          "type": "02next_folio.elmt",
+          "label": "7-A11",
+          "text": "",
+          "has_link": false
+        }
       }
     }
   },

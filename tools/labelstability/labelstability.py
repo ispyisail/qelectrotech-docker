@@ -126,6 +126,11 @@ def read_report_formula(path):
     return None
 
 
+def _slug(name):
+    """Filesystem-safe short name for a project file."""
+    return re.sub(r"[^A-Za-z0-9_.-]", "_", name)
+
+
 # ---------------------------------------------------------------------------
 # low-level XML text edits (work on the raw text, not ElementTree, so we do not
 # reflow the file; QET re-normalises on --resave anyway)
@@ -384,21 +389,30 @@ def run_experiment(args):
         c1_path = os.path.join(examples, c1_project["project"])
         report["criterion1"] = criterion1_evidence(c1_path)
 
-    # ---- C2 + C3: on the project with the most arrows (affuteuse_250h.qet) -
-    subject = c1_project
+    # ---- C2 + C3: per project containing folio-reference arrows -----------
+    arrow_projects = [
+        p for p in c4
+        if p.get("arrows") and p["project"] not in RESAVE_EXCLUDED
+    ]
     c2 = {}
     c3 = {}
-    if subject and subject["project"] not in RESAVE_EXCLUDED:
-        subj_path = os.path.join(examples, subject["project"])
+    for proj in arrow_projects:
+        name = proj["project"]
+        subj_path = os.path.join(examples, name)
         subj_text = open(subj_path, encoding="utf-8").read()
-        moved_title = "Puissance"  # a folio that carries next_folio arrows
+        _header, blocks, _footer = split_diagram_blocks(subj_text)
+        n_diags = len(blocks)
+        # move the 2nd folio to the end; in both arrow-bearing examples the 2nd
+        # folio is the one that carries the arrows.
+        moved_title = diagram_title(blocks[1]) if n_diags > 1 else diagram_title(blocks[0])
+        stable_labels = ["FL%d" % (i + 1) for i in range(n_diags)]
 
         # --- C3a: repeated resave (blank / wrong-number drift) --------------
-        p0 = os.path.join(scratch, "r0.qet")
+        p0 = os.path.join(scratch, "%s_r0.qet" % _slug(name))
         open(p0, "w", encoding="utf-8").write(subj_text)
         resaves = [p0]
         for i in range(1, 4):
-            out = os.path.join(scratch, "r%d.qet" % i)
+            out = os.path.join(scratch, "%s_r%d.qet" % (_slug(name), i))
             rc, _ = resave(binary, resaves[-1], out, scratch)
             resaves.append(out)
             assert rc == 0, "resave %d failed rc=%d" % (i, rc)
@@ -407,54 +421,51 @@ def run_experiment(args):
         for i in range(1, 4):
             cur = extract_arrows(resaves[i])
             chain_diffs.append(label_text_changed(base, cur))
-        c3["repeated_resave"] = {
-            "project": subject["project"],
-            "arrows": len(base),
-            "changed_vs_first_save": [len(d) for d in chain_diffs],
+        c3[name] = {
+            "repeated_resave": {
+                "arrows": len(base),
+                "changed_vs_first_save": [len(d) for d in chain_diffs],
+            }
         }
 
         # --- C3b: dangling link -> blank displayed text ---------------------
-        # remove both directions of the first reciprocal link
         first_uuid = next(
             (u for u, a in base.items() if a["has_link"]), None
         )
-        dangling_text = subj_text
         if first_uuid:
             links = _arrow_link_uuids(subj_text, first_uuid)
             dangling_text = remove_all_links(subj_text, [first_uuid] + links)
-        dp = os.path.join(scratch, "dangling.qet")
-        open(dp, "w", encoding="utf-8").write(dangling_text)
-        dout = os.path.join(scratch, "dangling_out.qet")
-        rc, _ = resave(binary, dp, dout, scratch)
-        dangling_after = extract_arrows(dout)
-        c3["dangling_link"] = {
-            "removed_arrow": first_uuid,
-            "before": base.get(first_uuid),
-            "after": dangling_after.get(first_uuid),
-        }
+            dp = os.path.join(scratch, "%s_dangling.qet" % _slug(name))
+            open(dp, "w", encoding="utf-8").write(dangling_text)
+            dout = os.path.join(scratch, "%s_dangling_out.qet" % _slug(name))
+            rc, _ = resave(binary, dp, dout, scratch)
+            dangling_after = extract_arrows(dout)
+            c3[name]["dangling_link"] = {
+                "removed_arrow": first_uuid,
+                "before": base.get(first_uuid),
+                "after": dangling_after.get(first_uuid),
+            }
+        else:
+            c3[name]["dangling_link"] = {
+                "note": "no arrow carries a link_uuid to remove",
+            }
 
         # --- C2: %f vs %F, reorder a folio, with default and stable labels --
-        stable_labels = [
-            "PG", "PWR", "CMD", "PREV", "COM", "COF", "SIG",
-            "BP", "BO", "BPU", "RES", "NOM",
-        ]
-        c2 = {"project": subject["project"], "moved_folio": moved_title,
-              "variants": {}}
+        c2[name] = {"moved_folio": moved_title, "variants": {}}
         for formula in ("%f-%l%c", "%F-%l%c"):
             for labmode in ("default", "stable"):
                 key = "%s_%s" % (formula.split("-")[0], labmode)
-                t = subj_text
-                t = set_report_formula(t, formula)
+                t = set_report_formula(subj_text, formula)
                 if labmode == "stable":
                     t = set_folio_labels(t, stable_labels)
-                base_path = os.path.join(scratch, "v_%s_base.qet" % key)
+                base_path = os.path.join(scratch, "%s_%s_base.qet" % (_slug(name), key))
                 open(base_path, "w", encoding="utf-8").write(t)
-                pert_path = os.path.join(scratch, "v_%s_pert.qet" % key)
+                pert_path = os.path.join(scratch, "%s_%s_pert.qet" % (_slug(name), key))
                 open(pert_path, "w", encoding="utf-8").write(
                     move_diagram(t, moved_title)
                 )
-                bout = os.path.join(scratch, "v_%s_base_out.qet" % key)
-                pout = os.path.join(scratch, "v_%s_pert_out.qet" % key)
+                bout = os.path.join(scratch, "%s_%s_base_out.qet" % (_slug(name), key))
+                pout = os.path.join(scratch, "%s_%s_pert_out.qet" % (_slug(name), key))
                 rc1, _ = resave(binary, base_path, bout, scratch)
                 rc2, _ = resave(binary, pert_path, pout, scratch)
                 assert rc1 == 0 and rc2 == 0
@@ -465,7 +476,7 @@ def run_experiment(args):
                     sample_uuids = [u for u, _, _, _ in diffs[:4]]
                 else:
                     sample_uuids = sorted(b_arrows)[:4]
-                c2["variants"][key] = {
+                c2[name]["variants"][key] = {
                     "formula": formula,
                     "folio_labels": labmode,
                     "arrows": len(b_arrows),
@@ -479,8 +490,8 @@ def run_experiment(args):
                         for u in sample_uuids
                     ],
                 }
-        report["criterion2"] = c2
-        report["criterion3"] = c3
+    report["criterion2"] = c2
+    report["criterion3"] = c3
 
     # ---- write outputs -----------------------------------------------------
     json_path = os.path.join(report_dir, "labelstability.json")
@@ -554,37 +565,48 @@ def render_markdown(r):
     a("")
     c2 = r["criterion2"]
     if c2:
-        a("Project `%s`; perturbation: move folio \"%s\" to the end, then "
-          "`--resave`." % (c2["project"], c2["moved_folio"]))
-        a("")
-        a("| variant | formula | folio labels | arrows | label/text changed |")
-        a("|---|---|---|---|---|")
-        for key, v in c2["variants"].items():
-            a("| %s | `%s` | %s | %d | %d |" % (
-                key, v["formula"], v["folio_labels"], v["arrows"],
-                v["label_or_text_changed"]))
-        a("")
-        a("Samples (uuid before → after):")
-        a("")
-        for key, v in c2["variants"].items():
-            for s in v["sample"]:
-                b = s["before"]; af = s["after"]
-                a("- `%s` %s: text `%s`→`%s`, stored label `%s`→`%s`" % (
-                    key, s["uuid"][:20],
-                    b["text"], af["text"], b["label"], af["label"]))
-        a("")
+        for name, proj in c2.items():
+            a("### %s" % name)
+            a("")
+            a("Perturbation: move folio \"%s\" to the end, then `--resave`."
+              % proj["moved_folio"])
+            a("")
+            a("| variant | formula | folio labels | arrows | label/text changed |")
+            a("|---|---|---|---|---|")
+            for key, v in proj["variants"].items():
+                a("| %s | `%s` | %s | %d | %d |" % (
+                    key, v["formula"], v["folio_labels"], v["arrows"],
+                    v["label_or_text_changed"]))
+            a("")
+            a("Samples (uuid before → after):")
+            a("")
+            for key, v in proj["variants"].items():
+                for s in v["sample"]:
+                    b = s["before"]; af = s["after"]
+                    a("- `%s` %s: text `%s`→`%s`, stored label `%s`→`%s`" % (
+                        key, s["uuid"][:20],
+                        b["text"], af["text"], b["label"], af["label"]))
+            a("")
     a("## Criterion 3 — blank / wrong-number failure")
     a("")
     c3 = r["criterion3"]
     if c3:
-        a("- Repeated resave (3×) changed-vs-first-save counts: %s"
-          % c3.get("repeated_resave", {}).get("changed_vs_first_save"))
-        d = c3.get("dangling_link", {})
-        a("- Dangling link: removing both directions of a link, the displayed "
-          "text goes from `%s` to `%s` (blank); the stored label stays `%s`."
-          % ((d.get("before") or {}).get("text"),
-             (d.get("after") or {}).get("text"),
-             (d.get("after") or {}).get("label")))
+        for name, proj in c3.items():
+            a("### %s" % name)
+            a("")
+            a("- Repeated resave (3×) changed-vs-first-save counts: %s"
+              % proj.get("repeated_resave", {}).get("changed_vs_first_save"))
+            d = proj.get("dangling_link", {})
+            if "note" in d:
+                a("- Dangling link: %s" % d["note"])
+            else:
+                a("- Dangling link: removing both directions of a link, the "
+                  "displayed text goes from `%s` to `%s` (blank); the stored "
+                  "label stays `%s`."
+                  % ((d.get("before") or {}).get("text"),
+                     (d.get("after") or {}).get("text"),
+                     (d.get("after") or {}).get("label")))
+            a("")
     a("")
     a("## Criterion 4 — corpus survey")
     a("")

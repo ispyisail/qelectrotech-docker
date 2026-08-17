@@ -20,7 +20,39 @@ The displayed label is the `<dynamic_elmt_text>` value; it is recomputed live fr
 
 ## Criterion 2 — the %f vs %F claim, tested
 
-Project `affuteuse_250h.qet`; perturbation: move folio "Puissance" to the end, then `--resave`.
+### Projet_vierge.qet
+
+Perturbation: move folio "ARRIVEE PUISSANCE" to the end, then `--resave`.
+
+| variant | formula | folio labels | arrows | label/text changed |
+|---|---|---|---|---|
+| %f_default | `%f-%l%c` | default | 10 | 5 |
+| %f_stable | `%f-%l%c` | stable | 10 | 5 |
+| %F_default | `%F-%l%c` | default | 10 | 5 |
+| %F_stable | `%F-%l%c` | stable | 10 | 0 |
+
+Samples (uuid before → after):
+
+- `%f_default` {2da1fbf5-4177-45b5-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%f_default` {8262ce3f-f9bc-4db8-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%f_default` {bd220ea4-1e08-4216-: text `3-B1`→`2-B1`, stored label `4-B2`→`4-B2`
+- `%f_default` {dcdc0539-6e99-49f1-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%f_stable` {2da1fbf5-4177-45b5-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%f_stable` {8262ce3f-f9bc-4db8-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%f_stable` {bd220ea4-1e08-4216-: text `3-B1`→`2-B1`, stored label `4-B2`→`4-B2`
+- `%f_stable` {dcdc0539-6e99-49f1-: text `3-A1`→`2-A1`, stored label `4-A2`→`4-A2`
+- `%F_default` {2da1fbf5-4177-45b5-: text `3/4-A1`→`2/4-A1`, stored label `4-A2`→`4-A2`
+- `%F_default` {8262ce3f-f9bc-4db8-: text `3/4-A1`→`2/4-A1`, stored label `4-A2`→`4-A2`
+- `%F_default` {bd220ea4-1e08-4216-: text `3/4-B1`→`2/4-B1`, stored label `4-B2`→`4-B2`
+- `%F_default` {dcdc0539-6e99-49f1-: text `3/4-A1`→`2/4-A1`, stored label `4-A2`→`4-A2`
+- `%F_stable` {2da1fbf5-4177-45b5-: text `FL3-A1`→`FL3-A1`, stored label `4-A2`→`4-A2`
+- `%F_stable` {7ae5846b-c39a-48d7-: text ``→``, stored label `/`→`/`
+- `%F_stable` {8193428b-91f8-4cc9-: text ``→``, stored label `/`→`/`
+- `%F_stable` {8262ce3f-f9bc-4db8-: text `FL3-A1`→`FL3-A1`, stored label `4-A2`→`4-A2`
+
+### affuteuse_250h.qet
+
+Perturbation: move folio "Puissance" to the end, then `--resave`.
 
 | variant | formula | folio labels | arrows | label/text changed |
 |---|---|---|---|---|
@@ -43,15 +75,23 @@ Samples (uuid before → after):
 - `%F_default` {16716212-c92e-4483-: text `5/12-E7`→`4/12-E7`, stored label `6-E8`→`6-E8`
 - `%F_default` {25811f85-9609-4635-: text `3/12-C6`→`2/12-C6`, stored label `4-C7`→`4-C7`
 - `%F_default` {2592f66a-f5a4-4e2f-: text `3/12-A0`→`2/12-A0`, stored label `4-A1`→`4-A1`
-- `%F_stable` {0d8ea98f-842b-4cec-: text `PWR-F12`→`PWR-F12`, stored label `3-F13`→`3-F13`
-- `%F_stable` {16716212-c92e-4483-: text `COM-E7`→`COM-E7`, stored label `6-E8`→`6-E8`
-- `%F_stable` {25811f85-9609-4635-: text `CMD-C6`→`CMD-C6`, stored label `4-C7`→`4-C7`
-- `%F_stable` {2592f66a-f5a4-4e2f-: text `CMD-A0`→`CMD-A0`, stored label `4-A1`→`4-A1`
+- `%F_stable` {0d8ea98f-842b-4cec-: text `FL2-F12`→`FL2-F12`, stored label `3-F13`→`3-F13`
+- `%F_stable` {16716212-c92e-4483-: text `FL5-E7`→`FL5-E7`, stored label `6-E8`→`6-E8`
+- `%F_stable` {25811f85-9609-4635-: text `FL3-C6`→`FL3-C6`, stored label `4-C7`→`4-C7`
+- `%F_stable` {2592f66a-f5a4-4e2f-: text `FL3-A0`→`FL3-A0`, stored label `4-A1`→`4-A1`
 
 ## Criterion 3 — blank / wrong-number failure
 
+### Projet_vierge.qet
+
+- Repeated resave (3×) changed-vs-first-save counts: [0, 0, 0]
+- Dangling link: removing both directions of a link, the displayed text goes from `3-A1` to `` (blank); the stored label stays `4-A2`.
+
+### affuteuse_250h.qet
+
 - Repeated resave (3×) changed-vs-first-save counts: [0, 0, 0]
 - Dangling link: removing both directions of a link, the displayed text goes from `6-A10` to `` (blank); the stored label stays `7-A11`.
+
 
 ## Criterion 4 — corpus survey
 
