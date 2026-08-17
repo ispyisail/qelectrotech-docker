@@ -32,24 +32,41 @@ DEFAULT_EXAMPLES_DIR = "/home/user/qet-fix/examples"
 RULES = ["X001", "X002", "X003", "X004", "X005", "X006", "X007"]
 
 
-def direction_of(element_type):
-    """Return 'next' / 'prev' / 'other' from an element type string.
+# Folio-reference arrows ship under several names, in several collections and
+# several languages. Matching only ``next_folio``/``previous_folio`` under
+# ``06renvoi`` covered 53 of the 400 arrows actually present in the corpus --
+# 13% -- and silently excluded the two largest families (``going_arrow`` /
+# ``coming_arrow``, 243 arrows) plus the Polish and SFC sets. Every rule below
+# was therefore being evaluated over a small, unrepresentative sample.
+#
+# Keep these keyed by substring: timestamped variants exist
+# (``01previous_folio-20140521204844.elmt``) and the same family appears under
+# more than one collection path.
+NEXT_FAMILIES = ("next_folio", "going_arrow", "nastepna", "jump_to")
+PREV_FAMILIES = ("previous_folio", "coming_arrow", "poprzednia", "jump_from")
 
-    Match on the ``next_folio`` / ``previous_folio`` substrings, not on exact
-    filenames: the corpus also contains timestamped variants such as
-    ``01previous_folio-20140521204844.elmt``.
-    """
+
+def direction_of(element_type):
+    """Return 'next' / 'prev' / 'other' from an element type string."""
     if not element_type:
         return "other"
-    if "next_folio" in element_type:
-        return "next"
-    if "previous_folio" in element_type:
-        return "prev"
+    for kw in NEXT_FAMILIES:
+        if kw in element_type:
+            return "next"
+    for kw in PREV_FAMILIES:
+        if kw in element_type:
+            return "prev"
     return "other"
 
 
 def is_renvoi(element_type):
-    return "06renvoi" in (element_type or "")
+    """Is this element a folio-reference arrow, in any family or collection?
+
+    Deliberately NOT a path test: the arrow families live under ``06renvoi``,
+    ``10_electric/10_allpole/100_sheet_referencing``, and others. Identity is
+    the family name, not where the element file happens to sit.
+    """
+    return direction_of(element_type) in ("next", "prev")
 
 
 def find_repo_root(path):
