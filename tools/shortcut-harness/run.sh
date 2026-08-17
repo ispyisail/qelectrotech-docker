@@ -20,7 +20,18 @@ done
 for f in shortcutsconfigpage.cpp shortcutsconfigpage.h configpage.h; do
     cp "$QET_SRC/ui/configpage/$f" "$WORK/"
 done
-cp "$HERE/harness.cpp" "$WORK/"
+# The config page is a QTableWidget on master and a QTreeWidget on the S6
+# browsing branch. Pick the harness that matches the source under test rather
+# than forcing one -- a harness locked to one shape silently cannot verify the
+# other, which is how the tree harness got lost once already.
+if grep -q "QTreeWidget" "$QET_SRC/ui/configpage/shortcutsconfigpage.h"; then
+    HARNESS="$HERE/harness_tree.cpp"
+    echo "[harness] target uses QTreeWidget -> harness_tree.cpp" >&2
+else
+    HARNESS="$HERE/harness.cpp"
+    echo "[harness] target uses QTableWidget -> harness.cpp" >&2
+fi
+cp "$HARNESS" "$WORK/harness.cpp"
 
 # QET::Icons is stubbed: the page uses only these two symbols, and pulling in
 # the real qeticons.cpp would drag in the Qt resource system for no benefit.
