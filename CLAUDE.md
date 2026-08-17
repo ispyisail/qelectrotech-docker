@@ -44,6 +44,7 @@ rebuild the image, so a fix can silently fail to reach the container.
 | work on IEC 81346 labelling | `IEC81346-PLAN.md` |
 | work on icons | `ICONS-DOMAIN-SET.md`, `ICONS-HIDPI-PR1.md` |
 | work on keyboard shortcuts / action coverage | `SHORTCUTS-PLAN.md` |
+| analyse cross-folio wire links / renvoi arrows | `CROSSPAGE-PLAN.md` |
 | understand auto-wiring on element placement | `AUTO-CONNECT-SHIFT-RESEARCH.md` |
 | propose a scripting API | `SCRIPTING-RFC.md` |
 
