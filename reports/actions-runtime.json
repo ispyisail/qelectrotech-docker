@@ -1,0 +1,2638 @@
+{
+    "meta": {
+        "generator": "sources/action_dump.cpp (local analysis tool, not upstream)",
+        "locale": "fr_FR"
+    },
+    "summary": {
+        "per_window_class": {
+            "QETDiagramEditor": 142,
+            "QETElementEditor": 67,
+            "QETTitleBlockTemplateEditor": 51
+        },
+        "total_actions": 260,
+        "windows": 3
+    },
+    "windows": [
+        {
+            "action_count": 142,
+            "actions": [
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "_q_qlineeditclearaction",
+                    "owner_class": "QLineEdit",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "_q_qlineeditclearaction",
+                    "owner_class": "QLineEdit",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "_q_qlineeditclearaction",
+                    "owner_class": "QLineEdit",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "_q_qlineeditclearaction",
+                    "owner_class": "QLineEdit",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F4",
+                    "text": "Abaisser ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F6",
+                    "text": "Abaisser ce folio x10",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F7",
+                    "text": "Abaisser ce folio x100",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Affichage",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Afficha&ge",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Afficher la grille",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Afficher la grille",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Afficher les guides",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Afficher les projets",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Afficher tous les dossiers",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Afficher uniquement ce dossier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Aide",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Ajouter",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un champ de texte",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Ajouter un folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Ajouter un folio",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+T",
+                    "text": "Ajouter un folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un plan de bornes",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un rectangle",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Ajouter un sommaire",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Ajouter un sommaire",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Ajouter une colonne",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une colonne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une ellipse",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une image",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une ligne",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Ajouter une ligne",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Ajouter une nomenclature",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Ajouter une nomenclature",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une polyligne",
+                    "toolbar": "adding",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Amener au premier plan",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Home",
+                    "text": "Amener au premier plan",
+                    "toolbar": "diagram_depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Annulations",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Annuler",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Z",
+                    "text": "Annuler",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Atteindre un élément",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+G",
+                    "text": "Atteindre un élément",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Basculer vers ce projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fenêtres > Cascade",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "&Cascade",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Chaine Youtube",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Chaine Youtube",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Chercher/remplacer",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+F",
+                    "text": "Chercher/remplacer",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Collections",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Coller",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+V",
+                    "text": "C&oller",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Configuration",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Configuration > Configurer QElectroTech",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "&Configurer QElectroTech",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Copier",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+C",
+                    "text": "Cop&ier",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Copier et coller",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Copier le chemin",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Couleur de fond blanc/gris",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Couleur de fond blanc/gris",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Couper",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+X",
+                    "text": "Co&uper",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Création automatique de conducteur(s)",
+                    "toolbar": "diagram",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Désélectionner tout",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Désélectionner tout",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Enlever une colonne",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Enlever une colonne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Enlever une ligne",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Enlever une ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Enregistrer",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+S",
+                    "text": "&Enregistrer",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Enregistrer sous",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+S",
+                    "text": "Enregistrer sous",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Envoyer au fond",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+End",
+                    "text": "Envoyer au fond",
+                    "toolbar": "diagram_depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Exporter",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Shift+X",
+                    "text": "E&xporter",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Exporter au format CSV",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Exporter au format CSV",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Exporter en pdf",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Exporter en pdf",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Exporter la liste des noms de conducteurs",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Exporter la liste des noms de conducteurs",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Exporter le plan de câblage",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Exporter le plan de câblage",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Fe&nêtres",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Fermer",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+F4",
+                    "text": "&Fermer",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Fermer ce projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Gestionnaire de borniers (DEV)",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Gestionnaire de borniers (DEV)",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Grouper les textes sélectionnés",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Grouper les textes sélectionnés",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Importer une pièce EPLAN (.edz)…",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fichier > Imprimer",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+P",
+                    "text": "Imprimer",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Inverser la sélection",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+I",
+                    "text": "Inverser la sélection",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Lancer le plugin de création de borniers",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Lancer le plugin de création de borniers",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Manuel en ligne",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "F1",
+                    "text": "Manuel en ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Mode Selection",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Mode Selection",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Mode Visualisation",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Mode Visualisation",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fenêtres > Mosaïque",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "&Mosaïque",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Nettoyer le projet",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Nettoyer le projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Nouveau",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+N",
+                    "text": "&Nouveau",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Nouveau dossier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Nouveau modèle",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Nouvel élément",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Numérotation automatique des bornes",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Numérotation automatique des bornes",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Orienter les textes",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Space",
+                    "text": "Orienter les textes",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Outils",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Ouvrir",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+O",
+                    "text": "&Ouvrir",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Ouvrir le dossier correspondant",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Ouvrir le dossier correspondant",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Pas de zoom",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+0",
+                    "text": "Pas de zoom",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Configuration > Passer en mode plein écran",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Shift+F",
+                    "text": "Passer en &mode plein écran",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Pivoter",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Space",
+                    "text": "Pivoter",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Profondeur",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fenêtres > Projet précédent",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Shift+Backtab",
+                    "text": "Projet précédent",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Fenêtres > Projet suivant",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Tab",
+                    "text": "Projet suivant",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Projets",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Propriété du dossier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "DiagramPropertiesEditorDockWidget",
+                    "shortcut": "",
+                    "text": "Propriétés de la sélection",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Propriétés du folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Propriétés du folio",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+L",
+                    "text": "Propriétés du folio",
+                    "toolbar": "diagram",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Propriétés du projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Propriétés du projet",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Propriétés du projet",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Quitter",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Q",
+                    "text": "&Quitter",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Rapprocher",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Up",
+                    "text": "Rapprocher",
+                    "toolbar": "diagram_depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Recharger les collections",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Refaire",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+Y",
+                    "text": "Refaire",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F3",
+                    "text": "Remonter ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F5",
+                    "text": "Remonter ce folio au debut",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F8",
+                    "text": "Remonter ce folio x10",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "F9",
+                    "text": "Remonter ce folio x100",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Retrouver dans le panel",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Retrouver dans le panel",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Récemment ouverts",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Réinitialiser les conducteurs",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Ctrl+K",
+                    "text": "Réinitialiser les conducteurs",
+                    "toolbar": "diagram",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Schéma",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Soutenir le projet par un don",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Soutenir le projet par un don",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Supprimer",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Del",
+                    "text": "Supprimer",
+                    "toolbar": "toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "Del",
+                    "text": "Supprimer ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Supprimer ce modèle",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Supprimer l'élément",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Supprimer le dossier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Projet > Supprimer le folio",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Supprimer le folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "AutoNumberingDockWidget",
+                    "shortcut": "",
+                    "text": "Sélection numérotation auto",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QTreeWidget",
+                    "shortcut": "",
+                    "text": "Sélectionner les conducteurs de ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QTreeWidget",
+                    "shortcut": "",
+                    "text": "Sélectionner les textes de ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QTreeWidget",
+                    "shortcut": "",
+                    "text": "Sélectionner les éléments de ce folio",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Tout sélectionner",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+A",
+                    "text": "Tout sélectionner",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Aide > Télécharger une nouvelle version (dev)",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Télécharger une nouvelle version (dev)",
+                    "toolbar": "",
+                    "visible": false
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Aide > Télécharger une nouvelle version (dev)",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "Télécharger une nouvelle version (dev)",
+                    "toolbar": "",
+                    "visible": false
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > What's This?",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "Shift+F1",
+                    "text": "What's This?",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Zoom adapté",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+9",
+                    "text": "Zoom adapté",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Zoom arrière",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+-",
+                    "text": "Zoom arrière",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Zoom avant",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl++",
+                    "text": "Zoom avant",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Affichage > Zoom sur le contenu",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+8",
+                    "text": "Zoom sur le contenu",
+                    "toolbar": "display",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher les projets > en utilisant des fenêtres",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "en utilisant des fenêtres",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher les projets > en utilisant des onglets",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "en utilisant des onglets",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de QElectroTech",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "À &propos de QElectroTech",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de Qt",
+                    "objectName": "",
+                    "owner_class": "QETDiagramEditor",
+                    "shortcut": "",
+                    "text": "À propos de &Qt",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsPanelWidget",
+                    "shortcut": "",
+                    "text": "Éditer ce modèle",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Éditer l'item sélectionné",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+E",
+                    "text": "Éditer l'item sélectionné",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Éditer l'élément",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "ElementsCollectionWidget",
+                    "shortcut": "",
+                    "text": "Éditer le dossier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Édition",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Éloigner",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Down",
+                    "text": "Éloigner",
+                    "toolbar": "diagram_depth_toolbar",
+                    "visible": true
+                }
+            ],
+            "window_class": "QETDiagramEditor",
+            "window_title": "QElectroTech"
+        },
+        {
+            "action_count": 67,
+            "actions": [
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Afficha&ge",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Affichage",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Affichage",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Afficher",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Aide",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter du texte",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un arc de cercle",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un champ texte dynamique",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un polygone",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter un rectangle",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une borne",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une ellipse",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "",
+                    "text": "Ajouter une ligne",
+                    "toolbar": "parts",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Home",
+                    "text": "Amener au premier plan",
+                    "toolbar": "depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Annulation",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Annulation",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Annulations",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Annulations",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Z",
+                    "text": "Annuler",
+                    "toolbar": "m_undo_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Chaine Youtube",
+                    "objectName": "m_youtube_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Chaine Youtube",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Coller",
+                    "objectName": "m_paste_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+V",
+                    "text": "C&oller",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Coller dans la zone",
+                    "objectName": "m_paste_in_area_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Shift+V",
+                    "text": "C&oller dans la zone",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Coller depuis...",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Copier",
+                    "objectName": "m_copy_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+C",
+                    "text": "Cop&ier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Couper",
+                    "objectName": "m_cut_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+X",
+                    "text": "Co&uper",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Désélectionner tout",
+                    "objectName": "m_deselect_all_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Shift+A",
+                    "text": "Désélectionner tout",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer",
+                    "objectName": "m_save_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+S",
+                    "text": "&Enregistrer",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer dans un fichier",
+                    "objectName": "m_save_as_file_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Shift+S",
+                    "text": "Enregistrer dans un fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer sous",
+                    "objectName": "m_save_as_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Enregistrer sous",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+End",
+                    "text": "Envoyer au fond",
+                    "toolbar": "depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Exporter en SVG",
+                    "objectName": "m_export_svg_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Exporter en SVG",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Fermer cet éditeur",
+                    "objectName": "m_quit_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Q",
+                    "text": "&Fermer cet éditeur",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Fine-Rotation",
+                    "objectName": "m_rotateFine_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Space",
+                    "text": "Fine-Rotation",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Flip",
+                    "objectName": "m_flip_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "F",
+                    "text": "Flip",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Importer un dxf",
+                    "objectName": "m_import_dxf",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Importer un dxf",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Informations",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Informations",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Inverser la sélection",
+                    "objectName": "m_revert_selection_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+I",
+                    "text": "Inverser la sélection",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Manuel en ligne",
+                    "objectName": "m_online_manual",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Manuel en ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Mirror",
+                    "objectName": "m_mirror_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "M",
+                    "text": "Mirror",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Nouveau",
+                    "objectName": "m_new_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+N",
+                    "text": "&Nouveau",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Outils",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Outils",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Ouvrir",
+                    "objectName": "m_open_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+O",
+                    "text": "&Ouvrir",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Ouvrir depuis un fichier",
+                    "objectName": "m_open_from_file_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Shift+O",
+                    "text": "&Ouvrir depuis un fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Parties",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Parties",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Parties",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Parties",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Pas de zoom",
+                    "objectName": "m_zoom_original_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+0",
+                    "text": "Pas de zoom",
+                    "toolbar": "m_view_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Profondeur",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Profondeur",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Up",
+                    "text": "Rapprocher",
+                    "toolbar": "depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Recharger",
+                    "objectName": "m_reload_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Recharger",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Y",
+                    "text": "Refaire",
+                    "toolbar": "m_undo_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Rotation",
+                    "objectName": "m_rotate_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Space",
+                    "text": "Rotation",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Soutenir le projet par un don",
+                    "objectName": "m_donate_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Soutenir le projet par un don",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Supprimer",
+                    "objectName": "m_delete_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Del",
+                    "text": "&Supprimer",
+                    "toolbar": "m_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Tout sélectionner",
+                    "objectName": "m_select_all_act",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+A",
+                    "text": "Tout sélectionner",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Coller depuis... > Un fichier",
+                    "objectName": "m_paste_from_file_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Un fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Coller depuis... > Un élément",
+                    "objectName": "m_paste_from_element_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Un élément",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom adapté",
+                    "objectName": "m_zoom_fit_best_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+9",
+                    "text": "Zoom adapté",
+                    "toolbar": "m_view_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom arrière",
+                    "objectName": "m_zoom_out_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+-",
+                    "text": "Zoom arrière",
+                    "toolbar": "m_view_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom avant",
+                    "objectName": "m_zoom_in_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl++",
+                    "text": "Zoom avant",
+                    "toolbar": "m_view_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > importer un élément à redimensionner",
+                    "objectName": "m_import_scaled_element",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "importer un élément à redimensionner",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de QElectroTech",
+                    "objectName": "m_about_qet_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "À &propos de QElectroTech",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de Qt",
+                    "objectName": "m_about_qt_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "À propos de &Qt",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Éditer le nom et les traductions de l'élément",
+                    "objectName": "m_edit_names_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+E",
+                    "text": "Éditer le nom et les traductions de l'élément",
+                    "toolbar": "m_element_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Éditer les informations sur l'auteur",
+                    "objectName": "m_edit_author_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "Ctrl+Y",
+                    "text": "Éditer les informations sur l'auteur",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Éditer les propriétés de l'élément",
+                    "objectName": "m_edit_element_properties_action",
+                    "owner_class": "QETElementEditor",
+                    "shortcut": "",
+                    "text": "Éditer les propriétés de l'élément",
+                    "toolbar": "m_element_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Édition",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QActionGroup",
+                    "shortcut": "Ctrl+Shift+Down",
+                    "text": "Éloigner",
+                    "toolbar": "depth_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Afficher > Élément",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Élément",
+                    "toolbar": "",
+                    "visible": true
+                }
+            ],
+            "window_class": "QETElementEditor",
+            "window_title": "QElectroTech - Éditeur d'élément"
+        },
+        {
+            "action_count": 51,
+            "actions": [
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Affichage",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "Afficha&ge",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Aide",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Ajouter une colonne",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Ajouter une &colonne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Ajouter une colonne (après)",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Ajouter une colonne (avant)",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Ajouter une ligne",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Ajouter une &ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Ajouter une ligne (après)",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Ajouter une ligne (avant)",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Annulations",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Chaine Youtube",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Chaine Youtube",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Coller",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+V",
+                    "text": "C&oller",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Configuration",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Configuration > Configurer QElectroTech",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "&Configurer QElectroTech",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Copier",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+C",
+                    "text": "Cop&ier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Couper",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+X",
+                    "text": "Co&uper",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+S",
+                    "text": "&Enregistrer",
+                    "toolbar": "tbt_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer sous",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Enregistrer sous",
+                    "toolbar": "tbt_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Enregistrer vers un fichier",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Shift+S",
+                    "text": "Enregistrer vers un fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Fusionner les cellules",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+J",
+                    "text": "&Fusionner les cellules",
+                    "toolbar": "tbt_edit_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Gérer les logos",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+T",
+                    "text": "Gérer les logos",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Manuel en ligne",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "F1",
+                    "text": "Manuel en ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Modifier la largeur de cet aperçu",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Modifier les dimensions de cette colonne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Modifier les dimensions de cette ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Nouveau",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+N",
+                    "text": "&Nouveau",
+                    "toolbar": "tbt_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Outils",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Ouvrir",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+O",
+                    "text": "&Ouvrir",
+                    "toolbar": "tbt_main_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Ouvrir depuis un fichier",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Shift+O",
+                    "text": "Ouvrir depuis un fichier",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Pas de zoom",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+0",
+                    "text": "Pas de zoom",
+                    "toolbar": "tbt_display_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Configuration > Passer en mode plein écran",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Shift+F",
+                    "text": "Passer en &mode plein écran",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QDockWidget",
+                    "shortcut": "",
+                    "text": "Propriétés de la cellule",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Fichier > Quitter",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Q",
+                    "text": "&Quitter",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Redo",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Y",
+                    "text": "Redo",
+                    "toolbar": "tbt_edit_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > Soutenir le projet par un don",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Soutenir le projet par un don",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Supprimer cette colonne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "TitleBlockTemplateView",
+                    "shortcut": "",
+                    "text": "Supprimer cette ligne",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Séparer les cellules",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+K",
+                    "text": "&Séparer les cellules",
+                    "toolbar": "tbt_edit_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Aide > Télécharger une nouvelle version (dev)",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Télécharger une nouvelle version (dev)",
+                    "toolbar": "",
+                    "visible": false
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Aide > Télécharger une nouvelle version (dev)",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "Télécharger une nouvelle version (dev)",
+                    "toolbar": "",
+                    "visible": false
+                },
+                {
+                    "enabled": false,
+                    "menu_path": "Édition > Undo",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Z",
+                    "text": "Undo",
+                    "toolbar": "tbt_edit_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > What's This?",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Shift+F1",
+                    "text": "What's This?",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom adapté",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+9",
+                    "text": "Zoom adapté",
+                    "toolbar": "tbt_display_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom arrière",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+-",
+                    "text": "Zoom arrière",
+                    "toolbar": "tbt_display_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Affichage > Zoom avant",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl++",
+                    "text": "Zoom avant",
+                    "toolbar": "tbt_display_toolbar",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de QElectroTech",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "À &propos de QElectroTech",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Aide > À propos de Qt",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "",
+                    "text": "À propos de &Qt",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "Édition > Éditer les informations complémentaires",
+                    "objectName": "",
+                    "owner_class": "QETTitleBlockTemplateEditor",
+                    "shortcut": "Ctrl+Y",
+                    "text": "Éditer les informations complémentaires",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QMenu",
+                    "shortcut": "",
+                    "text": "&Édition",
+                    "toolbar": "",
+                    "visible": true
+                },
+                {
+                    "enabled": true,
+                    "menu_path": "",
+                    "objectName": "",
+                    "owner_class": "QToolBar",
+                    "shortcut": "",
+                    "text": "Édition",
+                    "toolbar": "",
+                    "visible": true
+                }
+            ],
+            "window_class": "QETTitleBlockTemplateEditor",
+            "window_title": ""
+        }
+    ]
+}
