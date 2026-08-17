@@ -194,6 +194,14 @@ groups.
 This step has **no mechanical proof fixture** — that is precisely why it is not
 a DeepSeek item.
 
+### S2 / S3 — REINSTATED 2026-08-17
+
+Briefly considered dropping these in favour of a cheap static "is this action
+ever added to a menu" field on S1. Decision reversed: runtime ground truth is
+worth the cost of a local-only `--dump-actions` flag, because static analysis
+cannot see dynamically-built menus, cannot give menu paths, and cannot tell
+reachable from merely-constructed. See `briefs/S2-deepseek.md`.
+
 ### S4 — DONE
 
 Decisions are in **`SHORTCUTS-S4-DECISIONS.md`**: 5 defaults, 167 blank
