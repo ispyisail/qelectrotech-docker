@@ -5,10 +5,57 @@ because these numbers are meant to be quoted in upstream discussion and a number
 you cannot re-derive is worth nothing.
 
 **Refs:** QET source measured at `upstream/master` `eb095f9a1` unless stated.
+The staged branches in §4 were later rebased onto `e2e0df784`; the two
+intervening upstream commits touch only `sources/import/edz/edzpart.cpp`, so
+no measurement here is affected.
 Note `/home/user/qet-fix`'s working tree sits on `cabinet-layout-editor` and is
 ~195 commits behind upstream — a static scan of it is **not** comparable with a
 runtime measurement from master. That mistake produced a phantom finding once
 (see `reports/orphan-analysis.md`).
+
+---
+
+## 0. Summary — what we learned
+
+**The mechanism is sound. The feedback is not.** Every layer that moves data
+works; every layer that tells the user what happened is weak. That is the whole
+finding, and it reframes the original complaint ("cross-page linking is not
+user-friendly") as accurate but misdirected: nothing is corrupting drawings.
+
+### Works — verified, not assumed
+
+| Behaviour | Evidence |
+|---|---|
+| Links survive every page operation | insert / move-to-front / move-to-end / move-past-partner / reverse-all: **0 lost, 0 retargeted, 0 dangling, 0 orphaned** on two projects |
+| Labels re-evaluate on their own | inserting a page turns `7-A0` into `8-A0` |
+| Wire numbers propagate the whole potential | one edit updated **93 conductors across 26 non-contiguous folios** in one undo command |
+| Deleting a page cleans up the link | zero dangling references afterwards |
+
+### Broken — all of it feedback
+
+| Problem | Measured |
+|---|---|
+| References are ambiguous | **176 of 400 arrows (44%)** share a reference with another arrow on the same folio; in `industrial` **all 39** colliding groups point to *different* partners |
+| Deleting a page orphans partners silently | 8–9 arrows left claiming a wire continues nowhere, no warning |
+| Reordering pages silently invalidates direction | reversing page order makes **72** links backwards in `m_000`; two shipped projects already contain such links |
+| The picker leads with empty columns | `Fonction` and `Tension / Protocole` populated **0.0%** across 3059 conductors; identity sits in columns 6–8 |
+| One action, two rules | inline edit propagates unconditionally; the properties dialog asks first |
+
+### Two conclusions that testing overturned
+
+**A link-time check was the wrong fix.** The obvious response to inverted links
+was validation in `isLinkable()`. Moving one folio then turned 2 inverted links
+into 0 *without touching any link* — correctness depends on folio order, which
+changes after linking. The check could not have prevented the state and would
+have blocked linking before folios are arranged. Replaced by a diagnostic.
+
+**The first measurements covered 13% of the data.** Matching only `06renvoi`
+arrows saw 53 of 400 and missed the two largest families, so every early number
+was drawn from an unrepresentative sample — including a direction imbalance that
+turned out to be an artifact of the filter itself.
+
+Both are recorded because the cost of re-deriving "we tried that and it was
+wrong" is higher than the cost of writing it down.
 
 ---
 
