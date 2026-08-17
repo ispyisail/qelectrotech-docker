@@ -235,3 +235,91 @@ buttons, direct canvas interactions — will not appear in S1 or S2. The
 `QPushButton` with the manager, so the pattern exists. Enumerating non-action
 widgets is a possible S6; it is deliberately out of scope until S1–S3 show
 whether the action-level gap alone accounts for what the request was after.
+
+---
+
+## S6 — make ~230 shortcuts findable (browsing + search)
+
+Once S5 lands, the config page holds roughly 230 rows instead of 97. What is
+there today (verified 2026-08-17):
+
+| Present | Detail |
+|---|---|
+| Search box | `QLineEdit`, placeholder *"Filtrer les raccourcis…"*, live on `textChanged` |
+| Categories | a **column**, rows sorted by category then action name |
+| Per-row reset + reset-all | `QToolButton` per row, `Tout réinitialiser` button |
+| Conflict highlight | red background + tooltip naming the other action |
+
+So a search bar already exists. What breaks at 230 rows is **navigation** and
+**search quality**.
+
+### S6a — browsing: group instead of sort
+
+Today a category is a repeated cell value in a flat table; finding "everything
+under Profondeur" means scrolling. Replace the flat `QTableWidget` with a
+**`QTreeWidget`: one collapsible top-level node per category, actions as
+children.** Standard pattern (Qt Creator, VS Code), and it turns ~230 rows into
+~15 collapsed groups.
+
+Keep the shortcut editor and reset button as item widgets on the child rows —
+the existing per-row logic transfers, only the container changes.
+
+### S6b — search: what you would actually type
+
+`filterRows` currently matches a **single substring**, case-insensitively,
+against the category and action name only (`shortcutsconfigpage.cpp:140-142`).
+Four gaps, each worth fixing:
+
+1. **You cannot search by key.** Typing `Ctrl+S` finds nothing, because the
+   sequence column is not searched. This is the single most useful query —
+   *"what is already on this key?"* — and it is how a user finds a free binding.
+   Match against the current sequence text too.
+2. **Multi-keyword.** `export pdf` should match *"Exporter en PDF"* regardless
+   of word order. Split the query on whitespace and require **all** terms to
+   match somewhere in the row (AND), rather than one substring.
+3. **Accent-insensitivity.** French is the `tr()` source language, so labels
+   carry accents: `Général`, `Profondeur`, `Réinitialiser`. Typing `general`
+   must match `Général`. Normalise both sides (`QString::normalized` +
+   diacritic strip) before comparing — without this, an English-keyboard user
+   silently gets no hits for the largest category.
+4. **Auto-expand + count.** With the tree, a search must expand matching groups
+   and report *"N actions matched"*, otherwise matches hide inside collapsed
+   nodes and the box looks broken.
+
+### S6c — quick filters
+
+With most actions deliberately registered blank (§2), the useful views are:
+
+- **All** (default)
+- **Bound only** — what the user has actually set
+- **Unbound only** — the pool of actions available to bind
+- **Conflicts only** — reuses the existing `checkConflicts` result
+
+A small combo or segmented control above the tree. *Unbound only* is what makes
+the blank-registration design usable: it is how a user browses what is
+available to bind rather than scrolling past 130 empty rows.
+
+### Proof fixtures
+
+- Typing `Ctrl+Shift+F` finds `mainwindow.fullscreen`.
+- Typing `export pdf` matches *"Exporter en PDF"* (word order differs).
+- Typing `general` matches the `Général` category.
+- Plant a duplicate binding → *Conflicts only* shows exactly those two rows;
+  remove it → the view is empty.
+- With every action registered, *Unbound only* count + *Bound only* count equals
+  the total row count.
+
+### Model
+
+**DeepSeek**, with one caveat: every fixture above is mechanical, but this is
+GUI code and the fixtures need a running widget. Either drive it through a small
+`QTest`-style harness, or verify by launching the config page under
+`-platform offscreen` and dumping the visible row set. Decide that before
+starting — a GUI item with no way to check itself is the one shape that
+reliably fails.
+
+### Sequencing
+
+S6 is independent of S4/S5 and can be built first. Doing so is arguably better:
+it makes the 97 existing shortcuts easier to browse immediately, and it means
+the ~130 new ones arrive into a page that can already cope with them.
