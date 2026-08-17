@@ -31,6 +31,24 @@ so a running container with `network_mode: host` (`qet-scenarios`,
 *its* answers — check `docker ps` first. And `docker compose run` does not
 rebuild the image, so a fix can silently fail to reach the container.
 
+## Delegating to DeepSeek
+
+Launch every DeepSeek session through **`scripts/deepseek-run.sh --wait`**, which
+defers until off-peak pricing (50%):
+
+```bash
+scripts/deepseek-run.sh --wait <workdir> <prompt-file> [logfile]
+```
+
+DeepSeek peak hours are **01:00-04:00 and 06:00-10:00 UTC** (13:00-16:00 and
+18:00-22:00 NZST; an hour later under NZDT). Everything else is half price. The
+script reads UTC, so it stays correct across daylight saving; only prose tables
+go stale. Without `--wait` it runs immediately and warns which rate applies —
+never silently delaying work you wanted now.
+
+Model choice is unchanged: construction with a mechanical proof fixture goes to
+DeepSeek, judgement with no mechanical check does not (see `LAB-PLAN.md`).
+
 ## Documents
 
 | Want to… | Read |
