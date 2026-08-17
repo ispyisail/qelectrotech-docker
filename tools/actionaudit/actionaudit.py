@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
@@ -1255,6 +1256,41 @@ def render_md(s):
     return '\n'.join(lines)
 
 
+def source_ref(root):
+    """Identify the exact source state that was scanned.
+
+    Recording this is not bookkeeping. An audit of "the source tree" is
+    meaningless when that tree sits on a feature branch: a static scan of
+    `cabinet-layout-editor` was once compared against a runtime dump built from
+    `master`, and the resulting phantom "orphan action" cost a build, an
+    instrumented run and a correction to two documents. `dirty` matters for the
+    same reason -- uncommitted edits belong to no ref at all.
+    """
+    def git(*a):
+        try:
+            out = subprocess.run(('git', '-C', root) + a, capture_output=True,
+                                 text=True, timeout=15)
+            return out.stdout.strip() if out.returncode == 0 else None
+        except Exception:
+            return None
+
+    status = git('status', '--porcelain')
+    # Count only files this tool would actually read. A build worktree is full
+    # of modified .qm artifacts that say nothing about the source being audited;
+    # counting those would cry wolf on every clean checkout.
+    dirty_src = None
+    if status is not None:
+        dirty_src = [l[3:].strip() for l in status.splitlines()
+                     if l.strip().endswith(('.cpp', '.h', '.ui'))]
+    return {
+        'commit': git('rev-parse', 'HEAD'),
+        'branch': git('rev-parse', '--abbrev-ref', 'HEAD'),
+        'describe': git('describe', '--always', '--dirty'),
+        'dirty_source_files': len(dirty_src) if dirty_src is not None else None,
+        'dirty_source_sample': (dirty_src or [])[:5],
+    }
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description='Audit QET actions and shortcut bindings')
     ap.add_argument('qet_root', nargs='?', default='/home/user/qet-fix',
@@ -1264,6 +1300,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     root = os.path.abspath(args.qet_root)
+    ref = source_ref(root)
     result = analyze(root)
     s = summarize(result)
 
@@ -1276,6 +1313,7 @@ def main(argv=None):
             'meta': {
                 'generator': 'tools/actionaudit/actionaudit.py',
                 'source_root': root,
+                'source_ref': ref,
             },
             'summary': s,
             'registrations': result['registrations'],
@@ -1284,6 +1322,15 @@ def main(argv=None):
     with open(md_path, 'w', encoding='utf-8') as f:
         f.write(render_md(s))
 
+    branch = ref.get('branch') or '?'
+    print(f"scanned {root}  branch={branch}  commit={(ref.get('commit') or '?')[:9]}"
+          f"  dirty_source_files={ref.get('dirty_source_files')}")
+    if ref.get('dirty_source_files'):
+        print(f"WARNING: {ref['dirty_source_files']} uncommitted source file(s) in the scanned tree -- "
+              f"this audit describes no single commit", file=sys.stderr)
+    if branch not in ('master', 'HEAD', '?'):
+        print(f"NOTE: scanned branch is '{branch}', not master -- do not compare "
+              f"these results against output from another ref", file=sys.stderr)
     print(f'wrote {json_path}')
     print(f'wrote {md_path}')
     print(json.dumps(s, ensure_ascii=False, indent=2))
