@@ -161,13 +161,14 @@
     },
     {
       "id": 247,
-      "size": "small",
+      "size": "one-liner",
       "summary": "XRef slave reference hidden with dark themes",
-      "reason": "The slave cross-reference item is painted with a hardcoded Qt::black text colour in DynamicElementTextItem, so on a dark theme the slave label is black-on-dark and invisible (both on screen and in SVG/PDF export).",
-      "entry_point": "sources/qetgraphicsitem/dynamicelementtextitem.cpp:556,795,1377  (DynamicElementTextItem::updateXref)",
+      "reason": "The slave cross-reference QGraphicsTextItem is created WITHOUT a default text colour, so it inherits the palette -- white under a dark theme -- and is drawn white on the white page, reaching PDF/PNG/SVG export. The sibling site DynamicElementTextItem:1377 sets Qt::black on the identical item; ElementTextItemGroup:800 does not. The reporter states 'drawn white on white' and works around it with QGraphicsView{color:#000}, i.e. forcing black.",
+      "entry_point": "sources/qetgraphicsitem/elementtextitemgroup.cpp:800 (ElementTextItemGroup::updateXref)",
       "quote": "m_slave_Xref_item->setDefaultTextColor(Qt::black);",
-      "test_route": "tools/exportleak (or QET --export-svg) on a master/slave xref: assert the slave label colour is inherited from the item rather than hardcoded black; tools/crosspage for the arrow structure.",
-      "bucket": "bug-fixable"
+      "test_route": "Needs a project that actually renders a slave XRef under a forced dark palette. A probe over affuteuse_250h was INCONCLUSIVE: fixed and unfixed builds both reported all-black, so it was measuring ordinary element texts rather than m_slave_Xref_item.",
+      "bucket": "bug-fixable",
+      "reason_correction": "An earlier triage pass had this inverted -- it read the hardcoded Qt::black in DynamicElementTextItem as the defect ('black on dark'). The reporter's own wording and workaround rule that out."
     },
     {
       "id": 306,
