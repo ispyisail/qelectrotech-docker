@@ -1,0 +1,4 @@
+Qt_5 {
+  global: _ZN12QApplicationC1ERiPPci;
+  local: *;
+};
