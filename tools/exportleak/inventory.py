@@ -123,6 +123,36 @@ def svg_inventory(svg_path: Path) -> dict:
     }
 
 
+def svg_static_scan(svg_path: Path) -> dict:
+    """Editing-state scan that does *not* depend on the palette.
+
+    The light-vs-dark diff (palettediff.py) catches anything whose colour
+    tracks the palette -- the #247 class of text inheriting QPalette::Text.
+    Two editing-state decorations would look identical under both palettes
+    and so slip past that diff:
+
+      - a dashed *selection rectangle* (QET draws a dashed <rect> around the
+        selection; dashed *line styles* on conductors are document content
+        and are emitted by QSvgGenerator as stroke-dasharray on a <g> pen
+        group, never on a <rect>);
+      - a translucent halo (opacity between 0 and 1).
+
+    Translucency is already recorded by svg_inventory()'s partial_opacity;
+    this adds the dasharray side, keyed by the carrier tag so a dashed
+    <rect> -- the selection-rect signature -- is separately visible.
+    """
+    dashed_by_tag: Counter[str] = Counter()
+    dash_patterns: set[str] = set()
+    for _, el in ET.iterparse(svg_path, events=("start",)):
+        if "stroke-dasharray" in el.attrib:
+            dashed_by_tag[el.tag.rsplit("}", 1)[-1]] += 1
+            dash_patterns.add(el.attrib["stroke-dasharray"])
+    return {
+        "dashed_by_tag": dict(sorted(dashed_by_tag.items())),
+        "dash_patterns": sorted(dash_patterns),
+    }
+
+
 def png_dimensions(path: Path) -> tuple[int, int] | None:
     """Width/height from the PNG IHDR chunk (stdlib, no PIL)."""
     data = path.read_bytes()

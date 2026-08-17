@@ -1,0 +1,5977 @@
+{
+  "meta": {
+    "binary": "/home/user/qet-fix-upstream/build-el/qelectrotech",
+    "corpus": "/home/user/qet-fix/examples",
+    "timeout": 120.0,
+    "generated_at": "2026-08-17 22:32:47"
+  },
+  "summary": {
+    "projects": 22,
+    "excluded": [
+      "schema_indus.qet"
+    ],
+    "leaking_projects": 0,
+    "leaking_folios": 0,
+    "leaking_elements": 0,
+    "wall_seconds": 49.1
+  },
+  "results": {
+    "projects": {
+      "741": {
+        "project": "741",
+        "folios": {
+          "01_Operational amplifier uA741": {
+            "inventory": {
+              "tags": {
+                "circle": 318,
+                "defs": 1,
+                "desc": 1,
+                "g": 2525,
+                "path": 87,
+                "polyline": 248,
+                "rect": 137,
+                "svg": 1,
+                "text": 91,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 790
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 3410,
+              "dark_elements": 3410,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.237,
+          "svg_files": [
+            "01_Operational amplifier uA741.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.171 seconds (elements collection 0, diagrams 0.165, terminal strips 0, refresh 0, database 0.006)\nProject \"741.qet\" (123 KiB) opened in 0.181 seconds (xml parsing 0.007, content 0.174)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.225,
+          "svg_files": [
+            "01_Operational amplifier uA741.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.164 seconds (elements collection 0, diagrams 0.158, terminal strips 0, refresh 0, database 0.006)\nProject \"741.qet\" (123 KiB) opened in 0.173 seconds (xml parsing 0.007, content 0.166)\n"
+        }
+      },
+      "ArduinoLCD": {
+        "project": "ArduinoLCD",
+        "folios": {
+          "01_LCD 4 DATA": {
+            "inventory": {
+              "tags": {
+                "circle": 196,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 4,
+                "g": 819,
+                "path": 162,
+                "polyline": 84,
+                "rect": 90,
+                "svg": 1,
+                "text": 99,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#0055ff",
+                "#55aa00",
+                "#55aa7f",
+                "#55ff00",
+                "#ff0000",
+                "#ffaa00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 536
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 23
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "1,2",
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1458,
+              "dark_elements": 1458,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_LCD 4 DATA": {
+            "inventory": {
+              "tags": {
+                "circle": 37,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 4,
+                "g": 963,
+                "path": 176,
+                "polyline": 153,
+                "rect": 115,
+                "svg": 1,
+                "text": 133,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aaff",
+                "#55aaff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 485
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 36
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "1,2",
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1585,
+              "dark_elements": 1585,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_GEIGER": {
+            "inventory": {
+              "tags": {
+                "circle": 58,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 560,
+                "path": 115,
+                "polyline": 86,
+                "rect": 75,
+                "svg": 1,
+                "text": 41,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 335
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 15
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "1,2",
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 940,
+              "dark_elements": 940,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.271,
+          "svg_files": [
+            "01_LCD 4 DATA.svg",
+            "02_LCD 4 DATA.svg",
+            "03_GEIGER.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.198 seconds (elements collection 0.002, diagrams 0.195, terminal strips 0, refresh 0, database 0.001)\nProject \"ArduinoLCD.qet\" (167 KiB) opened in 0.211 seconds (xml parsing 0.011, content 0.2)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.273,
+          "svg_files": [
+            "01_LCD 4 DATA.svg",
+            "02_LCD 4 DATA.svg",
+            "03_GEIGER.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.196 seconds (elements collection 0.002, diagrams 0.193, terminal strips 0, refresh 0, database 0.001)\nProject \"ArduinoLCD.qet\" (167 KiB) opened in 0.208 seconds (xml parsing 0.011, content 0.197)\n"
+        }
+      },
+      "Habitat-Schemas_developpes": {
+        "project": "Habitat-Schemas_developpes",
+        "folios": {
+          "01_Eclairage en simple allumage": {
+            "inventory": {
+              "tags": {
+                "circle": 67,
+                "defs": 1,
+                "desc": 1,
+                "g": 807,
+                "path": 36,
+                "polyline": 80,
+                "rect": 59,
+                "svg": 1,
+                "text": 38,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aa00",
+                "#ff0000",
+                "#ff5500",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 242
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 15
+              },
+              "dash_patterns": [
+                "4,2,1,2",
+                "4,8"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1091,
+              "dark_elements": 1091,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Eclairage en double allumage": {
+            "inventory": {
+              "tags": {
+                "circle": 66,
+                "defs": 1,
+                "desc": 1,
+                "g": 850,
+                "path": 37,
+                "polyline": 84,
+                "rect": 61,
+                "svg": 1,
+                "text": 41,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aa00",
+                "#aa5500",
+                "#ff0000",
+                "#ff5500",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 248
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 15
+              },
+              "dash_patterns": [
+                "4,2,1,2",
+                "4,8"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1143,
+              "dark_elements": 1143,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Eclairage va et vient": {
+            "inventory": {
+              "tags": {
+                "circle": 72,
+                "defs": 1,
+                "desc": 1,
+                "g": 816,
+                "path": 38,
+                "polyline": 88,
+                "rect": 63,
+                "svg": 1,
+                "text": 38,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aa00",
+                "#aa5500",
+                "#ff0000",
+                "#ff5500",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 261
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 5
+              },
+              "dash_patterns": [
+                "4,8"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1119,
+              "dark_elements": 1119,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Eclairage via t_l_rupteur et BAES": {
+            "inventory": {
+              "tags": {
+                "circle": 118,
+                "defs": 1,
+                "desc": 1,
+                "g": 803,
+                "path": 35,
+                "polyline": 109,
+                "rect": 64,
+                "svg": 1,
+                "text": 41,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#aa5500",
+                "#ff0000",
+                "#ff5500",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 326
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 24
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2,1,2",
+                "4,8"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1174,
+              "dark_elements": 1174,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_Eclairage avec minuterie": {
+            "inventory": {
+              "tags": {
+                "circle": 128,
+                "defs": 1,
+                "desc": 1,
+                "g": 625,
+                "path": 29,
+                "polyline": 79,
+                "rect": 58,
+                "svg": 1,
+                "text": 37,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aa00",
+                "#aa00ff",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 294
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 22
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2",
+                "4,2,1,2",
+                "4,8"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 960,
+              "dark_elements": 960,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.367,
+          "svg_files": [
+            "01_Eclairage en simple allumage.svg",
+            "02_Eclairage en double allumage.svg",
+            "03_Eclairage va et vient.svg",
+            "04_Eclairage via t_l_rupteur et BAES.svg",
+            "05_Eclairage avec minuterie.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.265 seconds (elements collection 0, diagrams 0.255, terminal strips 0, refresh 0.002, database 0.008)\nProject \"Habitat-Schemas_developpes.qet\" (209 KiB) opened in 0.28 seconds (xml parsing 0.012, content 0.268)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.351,
+          "svg_files": [
+            "01_Eclairage en simple allumage.svg",
+            "02_Eclairage en double allumage.svg",
+            "03_Eclairage va et vient.svg",
+            "04_Eclairage via t_l_rupteur et BAES.svg",
+            "05_Eclairage avec minuterie.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.265 seconds (elements collection 0, diagrams 0.257, terminal strips 0, refresh 0.001, database 0.007)\nProject \"Habitat-Schemas_developpes.qet\" (209 KiB) opened in 0.281 seconds (xml parsing 0.012, content 0.269)\n"
+        }
+      },
+      "Habitat-Unifilaire": {
+        "project": "Habitat-Unifilaire",
+        "folios": {
+          "01_Tableau de r_partition des circuits - Cuisine et SB": {
+            "inventory": {
+              "tags": {
+                "circle": 289,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 4,
+                "g": 1534,
+                "path": 57,
+                "polyline": 274,
+                "rect": 95,
+                "svg": 1,
+                "text": 92,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 719
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 12
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2349,
+              "dark_elements": 2349,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.188,
+          "svg_files": [
+            "01_Tableau de r_partition des circuits - Cuisine et SB.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.129 seconds (elements collection 0.001, diagrams 0.124, terminal strips 0, refresh 0.001, database 0.003)\nProject \"Habitat-Unifilaire.qet\" (128 KiB) opened in 0.138 seconds (xml parsing 0.007, content 0.131)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.191,
+          "svg_files": [
+            "01_Tableau de r_partition des circuits - Cuisine et SB.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.136 seconds (elements collection 0.001, diagrams 0.131, terminal strips 0, refresh 0.001, database 0.003)\nProject \"Habitat-Unifilaire.qet\" (128 KiB) opened in 0.144 seconds (xml parsing 0.007, content 0.137)\n"
+        }
+      },
+      "Projet_vierge": {
+        "project": "Projet_vierge",
+        "folios": {
+          "01_PAGE DE GARDE": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 1111,
+                "image": 1,
+                "path": 121,
+                "polyline": 1,
+                "rect": 139,
+                "svg": 1,
+                "text": 194,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 261
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1571,
+              "dark_elements": 1571,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_ARRIVEE PUISSANCE": {
+            "inventory": {
+              "tags": {
+                "circle": 11,
+                "defs": 1,
+                "desc": 1,
+                "g": 638,
+                "image": 1,
+                "path": 21,
+                "polyline": 64,
+                "rect": 123,
+                "svg": 1,
+                "text": 76,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 219
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 9
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 938,
+              "dark_elements": 938,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_D_pats Moteurs": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 405,
+                "image": 1,
+                "path": 16,
+                "polyline": 32,
+                "rect": 114,
+                "svg": 1,
+                "text": 69,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 162
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 4
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 641,
+              "dark_elements": 641,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_BORNIER": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 705,
+                "image": 1,
+                "path": 11,
+                "rect": 148,
+                "svg": 1,
+                "text": 105,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 159
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 45
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 974,
+              "dark_elements": 974,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.354,
+          "svg_files": [
+            "01_PAGE DE GARDE.svg",
+            "02_ARRIVEE PUISSANCE.svg",
+            "03_D_pats Moteurs.svg",
+            "04_BORNIER.svg"
+          ],
+          "stderr_tail": "ic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nProject content built in 0.207 seconds (elements collection 0.007, diagrams 0.195, terminal strips 0, refresh 0.005, database 0)\nProject \"Projet_vierge.qet\" (589 KiB) opened in 0.245 seconds (xml parsing 0.031, content 0.214)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.355,
+          "svg_files": [
+            "01_PAGE DE GARDE.svg",
+            "02_ARRIVEE PUISSANCE.svg",
+            "03_D_pats Moteurs.svg",
+            "04_BORNIER.svg"
+          ],
+          "stderr_tail": "ic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nQFont::fromString: Invalid description 'Noto Serif,9,-1,5,50,1,0,0,0,0,Italic,9,-1,5,50,0,0,0,0,0,DemiBoldItalic'\nProject content built in 0.205 seconds (elements collection 0.007, diagrams 0.193, terminal strips 0, refresh 0.005, database 0)\nProject \"Projet_vierge.qet\" (589 KiB) opened in 0.244 seconds (xml parsing 0.031, content 0.213)\n"
+        }
+      },
+      "ShellyParts": {
+        "project": "ShellyParts",
+        "folios": {
+          "01_Shelly Gen 1": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 23,
+                "g": 532,
+                "path": 63,
+                "polyline": 124,
+                "rect": 70,
+                "svg": 1,
+                "text": 84,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#008000",
+                "#1e90ff",
+                "#c0c0c0",
+                "#d3d7cf",
+                "#ff0000",
+                "#ff4500",
+                "#ffd700",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 280
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 900,
+              "dark_elements": 900,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Shelly Plus Line": {
+            "inventory": {
+              "tags": {
+                "circle": 5,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 20,
+                "g": 426,
+                "path": 21,
+                "polyline": 137,
+                "rect": 59,
+                "svg": 1,
+                "text": 71,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#1e90ff",
+                "#4169e1",
+                "#4682b4",
+                "#729fcf",
+                "#808080",
+                "#8b0000",
+                "#babdb6",
+                "#c0c0c0",
+                "#d3d7cf",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 242
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 8
+              },
+              "dash_patterns": [
+                "1,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 743,
+              "dark_elements": 743,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Shelly Pro Line": {
+            "inventory": {
+              "tags": {
+                "circle": 58,
+                "defs": 1,
+                "desc": 1,
+                "g": 601,
+                "path": 50,
+                "polyline": 199,
+                "rect": 74,
+                "svg": 1,
+                "text": 59,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#008000",
+                "#4169e1",
+                "#4682b4",
+                "#708090",
+                "#87cefa",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 381
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1045,
+              "dark_elements": 1045,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.226,
+          "svg_files": [
+            "01_Shelly Gen 1.svg",
+            "02_Shelly Plus Line.svg",
+            "03_Shelly Pro Line.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.157 seconds (elements collection 0.003, diagrams 0.153, terminal strips 0, refresh 0, database 0.001)\nProject \"ShellyParts.qet\" (221 KiB) opened in 0.173 seconds (xml parsing 0.013, content 0.16)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.227,
+          "svg_files": [
+            "01_Shelly Gen 1.svg",
+            "02_Shelly Plus Line.svg",
+            "03_Shelly Pro Line.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.158 seconds (elements collection 0.003, diagrams 0.154, terminal strips 0, refresh 0, database 0.001)\nProject \"ShellyParts.qet\" (221 KiB) opened in 0.173 seconds (xml parsing 0.013, content 0.16)\n"
+        }
+      },
+      "affuteuse_250h": {
+        "project": "affuteuse_250h",
+        "folios": {
+          "01_page de garde": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 634,
+                "path": 46,
+                "polyline": 42,
+                "rect": 103,
+                "svg": 1,
+                "text": 106,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 191
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 935,
+              "dark_elements": 935,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Puissance": {
+            "inventory": {
+              "tags": {
+                "circle": 196,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 3,
+                "g": 3955,
+                "path": 141,
+                "polyline": 464,
+                "rect": 322,
+                "svg": 1,
+                "text": 304,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#808080",
+                "#c0c0c0",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1126
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 44
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 5389,
+              "dark_elements": 5389,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_General commande": {
+            "inventory": {
+              "tags": {
+                "circle": 50,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 2,
+                "g": 901,
+                "path": 32,
+                "polyline": 86,
+                "rect": 129,
+                "svg": 1,
+                "text": 97,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 299
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1301,
+              "dark_elements": 1301,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Preventa": {
+            "inventory": {
+              "tags": {
+                "circle": 57,
+                "defs": 1,
+                "desc": 1,
+                "g": 1403,
+                "path": 55,
+                "polyline": 189,
+                "rect": 157,
+                "svg": 1,
+                "text": 124,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 458
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 10
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1989,
+              "dark_elements": 1989,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_Commande": {
+            "inventory": {
+              "tags": {
+                "circle": 194,
+                "defs": 1,
+                "desc": 1,
+                "g": 2753,
+                "path": 102,
+                "polyline": 316,
+                "rect": 210,
+                "svg": 1,
+                "text": 198,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 822
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 21
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3777,
+              "dark_elements": 3777,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "06_Coffret de commande": {
+            "inventory": {
+              "tags": {
+                "circle": 24,
+                "defs": 1,
+                "desc": 1,
+                "g": 1584,
+                "path": 31,
+                "polyline": 136,
+                "rect": 155,
+                "svg": 1,
+                "text": 127,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 346
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 26
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2061,
+              "dark_elements": 2061,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "07_Signalisation defauts": {
+            "inventory": {
+              "tags": {
+                "circle": 78,
+                "defs": 1,
+                "desc": 1,
+                "g": 455,
+                "path": 19,
+                "polyline": 36,
+                "rect": 113,
+                "svg": 1,
+                "text": 77,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 246
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 782,
+              "dark_elements": 782,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "08_bornier puissance": {
+            "inventory": {
+              "tags": {
+                "circle": 148,
+                "defs": 1,
+                "desc": 1,
+                "g": 884,
+                "path": 47,
+                "polyline": 40,
+                "rect": 127,
+                "svg": 1,
+                "text": 81,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 362
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1331,
+              "dark_elements": 1331,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "09_bornier organes": {
+            "inventory": {
+              "tags": {
+                "circle": 453,
+                "defs": 1,
+                "desc": 1,
+                "g": 1185,
+                "path": 62,
+                "polyline": 56,
+                "rect": 143,
+                "svg": 1,
+                "text": 88,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 714
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1991,
+              "dark_elements": 1991,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "10_bornier pupitre": {
+            "inventory": {
+              "tags": {
+                "circle": 1609,
+                "defs": 1,
+                "desc": 1,
+                "g": 857,
+                "path": 50,
+                "polyline": 25,
+                "rect": 124,
+                "svg": 1,
+                "text": 81,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1808
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 2750,
+              "dark_elements": 2750,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "11_reserve": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 158,
+                "path": 11,
+                "rect": 103,
+                "svg": 1,
+                "text": 62,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 114
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 338,
+              "dark_elements": 338,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "12_nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 1913,
+                "path": 11,
+                "polyline": 71,
+                "rect": 103,
+                "svg": 1,
+                "text": 247,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 185
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 2349,
+              "dark_elements": 2349,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 1.471,
+          "svg_files": [
+            "01_page de garde.svg",
+            "02_Puissance.svg",
+            "03_General commande.svg",
+            "04_Preventa.svg",
+            "05_Commande.svg",
+            "06_Coffret de commande.svg",
+            "07_Signalisation defauts.svg",
+            "08_bornier puissance.svg",
+            "09_bornier organes.svg",
+            "10_bornier pupitre.svg",
+            "11_reserve.svg",
+            "12_nomenclature.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 1.147 seconds (elements collection 0.011, diagrams 1.066, terminal strips 0, refresh 0.051, database 0.019)\nProject \"affuteuse_250h.qet\" (1191 KiB) opened in 1.214 seconds (xml parsing 0.065, content 1.149)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 1.469,
+          "svg_files": [
+            "01_page de garde.svg",
+            "02_Puissance.svg",
+            "03_General commande.svg",
+            "04_Preventa.svg",
+            "05_Commande.svg",
+            "06_Coffret de commande.svg",
+            "07_Signalisation defauts.svg",
+            "08_bornier puissance.svg",
+            "09_bornier organes.svg",
+            "10_bornier pupitre.svg",
+            "11_reserve.svg",
+            "12_nomenclature.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 1.146 seconds (elements collection 0.01, diagrams 1.072, terminal strips 0, refresh 0.046, database 0.018)\nProject \"affuteuse_250h.qet\" (1191 KiB) opened in 1.214 seconds (xml parsing 0.066, content 1.148)\n"
+        }
+      },
+      "cablage-eclairages_sikli-v5": {
+        "project": "cablage-eclairages_sikli-v5",
+        "folios": {
+          "01_diagram": {
+            "inventory": {
+              "tags": {
+                "circle": 242,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 3020,
+                "path": 317,
+                "polyline": 452,
+                "rect": 199,
+                "svg": 1,
+                "text": 229
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#a0a0a4",
+                "#aa00ff",
+                "#ff0000",
+                "#ffaa00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1211
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 9
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 4463,
+              "dark_elements": 4463,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.304,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.221 seconds (elements collection 0.003, diagrams 0.214, terminal strips 0, refresh 0.001, database 0.003)\nProject \"cablage-eclairages_sikli-v5.qet\" (243 KiB) opened in 0.238 seconds (xml parsing 0.014, content 0.224)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.302,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.216 seconds (elements collection 0.002, diagrams 0.21, terminal strips 0, refresh 0.001, database 0.003)\nProject \"cablage-eclairages_sikli-v5.qet\" (243 KiB) opened in 0.233 seconds (xml parsing 0.014, content 0.219)\n"
+        }
+      },
+      "convertisseur": {
+        "project": "convertisseur",
+        "folios": {
+          "01_Page de garde": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 61,
+                "rect": 39,
+                "svg": 1,
+                "text": 33,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 39
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 137,
+              "dark_elements": 137,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Alimentation": {
+            "inventory": {
+              "tags": {
+                "circle": 69,
+                "defs": 1,
+                "desc": 1,
+                "g": 476,
+                "path": 12,
+                "polyline": 48,
+                "rect": 56,
+                "svg": 1,
+                "text": 54,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 185
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 719,
+              "dark_elements": 719,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Entr_e": {
+            "inventory": {
+              "tags": {
+                "circle": 62,
+                "defs": 1,
+                "desc": 1,
+                "g": 671,
+                "path": 17,
+                "polyline": 90,
+                "rect": 67,
+                "svg": 1,
+                "text": 57,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 236
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 16
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 968,
+              "dark_elements": 968,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Multiplicateur d_entr_e": {
+            "inventory": {
+              "tags": {
+                "circle": 434,
+                "defs": 1,
+                "desc": 1,
+                "g": 1444,
+                "path": 48,
+                "polyline": 198,
+                "rect": 105,
+                "svg": 1,
+                "text": 82,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 785
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 2315,
+              "dark_elements": 2315,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_Conversion": {
+            "inventory": {
+              "tags": {
+                "circle": 403,
+                "defs": 1,
+                "desc": 1,
+                "g": 2987,
+                "path": 79,
+                "polyline": 306,
+                "rect": 169,
+                "svg": 1,
+                "text": 171,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 957
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 4119,
+              "dark_elements": 4119,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "06_Sortie": {
+            "inventory": {
+              "tags": {
+                "circle": 68,
+                "defs": 1,
+                "desc": 1,
+                "g": 643,
+                "path": 29,
+                "polyline": 64,
+                "rect": 67,
+                "svg": 1,
+                "text": 56,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 228
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 931,
+              "dark_elements": 931,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "07_Bornier": {
+            "inventory": {
+              "tags": {
+                "circle": 60,
+                "defs": 1,
+                "desc": 1,
+                "g": 779,
+                "path": 52,
+                "polyline": 68,
+                "rect": 71,
+                "svg": 1,
+                "text": 66,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 251
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 16
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1100,
+              "dark_elements": 1100,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.605,
+          "svg_files": [
+            "01_Page de garde.svg",
+            "02_Alimentation.svg",
+            "03_Entr_e.svg",
+            "04_Multiplicateur d_entr_e.svg",
+            "05_Conversion.svg",
+            "06_Sortie.svg",
+            "07_Bornier.svg"
+          ],
+          "stderr_tail": "re.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nProject content built in 0.48 seconds (elements collection 0, diagrams 0.46, terminal strips 0, refresh 0.005, database 0.015)\nProject \"convertisseur.qet\" (331 KiB) opened in 0.502 seconds (xml parsing 0.019, content 0.483)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.589,
+          "svg_files": [
+            "01_Page de garde.svg",
+            "02_Alimentation.svg",
+            "03_Entr_e.svg",
+            "04_Multiplicateur d_entr_e.svg",
+            "05_Conversion.svg",
+            "06_Sortie.svg",
+            "07_Bornier.svg"
+          ],
+          "stderr_tail": ".elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://titre.elmt\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nno Match => return \"embed://bornier\"\nProject content built in 0.466 seconds (elements collection 0, diagrams 0.447, terminal strips 0, refresh 0.004, database 0.015)\nProject \"convertisseur.qet\" (331 KiB) opened in 0.488 seconds (xml parsing 0.019, content 0.469)\n"
+        }
+      },
+      "câblage-éclairages-sikli-v5": {
+        "project": "câblage-éclairages-sikli-v5",
+        "folios": {
+          "01_diagram": {
+            "inventory": {
+              "tags": {
+                "circle": 242,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 3020,
+                "path": 317,
+                "polyline": 452,
+                "rect": 199,
+                "svg": 1,
+                "text": 229
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#a0a0a4",
+                "#aa00ff",
+                "#ff0000",
+                "#ffaa00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1211
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 9
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 4463,
+              "dark_elements": 4463,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.3,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.22 seconds (elements collection 0.003, diagrams 0.213, terminal strips 0, refresh 0.001, database 0.003)\nProject \"câblage-éclairages-sikli-v5.qet\" (243 KiB) opened in 0.237 seconds (xml parsing 0.014, content 0.223)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.314,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.224 seconds (elements collection 0.002, diagrams 0.214, terminal strips 0, refresh 0.003, database 0.005)\nProject \"câblage-éclairages-sikli-v5.qet\" (243 KiB) opened in 0.241 seconds (xml parsing 0.014, content 0.227)\n"
+        }
+      },
+      "grafcet": {
+        "project": "grafcet",
+        "folios": {
+          "01_General": {
+            "inventory": {
+              "tags": {
+                "circle": 8,
+                "defs": 1,
+                "desc": 1,
+                "g": 598,
+                "path": 25,
+                "polyline": 34,
+                "rect": 63,
+                "svg": 1,
+                "text": 51,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 130
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 783,
+              "dark_elements": 783,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Macro 3": {
+            "inventory": {
+              "tags": {
+                "circle": 29,
+                "defs": 1,
+                "desc": 1,
+                "g": 799,
+                "path": 32,
+                "polyline": 44,
+                "rect": 64,
+                "svg": 1,
+                "text": 78,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 169
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1050,
+              "dark_elements": 1050,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Conditions": {
+            "inventory": {
+              "tags": {
+                "circle": 10,
+                "defs": 1,
+                "desc": 1,
+                "g": 448,
+                "path": 15,
+                "polyline": 33,
+                "rect": 49,
+                "svg": 1,
+                "text": 57,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 107
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 616,
+              "dark_elements": 616,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.217,
+          "svg_files": [
+            "01_General.svg",
+            "02_Macro 3.svg",
+            "03_Conditions.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.154 seconds (elements collection 0, diagrams 0.15, terminal strips 0, refresh 0.001, database 0.003)\nProject \"grafcet.qet\" (104 KiB) opened in 0.162 seconds (xml parsing 0.006, content 0.156)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.213,
+          "svg_files": [
+            "01_General.svg",
+            "02_Macro 3.svg",
+            "03_Conditions.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.154 seconds (elements collection 0, diagrams 0.15, terminal strips 0, refresh 0.001, database 0.003)\nProject \"grafcet.qet\" (104 KiB) opened in 0.162 seconds (xml parsing 0.006, content 0.156)\n"
+        }
+      },
+      "industrial": {
+        "project": "industrial",
+        "folios": {
+          "01_References Page": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 270,
+                "path": 35,
+                "polyline": 42,
+                "rect": 101,
+                "svg": 1,
+                "text": 73,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 178
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 525,
+              "dark_elements": 525,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Folio list 1": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 40,
+                "rect": 103,
+                "svg": 1,
+                "text": 223,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 143
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 461,
+              "dark_elements": 461,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Folio list 2": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 38,
+                "rect": 103,
+                "svg": 1,
+                "text": 212,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 141
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 448,
+              "dark_elements": 448,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Mains Power Supply": {
+            "inventory": {
+              "tags": {
+                "circle": 37,
+                "defs": 1,
+                "desc": 1,
+                "g": 1166,
+                "path": 35,
+                "polyline": 188,
+                "rect": 147,
+                "svg": 1,
+                "text": 145,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 407
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 13
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1722,
+              "dark_elements": 1722,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_Auxiliary Power Supply": {
+            "inventory": {
+              "tags": {
+                "circle": 39,
+                "defs": 1,
+                "desc": 1,
+                "g": 1139,
+                "path": 46,
+                "polyline": 126,
+                "rect": 144,
+                "svg": 1,
+                "text": 111,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 355
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 4
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1609,
+              "dark_elements": 1609,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "06_Emergency Stop Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 126,
+                "defs": 1,
+                "desc": 1,
+                "g": 1452,
+                "path": 50,
+                "polyline": 218,
+                "rect": 156,
+                "svg": 1,
+                "text": 155,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 550
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 5
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2161,
+              "dark_elements": 2161,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "07_Emergency Stop Power": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 563,
+                "path": 16,
+                "polyline": 53,
+                "rect": 122,
+                "svg": 1,
+                "text": 107,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 191
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 865,
+              "dark_elements": 865,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "08_VX Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 186,
+                "defs": 1,
+                "desc": 1,
+                "g": 866,
+                "path": 29,
+                "polyline": 90,
+                "rect": 138,
+                "svg": 1,
+                "text": 91,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 443
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1404,
+              "dark_elements": 1404,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "09_V1 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 100,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 589
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2674,
+              "dark_elements": 2674,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "10_V2 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 117,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 606
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2691,
+              "dark_elements": 2691,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "11_V3 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 113,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 602
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2687,
+              "dark_elements": 2687,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "12_V4 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 91,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 580
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2665,
+              "dark_elements": 2665,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "13_V5 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 119,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 608
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2693,
+              "dark_elements": 2693,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "14_V6 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 117,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1895,
+                "path": 88,
+                "polyline": 211,
+                "rect": 189,
+                "svg": 1,
+                "text": 186,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 606
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2691,
+              "dark_elements": 2691,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "15_V7 Gate Control Circuit": {
+            "inventory": {
+              "tags": {
+                "circle": 107,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 1,
+                "g": 1814,
+                "path": 85,
+                "polyline": 202,
+                "rect": 186,
+                "svg": 1,
+                "text": 183,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 581
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2582,
+              "dark_elements": 2582,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "16_A0 PLC Layout": {
+            "inventory": {
+              "tags": {
+                "circle": 63,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 3,
+                "g": 3435,
+                "path": 121,
+                "polyline": 2444,
+                "rect": 132,
+                "svg": 1,
+                "text": 350,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 2763
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 6552,
+              "dark_elements": 6552,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "17_A0 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 5,
+                "defs": 1,
+                "desc": 1,
+                "g": 448,
+                "path": 23,
+                "polyline": 61,
+                "rect": 119,
+                "svg": 1,
+                "text": 86,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 208
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 8
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 746,
+              "dark_elements": 746,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "18_A0 Output Module": {
+            "inventory": {
+              "tags": {
+                "circle": 12,
+                "defs": 1,
+                "desc": 1,
+                "g": 342,
+                "path": 27,
+                "polyline": 46,
+                "rect": 116,
+                "svg": 1,
+                "text": 79,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 201
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 626,
+              "dark_elements": 626,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "19_A1_1 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 70,
+                "defs": 1,
+                "desc": 1,
+                "g": 671,
+                "path": 29,
+                "polyline": 65,
+                "rect": 123,
+                "svg": 1,
+                "text": 101,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 287
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1063,
+              "dark_elements": 1063,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "20_A1_2 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 74,
+                "defs": 1,
+                "desc": 1,
+                "g": 689,
+                "path": 32,
+                "polyline": 68,
+                "rect": 124,
+                "svg": 1,
+                "text": 102,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 298
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1093,
+              "dark_elements": 1093,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "21_A1 Output Module": {
+            "inventory": {
+              "tags": {
+                "circle": 235,
+                "defs": 1,
+                "desc": 1,
+                "g": 910,
+                "path": 51,
+                "polyline": 110,
+                "rect": 132,
+                "svg": 1,
+                "text": 115,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 528
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1557,
+              "dark_elements": 1557,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "22_A2_1 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 94,
+                "defs": 1,
+                "desc": 1,
+                "g": 671,
+                "path": 29,
+                "polyline": 65,
+                "rect": 123,
+                "svg": 1,
+                "text": 101,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 311
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1087,
+              "dark_elements": 1087,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "23_A2_2 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 98,
+                "defs": 1,
+                "desc": 1,
+                "g": 689,
+                "path": 32,
+                "polyline": 68,
+                "rect": 124,
+                "svg": 1,
+                "text": 102,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 322
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1117,
+              "dark_elements": 1117,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "24_A2 Output Module": {
+            "inventory": {
+              "tags": {
+                "circle": 235,
+                "defs": 1,
+                "desc": 1,
+                "g": 910,
+                "path": 51,
+                "polyline": 110,
+                "rect": 132,
+                "svg": 1,
+                "text": 115,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 528
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1557,
+              "dark_elements": 1557,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "25_A3_1 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 94,
+                "defs": 1,
+                "desc": 1,
+                "g": 671,
+                "path": 29,
+                "polyline": 65,
+                "rect": 123,
+                "svg": 1,
+                "text": 101,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 311
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1087,
+              "dark_elements": 1087,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "26_A3_2 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 86,
+                "defs": 1,
+                "desc": 1,
+                "g": 689,
+                "path": 32,
+                "polyline": 68,
+                "rect": 124,
+                "svg": 1,
+                "text": 102,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 310
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1105,
+              "dark_elements": 1105,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "27_A3 Output Module": {
+            "inventory": {
+              "tags": {
+                "circle": 245,
+                "defs": 1,
+                "desc": 1,
+                "g": 910,
+                "path": 51,
+                "polyline": 110,
+                "rect": 132,
+                "svg": 1,
+                "text": 115,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 538
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1567,
+              "dark_elements": 1567,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "28_A4_1 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 82,
+                "defs": 1,
+                "desc": 1,
+                "g": 671,
+                "path": 29,
+                "polyline": 65,
+                "rect": 123,
+                "svg": 1,
+                "text": 101,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 299
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1075,
+              "dark_elements": 1075,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "29_A4_2 Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 4,
+                "defs": 1,
+                "desc": 1,
+                "g": 321,
+                "path": 22,
+                "polyline": 40,
+                "rect": 114,
+                "svg": 1,
+                "text": 78,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 180
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 583,
+              "dark_elements": 583,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "30_A4 Output Module": {
+            "inventory": {
+              "tags": {
+                "circle": 73,
+                "defs": 1,
+                "desc": 1,
+                "g": 626,
+                "path": 39,
+                "polyline": 78,
+                "rect": 124,
+                "svg": 1,
+                "text": 97,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 314
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1041,
+              "dark_elements": 1041,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "31_A5_1 Ana Input Module": {
+            "inventory": {
+              "tags": {
+                "circle": 4,
+                "defs": 1,
+                "desc": 1,
+                "g": 582,
+                "path": 31,
+                "polyline": 66,
+                "rect": 122,
+                "svg": 1,
+                "text": 92,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 223
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 901,
+              "dark_elements": 901,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "32_A5_2 Ana Input Module": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 527,
+                "path": 29,
+                "polyline": 55,
+                "rect": 119,
+                "svg": 1,
+                "text": 93,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 203
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 827,
+              "dark_elements": 827,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "33_TB1 Terminal Bord": {
+            "inventory": {
+              "tags": {
+                "circle": 26,
+                "defs": 1,
+                "desc": 1,
+                "g": 1400,
+                "path": 52,
+                "polyline": 152,
+                "rect": 162,
+                "svg": 1,
+                "text": 196,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 392
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1992,
+              "dark_elements": 1992,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "34_TB2 Terminal Bord": {
+            "inventory": {
+              "tags": {
+                "circle": 28,
+                "defs": 1,
+                "desc": 1,
+                "g": 1217,
+                "path": 52,
+                "polyline": 172,
+                "rect": 157,
+                "svg": 1,
+                "text": 193,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 409
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1823,
+              "dark_elements": 1823,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "35_TB3 Terminal Bord": {
+            "inventory": {
+              "tags": {
+                "circle": 21,
+                "defs": 1,
+                "desc": 1,
+                "g": 795,
+                "path": 39,
+                "polyline": 120,
+                "rect": 137,
+                "svg": 1,
+                "text": 154,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 317
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1270,
+              "dark_elements": 1270,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "36_TB4 Terminal Bord": {
+            "inventory": {
+              "tags": {
+                "circle": 14,
+                "defs": 1,
+                "desc": 1,
+                "g": 1004,
+                "path": 31,
+                "polyline": 105,
+                "rect": 143,
+                "svg": 1,
+                "text": 147,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 293
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1448,
+              "dark_elements": 1448,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "37_TB5 Terminal Bord": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 81,
+                "rect": 101,
+                "svg": 1,
+                "text": 61,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 101
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 247,
+              "dark_elements": 247,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "38_PB1 Panel Front View": {
+            "inventory": {
+              "tags": {
+                "circle": 11,
+                "defs": 1,
+                "desc": 1,
+                "g": 279,
+                "path": 16,
+                "polyline": 16,
+                "rect": 106,
+                "svg": 1,
+                "text": 85,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#e8e8e8",
+                "#f9f9f9",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 149
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 517,
+              "dark_elements": 517,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "39_PB2 Panel Front View": {
+            "inventory": {
+              "tags": {
+                "circle": 56,
+                "defs": 1,
+                "desc": 1,
+                "g": 985,
+                "path": 42,
+                "polyline": 63,
+                "rect": 103,
+                "svg": 1,
+                "text": 124,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#e8e8e8",
+                "#f9f9f9",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 264
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1377,
+              "dark_elements": 1377,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "40_CX1 Modbus TCP": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 3,
+                "g": 829,
+                "path": 58,
+                "polyline": 68,
+                "rect": 120,
+                "svg": 1,
+                "text": 113,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 249
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1195,
+              "dark_elements": 1195,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "41_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 38,
+                "rect": 103,
+                "svg": 1,
+                "text": 195,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 141
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 431,
+              "dark_elements": 431,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "42_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 38,
+                "rect": 103,
+                "svg": 1,
+                "text": 215,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 141
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 451,
+              "dark_elements": 451,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "43_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 36,
+                "rect": 103,
+                "svg": 1,
+                "text": 211,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 139
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 445,
+              "dark_elements": 445,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "44_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "45_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "46_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "47_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "48_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "49_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "50_Nomenclature": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 91,
+                "polyline": 12,
+                "rect": 103,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#c0c0c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 115
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 277,
+              "dark_elements": 277,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 4.102,
+          "svg_files": [
+            "01_References Page.svg",
+            "02_Folio list 1.svg",
+            "03_Folio list 2.svg",
+            "04_Mains Power Supply.svg",
+            "05_Auxiliary Power Supply.svg",
+            "06_Emergency Stop Circuit.svg",
+            "07_Emergency Stop Power.svg",
+            "08_VX Gate Control Circuit.svg",
+            "09_V1 Gate Control Circuit.svg",
+            "10_V2 Gate Control Circuit.svg",
+            "11_V3 Gate Control Circuit.svg",
+            "12_V4 Gate Control Circuit.svg",
+            "13_V5 Gate Control Circuit.svg",
+            "14_V6 Gate Control Circuit.svg",
+            "15_V7 Gate Control Circuit.svg",
+            "16_A0 PLC Layout.svg",
+            "17_A0 Input Module.svg",
+            "18_A0 Output Module.svg",
+            "19_A1_1 Input Module.svg",
+            "20_A1_2 Input Module.svg",
+            "21_A1 Output Module.svg",
+            "22_A2_1 Input Module.svg",
+            "23_A2_2 Input Module.svg",
+            "24_A2 Output Module.svg",
+            "25_A3_1 Input Module.svg",
+            "26_A3_2 Input Module.svg",
+            "27_A3 Output Module.svg",
+            "28_A4_1 Input Module.svg",
+            "29_A4_2 Input Module.svg",
+            "30_A4 Output Module.svg",
+            "31_A5_1 Ana Input Module.svg",
+            "32_A5_2 Ana Input Module.svg",
+            "33_TB1 Terminal Bord.svg",
+            "34_TB2 Terminal Bord.svg",
+            "35_TB3 Terminal Bord.svg",
+            "36_TB4 Terminal Bord.svg",
+            "37_TB5 Terminal Bord.svg",
+            "38_PB1 Panel Front View.svg",
+            "39_PB2 Panel Front View.svg",
+            "40_CX1 Modbus TCP.svg",
+            "41_Nomenclature.svg",
+            "42_Nomenclature.svg",
+            "43_Nomenclature.svg",
+            "44_Nomenclature.svg",
+            "45_Nomenclature.svg",
+            "46_Nomenclature.svg",
+            "47_Nomenclature.svg",
+            "48_Nomenclature.svg",
+            "49_Nomenclature.svg",
+            "50_Nomenclature.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 3.203 seconds (elements collection 0.019, diagrams 2.736, terminal strips 0, refresh 0.355, database 0.093)\nProject \"industrial.qet\" (2557 KiB) opened in 3.351 seconds (xml parsing 0.142, content 3.209)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 4.054,
+          "svg_files": [
+            "01_References Page.svg",
+            "02_Folio list 1.svg",
+            "03_Folio list 2.svg",
+            "04_Mains Power Supply.svg",
+            "05_Auxiliary Power Supply.svg",
+            "06_Emergency Stop Circuit.svg",
+            "07_Emergency Stop Power.svg",
+            "08_VX Gate Control Circuit.svg",
+            "09_V1 Gate Control Circuit.svg",
+            "10_V2 Gate Control Circuit.svg",
+            "11_V3 Gate Control Circuit.svg",
+            "12_V4 Gate Control Circuit.svg",
+            "13_V5 Gate Control Circuit.svg",
+            "14_V6 Gate Control Circuit.svg",
+            "15_V7 Gate Control Circuit.svg",
+            "16_A0 PLC Layout.svg",
+            "17_A0 Input Module.svg",
+            "18_A0 Output Module.svg",
+            "19_A1_1 Input Module.svg",
+            "20_A1_2 Input Module.svg",
+            "21_A1 Output Module.svg",
+            "22_A2_1 Input Module.svg",
+            "23_A2_2 Input Module.svg",
+            "24_A2 Output Module.svg",
+            "25_A3_1 Input Module.svg",
+            "26_A3_2 Input Module.svg",
+            "27_A3 Output Module.svg",
+            "28_A4_1 Input Module.svg",
+            "29_A4_2 Input Module.svg",
+            "30_A4 Output Module.svg",
+            "31_A5_1 Ana Input Module.svg",
+            "32_A5_2 Ana Input Module.svg",
+            "33_TB1 Terminal Bord.svg",
+            "34_TB2 Terminal Bord.svg",
+            "35_TB3 Terminal Bord.svg",
+            "36_TB4 Terminal Bord.svg",
+            "37_TB5 Terminal Bord.svg",
+            "38_PB1 Panel Front View.svg",
+            "39_PB2 Panel Front View.svg",
+            "40_CX1 Modbus TCP.svg",
+            "41_Nomenclature.svg",
+            "42_Nomenclature.svg",
+            "43_Nomenclature.svg",
+            "44_Nomenclature.svg",
+            "45_Nomenclature.svg",
+            "46_Nomenclature.svg",
+            "47_Nomenclature.svg",
+            "48_Nomenclature.svg",
+            "49_Nomenclature.svg",
+            "50_Nomenclature.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 3.165 seconds (elements collection 0.02, diagrams 2.719, terminal strips 0, refresh 0.337, database 0.089)\nProject \"industrial.qet\" (2557 KiB) opened in 3.307 seconds (xml parsing 0.135, content 3.172)\n"
+        }
+      },
+      "iso_sfc_example": {
+        "project": "iso_sfc_example",
+        "folios": {
+          "01_main loop": {
+            "inventory": {
+              "tags": {
+                "circle": 18,
+                "defs": 1,
+                "desc": 1,
+                "g": 1560,
+                "path": 60,
+                "polyline": 92,
+                "rect": 131,
+                "svg": 1,
+                "text": 111,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aa00",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 301
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1976,
+              "dark_elements": 1976,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_macros and enclosed": {
+            "inventory": {
+              "tags": {
+                "circle": 15,
+                "defs": 1,
+                "desc": 1,
+                "g": 1379,
+                "path": 53,
+                "polyline": 71,
+                "rect": 119,
+                "svg": 1,
+                "text": 113,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 258
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1754,
+              "dark_elements": 1754,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.332,
+          "svg_files": [
+            "01_main loop.svg",
+            "02_macros and enclosed.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nqt.svg: <input>:426:6: Could not resolve property: #pattern6406\nqt.svg: <input>:426:6: Could not resolve property: #pattern4489\nqt.svg: <input>:426:6: Could not resolve property: #pattern5149\nis QRegularExpression ok?\nProject content built in 0.249 seconds (elements collection 0, diagrams 0.242, terminal strips 0, refresh 0.003, database 0.004)\nProject \"iso_sfc_example.qet\" (585 KiB) opened in 0.268 seconds (xml parsing 0.017, content 0.251)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.331,
+          "svg_files": [
+            "01_main loop.svg",
+            "02_macros and enclosed.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nqt.svg: <input>:426:6: Could not resolve property: #pattern6406\nqt.svg: <input>:426:6: Could not resolve property: #pattern4489\nqt.svg: <input>:426:6: Could not resolve property: #pattern5149\nis QRegularExpression ok?\nProject content built in 0.247 seconds (elements collection 0, diagrams 0.24, terminal strips 0, refresh 0.003, database 0.004)\nProject \"iso_sfc_example.qet\" (585 KiB) opened in 0.267 seconds (xml parsing 0.018, content 0.249)\n"
+        }
+      },
+      "lmdg": {
+        "project": "lmdg",
+        "folios": {
+          "01_LMDG": {
+            "inventory": {
+              "tags": {
+                "circle": 470,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 6,
+                "g": 3656,
+                "path": 106,
+                "polyline": 615,
+                "rect": 151,
+                "svg": 1,
+                "text": 180,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1348
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 19
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 5188,
+              "dark_elements": 5188,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.418,
+          "svg_files": [
+            "01_LMDG.svg"
+          ],
+          "stderr_tail": "m\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nProject content built in 0.332 seconds (elements collection 0.001, diagrams 0.317, terminal strips 0, refresh 0.002, database 0.012)\nProject \"lmdg.qet\" (241 KiB) opened in 0.347 seconds (xml parsing 0.013, content 0.334)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.413,
+          "svg_files": [
+            "01_LMDG.svg"
+          ],
+          "stderr_tail": "em\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nno Match => return \"embed://k_elem\"\nProject content built in 0.33 seconds (elements collection 0.001, diagrams 0.317, terminal strips 0, refresh 0.001, database 0.011)\nProject \"lmdg.qet\" (241 KiB) opened in 0.345 seconds (xml parsing 0.013, content 0.332)\n"
+        }
+      },
+      "m_000": {
+        "project": "m_000",
+        "folios": {
+          "01_Machine no 000 - page de titre": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 44,
+                "image": 2,
+                "rect": 15,
+                "svg": 1,
+                "text": 7,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#000080",
+                "#0000c0",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 15
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 72,
+              "dark_elements": 72,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Machine no 000 - alimentation 230_400V AC": {
+            "inventory": {
+              "tags": {
+                "circle": 89,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 3,
+                "g": 2052,
+                "image": 1,
+                "path": 50,
+                "polyline": 177,
+                "rect": 108,
+                "svg": 1,
+                "text": 116,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 427
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 7
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2600,
+              "dark_elements": 2600,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Machine no 000 - alimentation 24V DC": {
+            "inventory": {
+              "tags": {
+                "circle": 26,
+                "defs": 1,
+                "desc": 1,
+                "g": 872,
+                "image": 1,
+                "path": 20,
+                "polyline": 49,
+                "rect": 67,
+                "svg": 1,
+                "text": 68,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 162
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1107,
+              "dark_elements": 1107,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Machine no 000 - circuit de s_curit_": {
+            "inventory": {
+              "tags": {
+                "circle": 91,
+                "defs": 1,
+                "desc": 1,
+                "g": 3042,
+                "image": 1,
+                "path": 55,
+                "polyline": 223,
+                "rect": 133,
+                "svg": 1,
+                "text": 176,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 502
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 8
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3725,
+              "dark_elements": 3725,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_Machine no 000 - circuit de s_curit_": {
+            "inventory": {
+              "tags": {
+                "circle": 112,
+                "defs": 1,
+                "desc": 1,
+                "g": 2808,
+                "path": 55,
+                "polyline": 224,
+                "rect": 127,
+                "svg": 1,
+                "text": 159,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 518
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 6
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3489,
+              "dark_elements": 3489,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "06_Machine no 000 - circuit principal": {
+            "inventory": {
+              "tags": {
+                "circle": 29,
+                "defs": 1,
+                "desc": 1,
+                "g": 1895,
+                "path": 51,
+                "polyline": 171,
+                "rect": 96,
+                "svg": 1,
+                "text": 117,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 347
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 10
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2363,
+              "dark_elements": 2363,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "07_Machine no 000 - plateau tournant_": {
+            "inventory": {
+              "tags": {
+                "circle": 47,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 3,
+                "g": 956,
+                "image": 1,
+                "path": 13,
+                "polyline": 79,
+                "rect": 75,
+                "svg": 1,
+                "text": 73,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 217
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 3
+              },
+              "dash_patterns": [
+                "1,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1251,
+              "dark_elements": 1251,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "08_Machine no 000 - entr_es analogiques": {
+            "inventory": {
+              "tags": {
+                "circle": 10,
+                "defs": 1,
+                "desc": 1,
+                "g": 663,
+                "image": 1,
+                "path": 2,
+                "polyline": 31,
+                "rect": 54,
+                "svg": 1,
+                "text": 78,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 97
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 843,
+              "dark_elements": 843,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "09_Machine no 000 - entr_es_sorties analogiques": {
+            "inventory": {
+              "tags": {
+                "circle": 20,
+                "defs": 1,
+                "desc": 1,
+                "g": 996,
+                "image": 1,
+                "path": 10,
+                "polyline": 48,
+                "rect": 67,
+                "svg": 1,
+                "text": 89,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 145
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1235,
+              "dark_elements": 1235,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "10_Machine no 000 - entr_es num_riques": {
+            "inventory": {
+              "tags": {
+                "circle": 151,
+                "defs": 1,
+                "desc": 1,
+                "g": 2180,
+                "image": 1,
+                "path": 57,
+                "polyline": 140,
+                "rect": 110,
+                "svg": 1,
+                "text": 137,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 458
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2780,
+              "dark_elements": 2780,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "11_Machine no 000 - entr_es num_riques": {
+            "inventory": {
+              "tags": {
+                "circle": 335,
+                "defs": 1,
+                "desc": 1,
+                "g": 2671,
+                "image": 1,
+                "path": 84,
+                "polyline": 185,
+                "rect": 128,
+                "svg": 1,
+                "text": 157,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 732
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 3565,
+              "dark_elements": 3565,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "12_Machine no 000 - entr_es num_riques": {
+            "inventory": {
+              "tags": {
+                "circle": 126,
+                "defs": 1,
+                "desc": 1,
+                "g": 2114,
+                "image": 1,
+                "path": 37,
+                "polyline": 127,
+                "rect": 102,
+                "svg": 1,
+                "text": 133,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 392
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 11
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2644,
+              "dark_elements": 2644,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "13_Machine no 000 - sorties num_riques": {
+            "inventory": {
+              "tags": {
+                "circle": 54,
+                "defs": 1,
+                "desc": 1,
+                "g": 1549,
+                "image": 1,
+                "path": 23,
+                "polyline": 92,
+                "rect": 87,
+                "svg": 1,
+                "text": 108,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 256
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1918,
+              "dark_elements": 1918,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "14_Machine no 000 - sorties num_riques": {
+            "inventory": {
+              "tags": {
+                "circle": 139,
+                "defs": 1,
+                "desc": 1,
+                "g": 2120,
+                "image": 1,
+                "path": 36,
+                "polyline": 130,
+                "rect": 104,
+                "svg": 1,
+                "text": 128,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 409
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 5
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 2662,
+              "dark_elements": 2662,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "15_Machine no 000 - OP_ CPU_": {
+            "inventory": {
+              "tags": {
+                "circle": 31,
+                "defs": 1,
+                "desc": 1,
+                "g": 1096,
+                "image": 1,
+                "path": 20,
+                "polyline": 82,
+                "rect": 70,
+                "svg": 1,
+                "text": 82,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 203
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1386,
+              "dark_elements": 1386,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "16_Machine no 000 - configuration mat_rielle": {
+            "inventory": {
+              "tags": {
+                "circle": 166,
+                "defs": 1,
+                "desc": 1,
+                "g": 716,
+                "image": 1,
+                "path": 73,
+                "polyline": 226,
+                "rect": 22,
+                "svg": 1,
+                "text": 118,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 487
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1326,
+              "dark_elements": 1326,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "17_Machine no 000 - OP": {
+            "inventory": {
+              "tags": {
+                "circle": 26,
+                "defs": 1,
+                "desc": 1,
+                "g": 527,
+                "image": 1,
+                "path": 75,
+                "polyline": 81,
+                "rect": 27,
+                "svg": 1,
+                "text": 67,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 209
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 808,
+              "dark_elements": 808,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "18_Machine no 000 - installation pneumatique": {
+            "inventory": {
+              "tags": {
+                "circle": 12,
+                "defs": 1,
+                "desc": 1,
+                "g": 817,
+                "image": 1,
+                "path": 37,
+                "polyline": 357,
+                "rect": 52,
+                "svg": 1,
+                "text": 57,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 458
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 1337,
+              "dark_elements": 1337,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "19_Machine no 000 - installation pneumatique": {
+            "inventory": {
+              "tags": {
+                "circle": 238,
+                "defs": 1,
+                "desc": 1,
+                "g": 2167,
+                "image": 1,
+                "path": 114,
+                "polyline": 506,
+                "rect": 99,
+                "svg": 1,
+                "text": 127,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 957
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 4
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3256,
+              "dark_elements": 3256,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 3.242,
+          "svg_files": [
+            "01_Machine no 000 - page de titre.svg",
+            "02_Machine no 000 - alimentation 230_400V AC.svg",
+            "03_Machine no 000 - alimentation 24V DC.svg",
+            "04_Machine no 000 - circuit de s_curit_.svg",
+            "05_Machine no 000 - circuit de s_curit_.svg",
+            "06_Machine no 000 - circuit principal.svg",
+            "07_Machine no 000 - plateau tournant_.svg",
+            "08_Machine no 000 - entr_es analogiques.svg",
+            "09_Machine no 000 - entr_es_sorties analogiques.svg",
+            "10_Machine no 000 - entr_es num_riques.svg",
+            "11_Machine no 000 - entr_es num_riques.svg",
+            "12_Machine no 000 - entr_es num_riques.svg",
+            "13_Machine no 000 - sorties num_riques.svg",
+            "14_Machine no 000 - sorties num_riques.svg",
+            "15_Machine no 000 - OP_ CPU_.svg",
+            "16_Machine no 000 - configuration mat_rielle.svg",
+            "17_Machine no 000 - OP.svg",
+            "18_Machine no 000 - installation pneumatique.svg",
+            "19_Machine no 000 - installation pneumatique.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nno Match => return \"embed://nowy_element.elmt\"\nno Match => return \"embed://nowy_element.elmt\"\nno Match => return \"embed://ekran.elmt\"\nno Match => return \"embed://ekran.elmt\"\nElementData::slaveTypeFromSting : string  \"\"  don't exist, return failsafe value 'simple'\nno Match => return \"embed://zamek.elmt\"\nno Match => return \"embed://zamek.elmt\"\nProject content built in 2.512 seconds (elements collection 0.011, diagrams 2.356, terminal strips 0, refresh 0.074, database 0.071)\nProject \"m_000.qet\" (1874 KiB) opened in 2.614 seconds (xml parsing 0.099, content 2.515)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 3.235,
+          "svg_files": [
+            "01_Machine no 000 - page de titre.svg",
+            "02_Machine no 000 - alimentation 230_400V AC.svg",
+            "03_Machine no 000 - alimentation 24V DC.svg",
+            "04_Machine no 000 - circuit de s_curit_.svg",
+            "05_Machine no 000 - circuit de s_curit_.svg",
+            "06_Machine no 000 - circuit principal.svg",
+            "07_Machine no 000 - plateau tournant_.svg",
+            "08_Machine no 000 - entr_es analogiques.svg",
+            "09_Machine no 000 - entr_es_sorties analogiques.svg",
+            "10_Machine no 000 - entr_es num_riques.svg",
+            "11_Machine no 000 - entr_es num_riques.svg",
+            "12_Machine no 000 - entr_es num_riques.svg",
+            "13_Machine no 000 - sorties num_riques.svg",
+            "14_Machine no 000 - sorties num_riques.svg",
+            "15_Machine no 000 - OP_ CPU_.svg",
+            "16_Machine no 000 - configuration mat_rielle.svg",
+            "17_Machine no 000 - OP.svg",
+            "18_Machine no 000 - installation pneumatique.svg",
+            "19_Machine no 000 - installation pneumatique.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nno Match => return \"embed://nowy_element.elmt\"\nno Match => return \"embed://nowy_element.elmt\"\nno Match => return \"embed://ekran.elmt\"\nno Match => return \"embed://ekran.elmt\"\nElementData::slaveTypeFromSting : string  \"\"  don't exist, return failsafe value 'simple'\nno Match => return \"embed://zamek.elmt\"\nno Match => return \"embed://zamek.elmt\"\nProject content built in 2.485 seconds (elements collection 0.011, diagrams 2.33, terminal strips 0, refresh 0.074, database 0.07)\nProject \"m_000.qet\" (1874 KiB) opened in 2.589 seconds (xml parsing 0.1, content 2.489)\n"
+        }
+      },
+      "perceuse": {
+        "project": "perceuse",
+        "folios": {
+          "01_Descriptif": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 24,
+                "image": 1,
+                "rect": 39,
+                "svg": 1,
+                "text": 30,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 39
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 98,
+              "dark_elements": 98,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_Fa_ade Armoire": {
+            "inventory": {
+              "tags": {
+                "circle": 53,
+                "defs": 1,
+                "desc": 1,
+                "g": 1081,
+                "path": 16,
+                "polyline": 190,
+                "rect": 77,
+                "svg": 1,
+                "text": 107,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#a0a0a4",
+                "#c0c0c0",
+                "#c6c6c6",
+                "#ff0000",
+                "#ff00ff",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 336
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 2
+              },
+              "dash_patterns": [
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1528,
+              "dark_elements": 1528,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_Sch_ma Electrique": {
+            "inventory": {
+              "tags": {
+                "circle": 587,
+                "defs": 1,
+                "desc": 1,
+                "g": 7163,
+                "path": 197,
+                "polyline": 1120,
+                "rect": 382,
+                "svg": 1,
+                "text": 513,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#a3a3a3",
+                "#d5d5d5",
+                "#ff0000",
+                "#ff00ff",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 2286
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 47
+              },
+              "dash_patterns": [
+                "2,1",
+                "2,1,0.5,1",
+                "4,2",
+                "4,2,1,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 9966,
+              "dark_elements": 9966,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_Implantation Armoire": {
+            "inventory": {
+              "tags": {
+                "circle": 464,
+                "defs": 1,
+                "desc": 1,
+                "g": 14177,
+                "path": 2237,
+                "polyline": 2168,
+                "rect": 486,
+                "svg": 1,
+                "text": 753,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ff00",
+                "#612c00",
+                "#881ca8",
+                "#a0a0a4",
+                "#c0c0c0",
+                "#d6d6d6",
+                "#ff0000",
+                "#ff00ff",
+                "#ff8000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 5355
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 20289,
+              "dark_elements": 20289,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 2.154,
+          "svg_files": [
+            "01_Descriptif.svg",
+            "02_Fa_ade Armoire.svg",
+            "03_Sch_ma Electrique.svg",
+            "04_Implantation Armoire.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 1.736 seconds (elements collection 0.014, diagrams 1.641, terminal strips 0, refresh 0.018, database 0.063)\nProject \"perceuse.qet\" (1763 KiB) opened in 1.83 seconds (xml parsing 0.09, content 1.74)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 2.165,
+          "svg_files": [
+            "01_Descriptif.svg",
+            "02_Fa_ade Armoire.svg",
+            "03_Sch_ma Electrique.svg",
+            "04_Implantation Armoire.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 1.743 seconds (elements collection 0.015, diagrams 1.657, terminal strips 0, refresh 0.018, database 0.053)\nProject \"perceuse.qet\" (1763 KiB) opened in 1.837 seconds (xml parsing 0.091, content 1.746)\n"
+        }
+      },
+      "photovoltaique": {
+        "project": "photovoltaique",
+        "folios": {
+          "01_SCHEMA UNIFILAIRE PHOTOVOLTA_QUE": {
+            "inventory": {
+              "tags": {
+                "circle": 112,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 12,
+                "g": 3552,
+                "path": 155,
+                "polyline": 558,
+                "rect": 220,
+                "svg": 1,
+                "text": 117,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aaff",
+                "#00ff00",
+                "#00ffff",
+                "#55aaff",
+                "#55ffff",
+                "#aa00ff",
+                "#aa55ff",
+                "#ff0000",
+                "#ff7903",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1057
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 99
+              },
+              "dash_patterns": [
+                "12,24",
+                "15,30",
+                "16,32",
+                "16,8",
+                "2,1",
+                "3,6",
+                "6,12",
+                "8,4,2,4",
+                "9,18"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 4730,
+              "dark_elements": 4730,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.357,
+          "svg_files": [
+            "01_SCHEMA UNIFILAIRE PHOTOVOLTA_QUE.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.243 seconds (elements collection 0.009, diagrams 0.226, terminal strips 0, refresh 0.002, database 0.006)\nProject \"photovoltaique.qet\" (741 KiB) opened in 0.285 seconds (xml parsing 0.04, content 0.245)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.356,
+          "svg_files": [
+            "01_SCHEMA UNIFILAIRE PHOTOVOLTA_QUE.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.237 seconds (elements collection 0.009, diagrams 0.22, terminal strips 0, refresh 0.002, database 0.006)\nProject \"photovoltaique.qet\" (741 KiB) opened in 0.279 seconds (xml parsing 0.039, content 0.24)\n"
+        }
+      },
+      "pinball_williams_em": {
+        "project": "pinball_williams_em",
+        "folios": {
+          "01_Example page for Williams EM Schematic Symbols": {
+            "inventory": {
+              "tags": {
+                "circle": 83,
+                "defs": 1,
+                "desc": 1,
+                "g": 3459,
+                "path": 153,
+                "polyline": 711,
+                "rect": 334,
+                "svg": 1,
+                "text": 89,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1281
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 4833,
+              "dark_elements": 4833,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.28,
+          "svg_files": [
+            "01_Example page for Williams EM Schematic Symbols.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.192 seconds (elements collection 0.004, diagrams 0.183, terminal strips 0, refresh 0, database 0.005)\nProject \"pinball_williams_em.qet\" (298 KiB) opened in 0.212 seconds (xml parsing 0.018, content 0.194)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.273,
+          "svg_files": [
+            "01_Example page for Williams EM Schematic Symbols.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.185 seconds (elements collection 0.003, diagrams 0.177, terminal strips 0, refresh 0, database 0.005)\nProject \"pinball_williams_em.qet\" (298 KiB) opened in 0.205 seconds (xml parsing 0.018, content 0.187)\n"
+        }
+      },
+      "schema_unifilaire_voltaique2": {
+        "project": "schema_unifilaire_voltaique2",
+        "folios": {
+          "01_diagram": {
+            "inventory": {
+              "tags": {
+                "circle": 269,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 9,
+                "g": 4201,
+                "path": 186,
+                "polyline": 671,
+                "rect": 270,
+                "svg": 1,
+                "text": 114
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00aaff",
+                "#55ff00",
+                "#ff0000",
+                "#ff5500",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1405
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 53
+              },
+              "dash_patterns": [
+                "12,24",
+                "16,8",
+                "2,1",
+                "4,2",
+                "9,18"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 5723,
+              "dark_elements": 5723,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.338,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.24 seconds (elements collection 0.002, diagrams 0.23, terminal strips 0, refresh 0.002, database 0.006)\nProject \"schema_unifilaire_voltaique2.qet\" (345 KiB) opened in 0.261 seconds (xml parsing 0.018, content 0.243)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.325,
+          "svg_files": [
+            "01_diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.231 seconds (elements collection 0.003, diagrams 0.22, terminal strips 0, refresh 0.002, database 0.006)\nProject \"schema_unifilaire_voltaique2.qet\" (345 KiB) opened in 0.251 seconds (xml parsing 0.018, content 0.233)\n"
+        }
+      },
+      "tableau_domestique": {
+        "project": "tableau_domestique",
+        "folios": {
+          "01_PAGE DE GARDE": {
+            "inventory": {
+              "tags": {
+                "defs": 1,
+                "desc": 1,
+                "g": 119,
+                "image": 1,
+                "rect": 125,
+                "svg": 1,
+                "text": 75,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 125
+            },
+            "static_scan": {
+              "dashed_by_tag": {},
+              "dash_patterns": []
+            },
+            "palette_diff": {
+              "light_elements": 324,
+              "dark_elements": 324,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_PREMIERE RANGEE": {
+            "inventory": {
+              "tags": {
+                "circle": 669,
+                "defs": 1,
+                "desc": 1,
+                "g": 1975,
+                "image": 1,
+                "path": 69,
+                "polyline": 293,
+                "rect": 164,
+                "svg": 1,
+                "text": 185,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#0055ff",
+                "#00ff00",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1195
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 21
+              },
+              "dash_patterns": [
+                "2,1",
+                "2,1,0.5,1",
+                "5,10"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3360,
+              "dark_elements": 3360,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_DEUXIEME RANGEE": {
+            "inventory": {
+              "tags": {
+                "circle": 675,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 2,
+                "g": 1931,
+                "image": 1,
+                "path": 72,
+                "polyline": 278,
+                "rect": 162,
+                "svg": 1,
+                "text": 163,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#0055ff",
+                "#00ff00",
+                "#5500ff",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1189
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 18
+              },
+              "dash_patterns": [
+                "2,1",
+                "2,1,0.5,1",
+                "5,10"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3288,
+              "dark_elements": 3288,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "04_TROISIEME RANGEE": {
+            "inventory": {
+              "tags": {
+                "circle": 511,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 8,
+                "g": 1863,
+                "image": 1,
+                "path": 78,
+                "polyline": 263,
+                "rect": 161,
+                "svg": 1,
+                "text": 173,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#0055ff",
+                "#00ff00",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 1021
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 15
+              },
+              "dash_patterns": [
+                "2,1",
+                "2,1,0.5,1",
+                "5,10"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 3062,
+              "dark_elements": 3062,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "05_IMPLANTATION": {
+            "inventory": {
+              "tags": {
+                "circle": 91,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 27,
+                "g": 3987,
+                "image": 1,
+                "path": 510,
+                "polyline": 1559,
+                "rect": 215,
+                "svg": 1,
+                "text": 412,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#00ffff",
+                "#a0a0a4",
+                "#c0c0c0",
+                "#ff0000",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 2402
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 41
+              },
+              "dash_patterns": [
+                "0.5,1",
+                "2,1",
+                "2,1,0.5,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 6806,
+              "dark_elements": 6806,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.87,
+          "svg_files": [
+            "01_PAGE DE GARDE.svg",
+            "02_PREMIERE RANGEE.svg",
+            "03_DEUXIEME RANGEE.svg",
+            "04_TROISIEME RANGEE.svg",
+            "05_IMPLANTATION.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 0.62 seconds (elements collection 0.008, diagrams 0.561, terminal strips 0, refresh 0.046, database 0.005)\nProject \"tableau_domestique.qet\" (808 KiB) opened in 0.665 seconds (xml parsing 0.042, content 0.623)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.876,
+          "svg_files": [
+            "01_PAGE DE GARDE.svg",
+            "02_PREMIERE RANGEE.svg",
+            "03_DEUXIEME RANGEE.svg",
+            "04_TROISIEME RANGEE.svg",
+            "05_IMPLANTATION.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nis QRegularExpression ok?\nis QRegularExpression ok?\nProject content built in 0.628 seconds (elements collection 0.008, diagrams 0.57, terminal strips 0, refresh 0.045, database 0.005)\nProject \"tableau_domestique.qet\" (808 KiB) opened in 0.673 seconds (xml parsing 0.042, content 0.631)\n"
+        }
+      },
+      "tremie_vibrante": {
+        "project": "tremie_vibrante",
+        "folios": {
+          "01_COULOIR VIBRANT": {
+            "inventory": {
+              "tags": {
+                "circle": 28,
+                "defs": 1,
+                "desc": 1,
+                "g": 1275,
+                "path": 50,
+                "polyline": 246,
+                "rect": 107,
+                "svg": 1,
+                "text": 92,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 431
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 10
+              },
+              "dash_patterns": [
+                "2,1",
+                "4,2"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1802,
+              "dark_elements": 1802,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "02_COULOIR VIBRANT": {
+            "inventory": {
+              "tags": {
+                "circle": 18,
+                "defs": 1,
+                "desc": 1,
+                "g": 825,
+                "path": 33,
+                "polyline": 150,
+                "rect": 72,
+                "svg": 1,
+                "text": 66,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 273
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 4
+              },
+              "dash_patterns": [
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1168,
+              "dark_elements": 1168,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          },
+          "03_COULOIR VIBRANT": {
+            "inventory": {
+              "tags": {
+                "circle": 68,
+                "defs": 1,
+                "desc": 1,
+                "g": 1429,
+                "path": 37,
+                "polyline": 183,
+                "rect": 99,
+                "svg": 1,
+                "text": 100,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#ff0000",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 387
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 10
+              },
+              "dash_patterns": [
+                "1,2",
+                "2,1"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 1920,
+              "dark_elements": 1920,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.415,
+          "svg_files": [
+            "01_COULOIR VIBRANT.svg",
+            "02_COULOIR VIBRANT.svg",
+            "03_COULOIR VIBRANT.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.326 seconds (elements collection 0.002, diagrams 0.314, terminal strips 0, refresh 0.001, database 0.009)\nProject \"tremie_vibrante.qet\" (280 KiB) opened in 0.344 seconds (xml parsing 0.017, content 0.327)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 0.428,
+          "svg_files": [
+            "01_COULOIR VIBRANT.svg",
+            "02_COULOIR VIBRANT.svg",
+            "03_COULOIR VIBRANT.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.34 seconds (elements collection 0.002, diagrams 0.328, terminal strips 0, refresh 0.001, database 0.009)\nProject \"tremie_vibrante.qet\" (280 KiB) opened in 0.359 seconds (xml parsing 0.017, content 0.342)\n"
+        }
+      },
+      "weneedpolonez-Polonez_MR89_wiring_diagram": {
+        "project": "weneedpolonez-Polonez_MR89_wiring_diagram",
+        "folios": {
+          "01_FSO Polonez MR_89 wiring diagram": {
+            "inventory": {
+              "tags": {
+                "circle": 1226,
+                "defs": 1,
+                "desc": 1,
+                "ellipse": 39,
+                "g": 14647,
+                "image": 121,
+                "path": 711,
+                "polyline": 1855,
+                "rect": 757,
+                "svg": 1,
+                "text": 502,
+                "title": 1
+              },
+              "colours": [
+                "#000000",
+                "#0000ff",
+                "#0055ff",
+                "#00ff00",
+                "#00ffff",
+                "#55ff00",
+                "#55ffff",
+                "#818181",
+                "#a0a0a4",
+                "#a2a2a2",
+                "#a6a6a6",
+                "#aa00ff",
+                "#aa5500",
+                "#dadada",
+                "#ff0000",
+                "#ff55ff",
+                "#ffaa00",
+                "#ffaaff",
+                "#ffff00",
+                "#ffffff",
+                "black"
+              ],
+              "partial_opacity": [],
+              "shape_count": 4588
+            },
+            "static_scan": {
+              "dashed_by_tag": {
+                "g": 192
+              },
+              "dash_patterns": [
+                "1,2",
+                "10,20",
+                "4,2",
+                "9,18"
+              ]
+            },
+            "palette_diff": {
+              "light_elements": 19862,
+              "dark_elements": 19862,
+              "aligned": true,
+              "changed_elements": 0,
+              "changes": []
+            }
+          }
+        },
+        "folios_changed": 0,
+        "elements_changed": 0,
+        "light": {
+          "palette": "light",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 1.826,
+          "svg_files": [
+            "01_FSO Polonez MR_89 wiring diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.879 seconds (elements collection 0.007, diagrams 0.85, terminal strips 0, refresh 0.004, database 0.018)\nProject \"weneedpolonez-Polonez_MR89_wiring_diagram.qet\" (3399 KiB) opened in 1.006 seconds (xml parsing 0.124, content 0.882)\n"
+        },
+        "dark": {
+          "palette": "dark",
+          "returncode": 0,
+          "crashed": false,
+          "crash_kind": null,
+          "timed_out": false,
+          "wall_seconds": 1.828,
+          "svg_files": [
+            "01_FSO Polonez MR_89 wiring diagram.svg"
+          ],
+          "stderr_tail": "SQLite version:  \"3.46.1\"\nis QRegularExpression ok?\nProject content built in 0.867 seconds (elements collection 0.007, diagrams 0.838, terminal strips 0, refresh 0.004, database 0.018)\nProject \"weneedpolonez-Polonez_MR89_wiring_diagram.qet\" (3399 KiB) opened in 0.997 seconds (xml parsing 0.126, content 0.871)\n"
+        }
+      }
+    },
+    "wall_seconds": 49.1
+  }
+}

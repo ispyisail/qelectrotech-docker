@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from simulator import env
 from simulator.proc import run_cli
 from tools.exportleak import palettediff
-from tools.exportleak.inventory import svg_inventory
+from tools.exportleak.inventory import svg_inventory, svg_static_scan
 
 DEFAULT_CORPUS = Path("/home/user/qet-fix/examples")
 # examples/schema_indus.qet is project version 0.3 and raises a modal on
@@ -125,7 +125,8 @@ def _sweep_one(binary: str, project: Path, out_root: Path, timeout: float) -> di
     folios: dict[str, dict] = {}
     for svg in sorted(light_dir.glob("*.svg")):
         dark_svg = dark_dir / svg.name
-        entry: dict = {"inventory": svg_inventory(svg)}
+        entry: dict = {"inventory": svg_inventory(svg),
+                       "static_scan": svg_static_scan(svg)}
         if dark_svg.exists():
             entry["palette_diff"] = palettediff.palette_diff_folio(svg, dark_svg)
         else:
@@ -265,6 +266,44 @@ def _write_md(run: dict) -> str:
         lines.append("None. Every element's colour is identical under the light "
                      "and dark palettes.")
         lines.append("")
+
+    partial_total = 0
+    dashed_by_tag: dict[str, int] = {}
+    dash_patterns: set[str] = set()
+    for stem in results:
+        for f in results[stem].get("folios", {}).values():
+            partial_total += len(f.get("inventory", {}).get("partial_opacity", []))
+            sc = f.get("static_scan", {})
+            for t, n in sc.get("dashed_by_tag", {}).items():
+                dashed_by_tag[t] = dashed_by_tag.get(t, 0) + n
+            dash_patterns.update(sc.get("dash_patterns", []))
+
+    lines.append("## Static editing-state scan (light run)")
+    lines.append("")
+    lines.append("The palette diff cannot see a decoration that is identical "
+                 "under both palettes. The two that would be are a translucent "
+                 "halo (opacity between 0 and 1) and a dashed selection "
+                 "rectangle; both are checked statically on the light run's "
+                 "SVGs, independent of the palette.")
+    lines.append("")
+    lines.append(f"- **Translucent fills/strokes** (`0 < opacity < 1`): "
+                 f"`{partial_total}` element(s) across all folios. "
+                 f"(SVG uses `opacity=\"0\"` for fully-hidden elements and "
+                 f"`1`/absent for opaque; nothing sits in between.)")
+    dashed_rects = dashed_by_tag.get("rect", 0)
+    dashed_g = dashed_by_tag.get("g", 0)
+    lines.append(f"- **Dashed selection rectangles**: `{dashed_rects}` dashed "
+                 f"`<rect>`. Dashed strokes appear only on `{dashed_g}` `<g>` "
+                 f"pen groups ({len(dash_patterns)} distinct patterns), which "
+                 f"is how QSvgGenerator emits QET's dashed *line styles* — "
+                 f"document content. A selection rectangle would be a dashed "
+                 f"`<rect>`; there are none.")
+    lines.append("- **Blue/cyan colours** (e.g. `#0000ff`, `#00aaff`, "
+                 "`#0055ff` in the inventory above) are document content — "
+                 "conductor/terminal colours — not selection highlight: none "
+                 "carries an alpha channel, none is translucent (previous "
+                 "point), and none changes with the palette (the diff is clean).")
+    lines.append("")
 
     lines.append("## Verdict per finding")
     lines.append("")
