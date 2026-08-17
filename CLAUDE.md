@@ -45,6 +45,7 @@ rebuild the image, so a fix can silently fail to reach the container.
 | work on icons | `ICONS-DOMAIN-SET.md`, `ICONS-HIDPI-PR1.md` |
 | work on keyboard shortcuts / action coverage | `SHORTCUTS-PLAN.md` |
 | analyse cross-folio wire links / renvoi arrows | `CROSSPAGE-PLAN.md` |
+| quote measured evidence about folio links, or find the staged branches | `CROSSPAGE-EVIDENCE.md` |
 | understand auto-wiring on element placement | `AUTO-CONNECT-SHIFT-RESEARCH.md` |
 | propose a scripting API | `SCRIPTING-RFC.md` |
 
