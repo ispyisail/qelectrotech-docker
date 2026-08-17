@@ -7,16 +7,16 @@ Read-only static analysis — no QET build, no source modified.
 
 | Metric | Count |
 |---|---|
-| `registerAction` call sites | 97 |
-| distinct registered ids | 95 |
-| actions enumerated | 320 |
-| … constructed in C++ (`new QAction` + implicit `addAction` + factories) | 263 |
+| `registerAction` call sites | 262 |
+| distinct registered ids | 260 |
+| actions enumerated | 312 |
+| … constructed in C++ (`new QAction` + implicit `addAction` + factories) | 255 |
 | … declared as `<action>` in `.ui` files | 56 |
 | … registered non-action targets (QPushButton) | 1 |
-| registered actions | 95 |
-| connected actions (wired to a slot/signal) | 268 |
-| gap: connected **and** unregistered | 177 |
-| unconnected actions (possible bug) | 52 |
+| registered actions | 260 |
+| connected actions (wired to a slot/signal) | 266 |
+| gap: connected **and** unregistered | 5 |
+| unconnected actions (possible bug) | 46 |
 | … unconnected real actions (excluding separators/dynamic/registered) | 1 |
 
 ### Duplicate registered ids (same id registered twice)
@@ -28,11 +28,11 @@ Read-only static analysis — no QET build, no source modified.
 
 | Kind | Count |
 |---|---|
-| `action` | 246 |
+| `action` | 241 |
 | `button` | 1 |
-| `checkable` | 25 |
-| `dynamic` | 2 |
-| `separator` | 46 |
+| `checkable` | 24 |
+| `dynamic` | 3 |
+| `separator` | 43 |
 
 ### Gap list — connected but unregistered, by owner
 
@@ -40,30 +40,10 @@ These do something but cannot be bound to a key.
 
 | Owner | Count |
 |---|---|
-| `QETDiagramEditor` | 39 |
-| `QETElementEditor` | 21 |
-| `ProjectPrintWindow` | 14 |
-| `ElementsPanelWidget` | 13 |
-| `ElementsCollectionWidget` | 12 |
-| `QETApp` | 11 |
-| `QETMainWindow` | 9 |
-| `RichTextEditorToolBar` | 9 |
-| `TitleBlockTemplateView` | 9 |
-| `MasterPropertiesWidget` | 6 |
-| `ProjectView` | 5 |
-| `DiagramView` | 4 |
-| `LinkSingleElementWidget` | 4 |
-| `SearchAndReplaceWidget` | 3 |
-| `TerminalStripEditorWindow` | 3 |
-| `QETTitleBlockTemplateEditor` | 3 |
-| `PartPolygon` | 2 |
-| `PolygonEditor` | 2 |
-| `QetShapeItem` | 2 |
-| `TitleBlockPropertiesWidget` | 2 |
-| `ElementPropertiesEditorWidget` | 1 |
-| `RecentFiles` | 1 |
+| `QETDiagramEditor` | 2 |
+| `QETMainWindow` | 1 |
 | `diagramselection` | 1 |
-| `plclinkwidget` | 1 |
+| `MasterPropertiesWidget` | 1 |
 
 ### Unconnected actions (wired to nothing), by owner
 
@@ -72,16 +52,6 @@ Exists but triggers nothing — a possible bug, *not* a shortcut gap.
 | Owner | Count |
 |---|---|
 | `diagramselection` | 1 |
-
-### Registered but unconnected (analyser limitation)
-
-Registered actions the static pass could not prove connected —
-usually cross-file `QActionGroup` aliasing, not real bugs:
-
-- `depth.forward` at `sources/qet.cpp:779`
-- `depth.raise` at `sources/qet.cpp:780`
-- `depth.lower` at `sources/qet.cpp:781`
-- `depth.backward` at `sources/qet.cpp:782`
 
 ## Notes / discrepancies vs the brief
 

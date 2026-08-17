@@ -640,7 +640,7 @@ def collect_registrations(text, relpath, spans):
         if end == -1:
             continue
         args = split_top_level(inner)
-        if len(args) < 4:
+        if len(args) < 3:
             continue
         idlit = string_literal(args[1])
         if idlit is None:
@@ -1062,6 +1062,7 @@ def analyze(root):
             'connected': a['connected'],
             'kind': a['kind'],
             'owner': a['owner'],
+            'target': a['target'],
             'category': a['category'],
             'source': a['source'],
             'constructor': a['constructor'],
