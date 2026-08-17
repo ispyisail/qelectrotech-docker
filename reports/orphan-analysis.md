@@ -49,7 +49,45 @@ simply does not exist until the user right-clicks.
    remembering before trusting any static count.
 4. **`Coupure automatique de conducteur(s)`** — **unexplained.** See below.
 
-## Open question: one action that should be there and is not
+## RESOLVED 2026-08-17: the open question was a branch mismatch, not a defect
+
+The "unexplained" entry below is explained, and the explanation is a flaw in
+this analysis rather than in QElectroTech or in the dump.
+
+**`m_auto_break_conductor` does not exist on `master`.** It is part of the
+`cabinet-layout-editor` feature branch — 9 occurrences there, **0 on master**.
+
+The static audit was run against `/home/user/qet-fix`, whose working tree is
+checked out on `cabinet-layout-editor`. The runtime dump was built from a
+worktree branched off `master`. So this compared a scan of one branch against a
+dump of another, and the only surprise is that just one action differed.
+
+Instrumenting the dump proved the action genuinely does not exist at runtime:
+the `diagram` toolbar reports 3 actions (not 4), and a `findChildren<QAction*>`
+sweep logging every action containing "oupure" printed nothing. Neither the
+toolbar walk nor the sweep was at fault.
+
+**Correction to the numbers above.** The static side of this analysis was
+measured on `cabinet-layout-editor`:
+
+| Audit target | total actions | registerAction sites | gap |
+|---|---|---|---|
+| `cabinet-layout-editor` (what was scanned) | 320 | 97 | 176 |
+| `master` (what the dump ran) | 312 | 96 | 171 |
+
+The 8-action difference is the feature branch's own work. The conclusion —
+**no confirmed orphan actions** — is unaffected, and is now stronger: the last
+outstanding candidate is accounted for.
+
+**Method rule this establishes:** pin the ref. An audit of "the source tree" is
+meaningless when that tree sits on a feature branch; both sides of a
+static/runtime comparison must name the same commit.
+
+The S5 session avoided this without being told: it re-derived its own baseline
+(gap 171) from its own master-based worktree instead of trusting the 176 in its
+brief.
+
+## Original open question (now resolved above)
 
 `m_auto_break_conductor` (`qetdiagrameditor.cpp:397`) is:
 

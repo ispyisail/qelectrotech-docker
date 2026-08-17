@@ -5,6 +5,13 @@ unregistered; **172** after removing 4 noise records (an icon path misparsed as
 text, two null-text records, and one in `diagramselection`, which is dead code —
 upstream issue #756).
 
+> **Ref correction (2026-08-17).** The 176/172 figures here were measured on
+> `/home/user/qet-fix`, which is checked out on the `cabinet-layout-editor`
+> feature branch. Against `master` the gap is **171**, of which 166 were
+> registrable and 5 skipped — those are the numbers S5 actually applied. The
+> decisions (5 defaults, everything else blank) are unaffected; only the counts
+> shift. See `reports/orphan-analysis.md` for how this surfaced.
+
 This is the judgment step. It has no mechanical proof fixture, which is why it
 was not delegated.
 
