@@ -122,3 +122,40 @@ Samples (uuid before → after):
 | tableau_domestique.qet | `%f-%l%c` | 0 | 0 | 0 |
 | tremie_vibrante.qet | `%f-%l%c` | 0 | 0 | 0 |
 | weneedpolonez-Polonez_MR89_wiring_diagram.qet | `%f-%l%c` | 0 | 0 | 0 |
+
+---
+
+## Addendum (verified independently, 2026-08-17): the maintainer's *exact* advice also fails
+
+The experiment above tested `%F` with a **stable literal** folio label. The
+maintainer's actual recommendation was narrower:
+
+> *"In each folio's titleblock, use `%id` alone instead of `%id/%total`."*
+
+`%id` is **also position-derived** — `sources/bordertitleblock.cpp:995`:
+
+```cpp
+btb_final_folio_.replace("%id", QString::number(folio_index_));
+```
+
+so it shifts on reorder exactly as `%f` does. Re-running the move-a-folio
+experiment with his precise combination:
+
+| Project | `%F` + `%id` (his advice) | `%F` + literal label |
+|---|---|---|
+| `affuteuse_250h.qet` | **34 of 34 labels changed** | **0 changed** |
+| `Projet_vierge.qet` | **5 of 10 labels changed** | **0 changed** |
+
+(The two projects above are the only ones in the corpus with extractable folio
+arrows.)
+
+**Conclusion.** Following the documented workaround exactly still breaks
+references on folio reorder. What actually works is `%F` together with a folio
+label containing **no position variable at all** — a literal, hand-assigned
+label per folio, which no shipped example uses and which the workaround does not
+mention.
+
+This is stated as a measurement, not a correction of anyone: the advice is
+sound in mechanism (`%F` reads the title-block label rather than the position)
+and fails only because the recommended replacement label is itself
+position-derived. Worth confirming with the maintainer before relying on it.
