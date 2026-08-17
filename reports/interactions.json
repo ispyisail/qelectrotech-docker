@@ -1,0 +1,760 @@
+{
+  "meta": {
+    "generator": "tools/interactionaudit/interactionaudit.py",
+    "source_root": "/tmp/qet-upstream-master",
+    "source_ref": {
+      "commit": "eb095f9a102c456a42a0360944ade44896ce5984",
+      "branch": "HEAD",
+      "describe": "0.9-dev-2214-geb095f9a1",
+      "dirty_source_files": 0,
+      "dirty_source_sample": []
+    },
+    "ref_label": "upstream/master"
+  },
+  "summary": {
+    "item_class_count": 37,
+    "dblclick_own": 9,
+    "dblclick_inherited": 12,
+    "dblclick_none": 16,
+    "context_menu_own": 3,
+    "hover_own": 14,
+    "press_own": 13,
+    "accepts_hover_own": 14,
+    "outlier_count": 22
+  },
+  "items": [
+    {
+      "class": "Conductor",
+      "header": "sources/qetgraphicsitem/conductor.h",
+      "source": "sources/qetgraphicsitem/conductor.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "CrossRefItem",
+      "header": "sources/qetgraphicsitem/crossrefitem.h",
+      "source": "sources/qetgraphicsitem/crossrefitem.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "navigate",
+      "dblclick_detail": "navigates to another item / folio",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "none",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "CustomElementGraphicPart",
+      "header": "sources/editor/graphicspart/customelementgraphicpart.h",
+      "source": "sources/editor/graphicspart/customelementgraphicpart.cpp",
+      "subsystem": "element-editor",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject",
+        "CustomElementPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "DiagramTextItem",
+      "header": "sources/qetgraphicsitem/diagramtextitem.h",
+      "source": "sources/qetgraphicsitem/diagramtextitem.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsTextItem",
+      "bases": [
+        "QGraphicsTextItem"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "edit-text",
+      "dblclick_detail": "enters inline text editing",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "ElementPrimitiveDecorator",
+      "header": "sources/editor/elementprimitivedecorator.h",
+      "source": "sources/editor/elementprimitivedecorator.cpp",
+      "subsystem": "element-editor",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "ElementTextItemGroup",
+      "header": "sources/qetgraphicsitem/elementtextitemgroup.h",
+      "source": "sources/qetgraphicsitem/elementtextitemgroup.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsItemGroup",
+      "bases": [
+        "QObject",
+        "QGraphicsItemGroup"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "navigate",
+      "dblclick_detail": "navigates to another item / folio",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "HelperCell",
+      "header": "sources/titleblock/helpercell.h",
+      "source": "sources/titleblock/helpercell.cpp",
+      "subsystem": "titleblock",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject",
+        "QGraphicsLayoutItem"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "signal",
+      "dblclick_detail": "emits a signal",
+      "context_menu": "own",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "none",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "PartDynamicTextField",
+      "header": "sources/editor/graphicspart/partdynamictextfield.h",
+      "source": "sources/editor/graphicspart/partdynamictextfield.cpp",
+      "subsystem": "element-editor",
+      "base": "QGraphicsTextItem",
+      "bases": [
+        "QGraphicsTextItem",
+        "CustomElementPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "own",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "PartText",
+      "header": "sources/editor/graphicspart/parttext.h",
+      "source": "sources/editor/graphicspart/parttext.cpp",
+      "subsystem": "element-editor",
+      "base": "QGraphicsTextItem",
+      "bases": [
+        "QGraphicsTextItem",
+        "CustomElementPart"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "edit-text",
+      "dblclick_detail": "enters inline text editing",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "PreviewStripItem",
+      "header": "sources/TerminalStrip/ui/terminalstriplayouteditor.h",
+      "source": "sources/TerminalStrip/ui/terminalstriplayouteditor.cpp",
+      "subsystem": "terminal-strip",
+      "base": "QGraphicsItem",
+      "bases": [
+        "QGraphicsItem"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "none",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "QetGraphicsHandlerItem",
+      "header": "sources/QetGraphicsItemModeler/qetgraphicshandleritem.h",
+      "source": "sources/QetGraphicsItemModeler/qetgraphicshandleritem.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "none",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "QetGraphicsHeaderItem",
+      "header": "sources/qetgraphicsitem/ViewItem/qetgraphicsheaderitem.h",
+      "source": "sources/qetgraphicsitem/ViewItem/qetgraphicsheaderitem.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "none",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "QetGraphicsItem",
+      "header": "sources/qetgraphicsitem/qetgraphicsitem.h",
+      "source": "sources/qetgraphicsitem/qetgraphicsitem.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "Terminal",
+      "header": "sources/qetgraphicsitem/terminal.h",
+      "source": "sources/qetgraphicsitem/terminal.cpp",
+      "subsystem": "diagram",
+      "base": "QGraphicsObject",
+      "bases": [
+        "QGraphicsObject"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "TitleBlockTemplateVisualCell",
+      "header": "sources/titleblock/templatevisualcell.h",
+      "source": "sources/titleblock/templatevisualcell.cpp",
+      "subsystem": "titleblock",
+      "base": "QGraphicsItem",
+      "bases": [
+        "QGraphicsLayoutItem",
+        "QGraphicsItem"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "none",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "AbstractPartEllipse",
+      "header": "sources/editor/graphicspart/abstractpartellipse.h",
+      "source": "sources/editor/graphicspart/abstractpartellipse.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "ConductorTextItem",
+      "header": "sources/qetgraphicsitem/conductortextitem.h",
+      "source": "sources/qetgraphicsitem/conductortextitem.cpp",
+      "subsystem": "diagram",
+      "base": "DiagramTextItem",
+      "bases": [
+        "DiagramTextItem"
+      ],
+      "dblclick": "inherited(DiagramTextItem)",
+      "dblclick_effect": "edit-text",
+      "dblclick_detail": "enters inline text editing",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "DiagramImageItem",
+      "header": "sources/qetgraphicsitem/diagramimageitem.h",
+      "source": "sources/qetgraphicsitem/diagramimageitem.cpp",
+      "subsystem": "diagram",
+      "base": "QetGraphicsItem",
+      "bases": [
+        "QetGraphicsItem"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(QetGraphicsItem)",
+      "hover_enter": "inherited(QetGraphicsItem)",
+      "hover_leave": "inherited(QetGraphicsItem)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(QetGraphicsItem)"
+    },
+    {
+      "class": "DynamicElementTextItem",
+      "header": "sources/qetgraphicsitem/dynamicelementtextitem.h",
+      "source": "sources/qetgraphicsitem/dynamicelementtextitem.cpp",
+      "subsystem": "diagram",
+      "base": "DiagramTextItem",
+      "bases": [
+        "DiagramTextItem"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "edit-text + navigate",
+      "dblclick_detail": "navigates to another item / folio; edit-text (via DiagramTextItem::mouseDoubleClickEvent)",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "inherited(DiagramTextItem)"
+    },
+    {
+      "class": "Element",
+      "header": "sources/qetgraphicsitem/element.h",
+      "source": "sources/qetgraphicsitem/element.cpp",
+      "subsystem": "diagram",
+      "base": "QetGraphicsItem",
+      "bases": [
+        "QetGraphicsItem"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "IndependentTextItem",
+      "header": "sources/qetgraphicsitem/independenttextitem.h",
+      "source": "sources/qetgraphicsitem/independenttextitem.cpp",
+      "subsystem": "diagram",
+      "base": "DiagramTextItem",
+      "bases": [
+        "DiagramTextItem"
+      ],
+      "dblclick": "inherited(DiagramTextItem)",
+      "dblclick_effect": "edit-text",
+      "dblclick_detail": "enters inline text editing",
+      "context_menu": "none",
+      "hover": "inherited(DiagramTextItem)",
+      "hover_enter": "inherited(DiagramTextItem)",
+      "hover_leave": "inherited(DiagramTextItem)",
+      "press": "inherited(DiagramTextItem)",
+      "accepts_hover": "inherited(DiagramTextItem)"
+    },
+    {
+      "class": "PartLine",
+      "header": "sources/editor/graphicspart/partline.h",
+      "source": "sources/editor/graphicspart/partline.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "PartPlcTable",
+      "header": "sources/editor/graphicspart/partplctable.h",
+      "source": "sources/editor/graphicspart/partplctable.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "PartPolygon",
+      "header": "sources/editor/graphicspart/partpolygon.h",
+      "source": "sources/editor/graphicspart/partpolygon.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "own",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "PartRectangle",
+      "header": "sources/editor/graphicspart/partrectangle.h",
+      "source": "sources/editor/graphicspart/partrectangle.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "PartTerminal",
+      "header": "sources/editor/graphicspart/partterminal.h",
+      "source": "sources/editor/graphicspart/partterminal.cpp",
+      "subsystem": "element-editor",
+      "base": "CustomElementGraphicPart",
+      "bases": [
+        "CustomElementGraphicPart"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "own",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "QetGraphicsTableItem",
+      "header": "sources/qetgraphicsitem/ViewItem/qetgraphicstableitem.h",
+      "source": "sources/qetgraphicsitem/ViewItem/qetgraphicstableitem.cpp",
+      "subsystem": "diagram",
+      "base": "QetGraphicsItem",
+      "bases": [
+        "QetGraphicsItem"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "QetShapeItem",
+      "header": "sources/qetgraphicsitem/qetshapeitem.h",
+      "source": "sources/qetgraphicsitem/qetshapeitem.cpp",
+      "subsystem": "diagram",
+      "base": "QetGraphicsItem",
+      "bases": [
+        "QetGraphicsItem"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "own",
+      "hover": "own",
+      "hover_enter": "own",
+      "hover_leave": "own",
+      "press": "own",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "SplittedHelperCell",
+      "header": "sources/titleblock/splittedhelpercell.h",
+      "source": "sources/titleblock/splittedhelpercell.cpp",
+      "subsystem": "titleblock",
+      "base": "HelperCell",
+      "bases": [
+        "HelperCell"
+      ],
+      "dblclick": "inherited(HelperCell)",
+      "dblclick_effect": "signal",
+      "dblclick_detail": "emits a signal",
+      "context_menu": "inherited(HelperCell)",
+      "hover": "none",
+      "hover_enter": "none",
+      "hover_leave": "none",
+      "press": "none",
+      "accepts_hover": "no"
+    },
+    {
+      "class": "TerminalStripItem",
+      "header": "sources/TerminalStrip/GraphicsItem/terminalstripitem.h",
+      "source": "sources/TerminalStrip/GraphicsItem/terminalstripitem.cpp",
+      "subsystem": "terminal-strip",
+      "base": "QetGraphicsItem",
+      "bases": [
+        "QetGraphicsItem"
+      ],
+      "dblclick": "own",
+      "dblclick_effect": "navigate + other",
+      "dblclick_detail": "navigates to another item / folio; other: opens TerminalStripEditorWindow (terminal strip editor)",
+      "context_menu": "none",
+      "hover": "own",
+      "hover_enter": "inherited(QetGraphicsItem)",
+      "hover_leave": "own",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "own"
+    },
+    {
+      "class": "MasterElement",
+      "header": "sources/qetgraphicsitem/masterelement.h",
+      "source": "sources/qetgraphicsitem/masterelement.cpp",
+      "subsystem": "diagram",
+      "base": "Element",
+      "bases": [
+        "Element"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(Element)",
+      "hover_enter": "inherited(Element)",
+      "hover_leave": "inherited(Element)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(Element)"
+    },
+    {
+      "class": "PartArc",
+      "header": "sources/editor/graphicspart/partarc.h",
+      "source": "sources/editor/graphicspart/partarc.cpp",
+      "subsystem": "element-editor",
+      "base": "AbstractPartEllipse",
+      "bases": [
+        "AbstractPartEllipse"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "PartEllipse",
+      "header": "sources/editor/graphicspart/partellipse.h",
+      "source": "sources/editor/graphicspart/partellipse.cpp",
+      "subsystem": "element-editor",
+      "base": "AbstractPartEllipse",
+      "bases": [
+        "AbstractPartEllipse"
+      ],
+      "dblclick": "none",
+      "dblclick_effect": "none",
+      "dblclick_detail": "",
+      "context_menu": "none",
+      "hover": "inherited(CustomElementGraphicPart)",
+      "hover_enter": "inherited(CustomElementGraphicPart)",
+      "hover_leave": "inherited(CustomElementGraphicPart)",
+      "press": "inherited(CustomElementGraphicPart)",
+      "accepts_hover": "inherited(CustomElementGraphicPart)"
+    },
+    {
+      "class": "ReportElement",
+      "header": "sources/qetgraphicsitem/reportelement.h",
+      "source": "sources/qetgraphicsitem/reportelement.cpp",
+      "subsystem": "diagram",
+      "base": "Element",
+      "bases": [
+        "Element"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(Element)",
+      "hover_enter": "inherited(Element)",
+      "hover_leave": "inherited(Element)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(Element)"
+    },
+    {
+      "class": "SimpleElement",
+      "header": "sources/qetgraphicsitem/simpleelement.h",
+      "source": "sources/qetgraphicsitem/simpleelement.cpp",
+      "subsystem": "diagram",
+      "base": "Element",
+      "bases": [
+        "Element"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(Element)",
+      "hover_enter": "inherited(Element)",
+      "hover_leave": "inherited(Element)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(Element)"
+    },
+    {
+      "class": "SlaveElement",
+      "header": "sources/qetgraphicsitem/slaveelement.h",
+      "source": "sources/qetgraphicsitem/slaveelement.cpp",
+      "subsystem": "diagram",
+      "base": "Element",
+      "bases": [
+        "Element"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(Element)",
+      "hover_enter": "inherited(Element)",
+      "hover_leave": "inherited(Element)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(Element)"
+    },
+    {
+      "class": "TerminalElement",
+      "header": "sources/qetgraphicsitem/terminalelement.h",
+      "source": "sources/qetgraphicsitem/terminalelement.cpp",
+      "subsystem": "diagram",
+      "base": "Element",
+      "bases": [
+        "Element"
+      ],
+      "dblclick": "inherited(QetGraphicsItem)",
+      "dblclick_effect": "edit-properties",
+      "dblclick_detail": "calls editProperty()",
+      "context_menu": "none",
+      "hover": "inherited(Element)",
+      "hover_enter": "inherited(Element)",
+      "hover_leave": "inherited(Element)",
+      "press": "inherited(QetGraphicsItem)",
+      "accepts_hover": "inherited(Element)"
+    }
+  ],
+  "outliers": [
+    "CrossRefItem",
+    "CustomElementGraphicPart",
+    "ElementPrimitiveDecorator",
+    "ElementTextItemGroup",
+    "HelperCell",
+    "PartDynamicTextField",
+    "PreviewStripItem",
+    "QetGraphicsHandlerItem",
+    "QetGraphicsHeaderItem",
+    "Terminal",
+    "TitleBlockTemplateVisualCell",
+    "AbstractPartEllipse",
+    "DynamicElementTextItem",
+    "PartLine",
+    "PartPlcTable",
+    "PartPolygon",
+    "PartRectangle",
+    "PartTerminal",
+    "SplittedHelperCell",
+    "TerminalStripItem",
+    "PartArc",
+    "PartEllipse"
+  ]
+}
