@@ -194,6 +194,13 @@ groups.
 This step has **no mechanical proof fixture** — that is precisely why it is not
 a DeepSeek item.
 
+### S4 — DONE
+
+Decisions are in **`SHORTCUTS-S4-DECISIONS.md`**: 5 defaults, 167 blank
+registrations, and a **blocking prerequisite** — `checkConflicts()` compares
+sequences globally with no window scope, so 60 of the 95 existing rows already
+display as false conflicts. Gate S5 on fixing that.
+
 ### S5 — the patch (DeepSeek, from S4's decided table)
 
 Mechanically apply S4's table: add `registerAction(...)` calls with the agreed
