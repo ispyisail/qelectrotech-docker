@@ -864,3 +864,111 @@ patching blind; ask whether a display-only substitution is acceptable or
 whether QET would rather special-case identifier-style labels (no wrap at all
 for `text_from=UserText`/prefix-style fields, since those are never meant to
 wrap regardless of width).
+
+## F010 — bugtracker #286: crash deleting a linked nomenclature table whose model went stale
+
+**Status:** confirmed with a real segfault and gdb backtrace, **fixed**.
+Branch `fix/bugtracker-286-table-model-crash` in `/home/user/qet-fix`, staged
+locally, not pushed.
+
+### The report
+
+> crash after modify the nomenclature contents ... crash when display next
+> folio. Possibly because table is empty ... if the configuration is defined
+> BEFORE linking tables on several folios, the crash is avoided.
+
+No project file was attached to the bugtracker entry — only screenshots — so
+this was traced from the mechanism rather than the reporter's exact file.
+
+### Root cause
+
+`QetGraphicsTableItem::m_model` is a `QPointer<QAbstractItemModel>`. The class
+does not own the model — `setModel()`'s doc comment says explicitly *"if item
+already have a model, it's your responsibility to delete it"* — so if the
+model's owner deletes it directly (rather than calling `setModel(nullptr)`
+first), the `QPointer` silently auto-nulls with no signal QetGraphicsTableItem
+reacts to.
+
+`QetGraphicsTableItem::setPreviousTable()` (`qetgraphicstableitem.cpp:449`, the
+branch that runs when a table is being unlinked) copy-constructs a model from
+the table it was previously linked to, with no null check:
+
+```cpp
+else //Copie the model of old previous table
+{
+    setModel(new ProjectDBModel(*static_cast<ProjectDBModel *>(old_previous_table->model())));
+}
+```
+
+`~QetGraphicsTableItem()` (`:168`) calls exactly this when a **head** table
+(one with a next table but no previous table) is destroyed: it calls
+`m_next_table->setPreviousTable(nullptr)` to unlink cleanly. If the head
+table's own model had already gone stale, `old_previous_table->model()` in
+that call is `nullptr`, and the copy constructor dereferences it.
+
+This matches the report precisely: reconfiguring the nomenclature contents
+rebuilds the underlying model rather than routing through `setModel()`
+(matching "modify the nomenclature contents"); the empty/reconfigured table
+gets deleted (matching "table is empty"); the crash surfaces via the still-
+linked table on **another folio** (matching "crash when display next folio");
+and the reporter's own workaround — configure before linking — never puts a
+table with an already-established downstream link into the state where its
+model can go stale, which is exactly why it avoids the crash.
+
+### Confirmed with a real crash, not just static reasoning
+
+A throwaway probe (`--probe-table-crash`, removed before the fix was
+committed) built the exact object graph directly: table `A` with a model,
+table `B` linked via `B->setPreviousTable(A)`, `A`'s model `delete`d directly
+(not via `setModel`), then `delete A` while `B` is still linked.
+
+**Before the fix:**
+
+```
+[tc] A->model() now (QPointer should auto-null) == false
+[tc] about to delete A (has next_table=B) -- if this crashes, #286 is confirmed
+Segmentation fault (core dumped)          # exit 139
+```
+
+gdb backtrace:
+
+```
+#2  ProjectDBModel::ProjectDBModel (other_model=...) at projectdbmodel.cpp:47
+#3  QetGraphicsTableItem::setPreviousTable (table=0x0) at qetgraphicstableitem.cpp:450
+#4  QetGraphicsTableItem::~QetGraphicsTableItem() at qetgraphicstableitem.cpp:168
+```
+
+**After the fix, identical rebuild, identical probe:**
+
+```
+[tc] about to delete A (has next_table=B) -- if this crashes, #286 is confirmed
+[tc] survived deleting A -- #286 NOT reproduced by this mechanism
+[tc] B->model() after A destroyed == false
+[tc] DONE, no crash                        # exit 0
+```
+
+### The fix
+
+Guard the dereference; fall back to no model (`setModel(nullptr)`) when there
+is nothing to copy, rather than crashing:
+
+```cpp
+if (old_previous_table && old_previous_table->model()) {
+    setModel(new ProjectDBModel(*static_cast<ProjectDBModel *>(old_previous_table->model())));
+} else {
+    setModel(nullptr);
+}
+```
+
+One file changed (`sources/qetgraphicsitem/ViewItem/qetgraphicstableitem.cpp`),
+build verified clean both with and without the probe scaffolding present.
+
+### Why this one was worth the deeper dig
+
+It was triaged as `bug-hard` — "needs a reproduced stack to localise", not
+attempted. That triage call was correct about the difficulty, not about
+whether it was worth doing: the crash was fully reproducible without the
+reporter's original project file, purely from reading the ownership contract
+on `m_model` and testing the object graph it implies. Crash fixes are the
+fastest-merging category on this project; this one had simply never been
+looked at past the "hard" label.
