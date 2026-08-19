@@ -1,6 +1,8 @@
 # Scope: "Link ID" for folio-reference arrows
 
-**Status:** **ON HOLD — waiting on database work to land first.** Design + pre-implementation review complete; no code written.
+**Status:** **POSTED UPSTREAM 2026-08-19 as [discussion #764](https://github.com/qelectrotech/qelectrotech-source-mirror/discussions/764) — awaiting a design signal from scorpio810.** Still ON HOLD for code: waiting on database work to land first. Design + pre-implementation review complete; no code written.
+
+**Do not start Stage 1 (§12) until #625/#628/#629/#630 merge.** Re-verified 2026-08-19: all four still open, and #628 ("Add terminal and conductor tables to projectDataBase") touches the same schema that registering a new `elementInfoKeys()` entry does.
 
 Reason for the hold: §11.2 found that the `element_info` SQLite table's columns are generated directly from `QETInformation::elementInfoKeys()`. Adding `link_id` therefore changes the database schema as a side effect, so this work should not start while database changes are in flight — it would collide. Revisit once that has settled.
 
@@ -10,7 +12,9 @@ Supersedes the approach in the closed PR #702.
 
 ## 1. Why
 
-A folio-reference arrow currently displays only `%f-%l%c` — the *grid cell* of its linked partner. `Diagram::convertPosition()` returns a letter + number only; sub-cell position is discarded. With QET's default grid (`colsize="60" rowsize="80"`) and arrow elements of `30×20`, **up to 8 arrows share one cell reference**. A bundle of wires crossing between pages — the ordinary case — produces several arrows all reading `2-C3`, with no way to tell them apart.
+A folio-reference arrow currently displays only `%f-%l%c` — the *grid cell* of its linked partner.
+
+> **Corrected 2026-08-19.** An earlier draft said `Diagram::convertPosition()` discards sub-cell position. **It does not** — it stores the exact cartesian point on the `DiagramPosition` via `setPosition(pos)`. Only `DiagramPosition::toString()` reduces it to `letter + number`. So a finer-grained printed reference is reachable with no new plumbing. That does not change the case for this feature: a coordinate identifies a *location*, and what is missing is an identity for the *crossing* — but the original claim was wrong and would have been publicly refutable. With QET's default grid (`colsize="60" rowsize="80"`) and arrow elements of `30×20`, **up to 8 arrows share one cell reference**. A bundle of wires crossing between pages — the ordinary case — produces several arrows all reading `2-C3`, with no way to tell them apart.
 
 QET's partial mitigation is the wire number, which *is* unique per potential and *does* propagate across report links (`relatedPotentialConductors()` traverses folio reports). But it is optional, and it lives on a separate text object on the conductor, so the arrow's own reference is not self-sufficient.
 
@@ -271,7 +275,9 @@ This is correct behaviour for an identity — an ID that silently changed would 
 - therefore a **"renumber all folio references"** action is probably wanted, as an explicit, undoable operation;
 - the reusable part of the autonum engine is the *allocation + undoable counter advance* (`SetAutoNumContextCommand`), **not** the formula/label pipeline.
 
-### 11.2 Adding the key to `elementInfoKeys()` has an 18-site blast radius
+### 11.2 Adding the key to `elementInfoKeys()` has a real blast radius
+
+> **Corrected 2026-08-19:** this section previously said "18 consumers". Measured on `upstream/master` `5f8367975`, `elementInfoKeys()` is referenced in **12 files**. The conclusions below are unaffected.
 
 `QETInformation::elementInfoKeys()` has 18 consumers. Most auto-adapt, but two matter:
 
@@ -322,3 +328,58 @@ worth reading as a starting point, but note it does **not** handle the undo trap
 
 Background: <https://github.com/qelectrotech/qelectrotech-source-mirror/pull/702> —
 closed; see the post-mortem comment for why the original approach could not work.
+
+---
+
+## 12. Staging plan and merge strategy (added 2026-08-19)
+
+Written after measuring what actually merges in this project: 91% acceptance
+overall, "Fix bugtracker #NNN" at 0.2 days, features at 1.7 days — but the two
+categories that *fail* are packaging/infra and **design-heavy features that
+fight the existing architecture**, with PR #702 as the named example. This work
+is in the failing category, so the strategy matters as much as the code.
+
+**One PR would be the largest change submitted from this account. Stage it —
+each stage stands alone and is independently revertible:**
+
+| Stage | Content | Notes |
+|---|---|---|
+| **0** | Picker: filter to unmatched candidates only; Link ID as first searchable column | §4.6 mechanism 3. **Valuable with no Link ID feature at all.** Partly built already — branch `fix-link-picker-columns` in `/home/user/qet-fix` reorders the picker columns and is verified |
+| **1** | Register the key; seed on report arrows only; suppress in `ElementInfoWidget`; exclude from Advanced S&R | Plumbing + backward compatibility, no behaviour change. **This is the stage the DB blocker applies to** |
+| **2** | Assignment (out arrow owns the number), Renvois rule, §4.2 undo handling | |
+| **3** | Matching / auto-link, duplicate detection | |
+| **4** | Batch match dialog | The 100-arrow answer (§4.6 mechanism 2) |
+
+### What must be true before writing any of it
+
+1. **A design signal from the maintainer.** Posted as discussion #764. #702 was
+   built before agreement and closed on architecture; the fix for that is not
+   better code.
+2. **#625/#628/#629/#630 merged** (§11.2 collision).
+3. **The two known rejection causes stay pre-empted**, and both are already
+   design constraints rather than promises:
+   - `label` untouched, `dynamicelementtextitem.cpp` untouched (killed #702).
+   - Nothing new in `paint()` — display goes through the existing element-info
+     text path (killed #701, where an editing-state indicator reached PDF/PNG/
+     SVG export). `tools/exportleak` in the harness repo can verify this
+     mechanically rather than by assertion.
+
+### Two revisions to earlier sections
+
+- **§4.6 mechanism 1 (seed Link ID from wire numbers) is demoted.** Wire-number
+  formulas containing folio variables resolve *per conductor* against that
+  conductor's own folio — measured, see harness `FINDINGS.md` F011 and upstream
+  discussion #763. Seeding an identifier from them would import that
+  instability. Build mechanisms 3 and 2 first.
+- **§11.1's "renumber all folio references" is required, not optional.** Link
+  IDs are immutable literals once assigned, and the Renvois rule can change
+  afterwards. Without an explicit undoable renumber action, any project
+  numbered under an older rule is stranded.
+
+### The argument to lead with
+
+The justification that #702 lacked is now measured: **176 of 400 folio-reference
+arrows (44%) in QET's own shipped example projects display a reference identical
+to another arrow on the same folio.** In `industrial.qet` all 39 collision
+groups point to *different* partners — none is a duplicate of the same crossing.
+Reproduce with `tools/crosspage/crosspage.py` in the harness repo.
