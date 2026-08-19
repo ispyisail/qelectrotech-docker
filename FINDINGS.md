@@ -784,3 +784,83 @@ PR #661. Any `QetMessageBox` call reachable from a CLI verb needs a
 non-interactive path that picks the safe default (here: `Open`, matching what a
 user pressing the obvious button gets) and reports the choice on stderr rather
 than blocking.
+
+## F009 — bugtracker #237: hyphen in a narrow-width dynamic text label forces a line break
+
+**Status:** confirmed, reproduced standalone, **not fixed** — the fix needs a
+display/data separation that carries real risk (see below), and this session
+did not have budget to do it carefully.
+
+### The report
+
+> If you create a user element ... "-" in label will cause a line feed. "-" in
+> a label is essential as it is the default prefix. `"=P+L-A"` becomes
+> `"=P+L-"` / `"A"`.
+
+### Reproduced standalone, no QET build needed
+
+`DynamicElementTextItem`'s constructor sets `QTextOption::WordWrap` on the
+document's default text option
+(`sources/qetgraphicsitem/dynamicelementtextitem.cpp:61-64`), and
+`setPlainText()` (`:1425-1441`) calls `document()->setTextWidth(m_text_width)`
+whenever a user has narrowed the text field (`m_text_width > 0`; default is
+`-1`, unconstrained).
+
+A standalone Qt5 program (no QET code, just `QGraphicsTextItem` +
+`QTextOption::WordWrap`) reproduces the exact split from the report:
+
+```cpp
+QGraphicsTextItem item;
+item.document()->setDefaultTextOption(wordWrapOption);  // AlignHCenter, WordWrap
+item.setPlainText("=P+L-A");
+item.setTextWidth(30);   // a narrowed text field, same as the report's scenario
+// document()->firstBlock().layout() now has 2 lines:
+//   line 0: "=P+L-"
+//   line 1: "A"
+```
+
+Root cause: Qt's word-wrap line breaking follows the Unicode line-breaking
+algorithm (UAX #14), which treats `-` (class HY) as a legitimate break-after
+point even with no surrounding whitespace. This is standard Qt/Unicode
+behaviour, not a QET-specific defect in the wrapping engine — the defect is
+that QET applies it to short identifier-style labels where a mid-word hyphen
+must never break.
+
+### A fix approach was found and verified to work in isolation
+
+Substituting a **non-breaking hyphen** (U+2011) for display suppresses the
+break:
+
+```cpp
+QString text = QString::fromUtf8("=P+L\u{2011}A");
+item.setPlainText(text);
+item.setTextWidth(30);
+// -> 1 line: "=P+L‑A"
+```
+
+Visually indistinguishable from a regular hyphen in essentially every font.
+
+### Why this needs care rather than a quick patch
+
+The substitution must happen **only in the rendered `QTextDocument`**, never in
+the stored label/formula:
+
+- the underlying text (`text()`/the saved XML) must keep the literal `-`,
+  since it feeds prefix-matching, autonumbering and search elsewhere;
+- but `QGraphicsTextItem` renders exactly what's in its document, so
+  displaying a substituted character means **copy from the canvas** would
+  paste U+2011 rather than `-`, which could silently break a paste into
+  something that string-compares against a literal hyphen.
+
+A correct fix has to intercept only the *word-wrap candidate* character, not
+the whole string, or handle re-substitution on copy — neither is a one-line
+change, and it is the kind of decision (display-model separation) that
+deserves a maintainer's input on how QET wants to handle it, not a guess.
+
+### Suggested next step
+
+Raise as a bugtracker/GitHub comment with this reproduction rather than
+patching blind; ask whether a display-only substitution is acceptable or
+whether QET would rather special-case identifier-style labels (no wrap at all
+for `text_from=UserText`/prefix-style fields, since those are never meant to
+wrap regardless of width).
