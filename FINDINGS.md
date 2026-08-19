@@ -972,3 +972,104 @@ reporter's original project file, purely from reading the ownership contract
 on `m_model` and testing the object graph it implies. Crash fixes are the
 fastest-merging category on this project; this one had simply never been
 looked at past the "hard" label.
+
+## F011 — forum #3179: conductor labels renumber per folio because folio variables resolve against the conductor's own diagram
+
+**Status:** mechanism confirmed in code and demonstrated empirically. **Not a
+defect to patch** — it is a missing concept, and the practical answer for the
+user is a workaround that already works. Nothing staged.
+
+### The report
+
+Forum thread <https://qelectrotech.org/forum/viewtopic.php?id=3179> (deweg,
+2026-08-17): conductors numbered 510/511/512 on folio 1, carrying an outgoing
+folio-reference arrow, "automatically change to 610/611/612 on folio 2 upon
+saving", despite being the same electrical potential. The user's formulas were
+`%F%Seqt_1` and then `%id%Seqt_1` — they want *folio number + sequence*, which
+is an ordinary electrical-drafting convention.
+
+scorpio810 advised against using `%F` in conductor formulas and pointed at the
+closed PR #702.
+
+### Mechanism — every folio variable resolves per-conductor
+
+`AssignVariables`' constructor (`sources/autoNum/assignvariables.cpp:358-380`)
+substitutes **all** folio variables from a single `m_diagram`:
+
+```cpp
+m_assigned_label.replace("%F",     m_diagram->border_and_titleblock.folio());
+m_assigned_label.replace("%f",     QString::number(m_diagram->folioIndex()+1));
+m_assigned_label.replace("%id",    QString::number(m_diagram->folioIndex()+1));
+m_assigned_label.replace("%total", QString::number(m_diagram->border_and_titleblock.folioTotal()));
+```
+
+and both places a conductor resolves its formula pass **its own** diagram:
+
+```cpp
+// Conductor::refreshText()   (conductor.cpp:1507)
+// Conductor::setProperties() (conductor.cpp:1592)
+formulaToLabel(m_properties.m_formula, m_autoNum_seq, diagram(), nullptr, this);
+```
+
+There is no notion anywhere of "the folio this potential originates on". A
+conductor answers with the folio it is drawn on, in every code path.
+
+### Demonstrated
+
+Every conductor in `examples/affuteuse_250h.qet` (276 of them) given the
+formula `%id-W`, then saved and reloaded — the stored `num` attribute per
+folio:
+
+```
+folio  2: ['2-W']      folio  7: ['7-W']
+folio  3: ['3-W']      folio  8: ['8-W']
+folio  4: ['4-W']      folio  9: ['9-W']
+folio  5: ['5-W']      folio 10: ['10-W']
+folio  6: ['6-W']
+```
+
+One formula, nine different resolved labels — one per folio.
+
+Combined with the potential measurement recorded earlier in this project
+(`affuteuse_250h`'s widest potential is 12 conductors spanning folios
+**3, 4, 6, 7**), it follows that those 12 conductors — one electrical
+potential — resolve to four different wire numbers. That is exactly the
+reporter's 510 → 610.
+
+*(Composed from two separate measurements — the per-folio resolution above and
+the earlier potential-span probe — not one combined observation.)*
+
+### Why it appears "upon saving"
+
+`refreshText()` and `setProperties()` re-resolve the formula every time
+properties are applied and on load. Whatever a conductor displayed transiently
+in-session is replaced by its own folio's resolution once the project is
+reloaded, so the divergence surfaces at save/reopen rather than at draw time.
+
+### The advice is right but incomplete
+
+Avoiding `%F` alone does not fix it: `%f`, `%id` and `%total` behave
+identically, and the user had already tried `%id`. Additionally (see F-series
+note on X6) QET's **default** folio label is itself `%id/%total`, so `%F`
+inherits the position dependence even when it looks like a stable name.
+
+### What actually works today
+
+Typing the wire number **inline on the canvas** propagates a literal across the
+whole potential. `Conductor::displayedTextChanged()` (`conductor.cpp:1650`)
+sets `m_formula` *and* `text` to the typed string for the edited conductor and
+for every member of `relatedPotentialConductors()`. Because that formula then
+contains no variables, the per-folio re-resolution above is an identity
+operation, and the number stays the same on every folio the potential crosses.
+
+The cost is that it is a literal: it will not follow folio moves, and it is not
+autonumbering.
+
+### Assessment
+
+Not a bug to patch. Expressing "number this wire by the folio it originates
+on" would need a new variable resolved against the potential's origin rather
+than the conductor's diagram — a feature with a design decision behind it
+(which folio *is* the origin when a potential is edited from the middle?), not
+a fix. Worth answering the user with the precise mechanism and the working
+workaround rather than proposing code.
